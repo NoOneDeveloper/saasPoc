@@ -16,7 +16,11 @@ namespace Velzon.Controllers
         {
             return View();
         }
-
+        [ActionName("Waitingpage")]
+        public IActionResult Waitingpage()
+        {
+            return View();
+        }
         [ActionName("SignUpBasic")]
         public IActionResult SignUpBasic()
         {

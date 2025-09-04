@@ -83,5 +83,15 @@
   },
   "resolutions": {
     "autoprefixer": "10.4.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoOneDeveloper/saasPoc.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoOneDeveloper/saasPoc/issues"
+  },
+  "homepage": "https://github.com/NoOneDeveloper/saasPoc#readme"
 }
