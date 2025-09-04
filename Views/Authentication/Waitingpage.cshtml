@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Sign In";
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="ladylip" data-sidebar-size="lg">
+<head>
+    @Html.Partial("~/Views/Shared/_title_meta.cshtml")
+    @Html.Partial("~/Views/Shared/_head_css.cshtml")
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+  
+        <!-- auth page bg -->
+    <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
+        <div class="bg-overlay"></div>
+    </div>
+
+    <!-- Wrapper to center content -->
+    <div class="auth-page-wrapper">
+        <div class="container">
+            <div class="icon-wrapper">
+                <div class="icon-bg"></div>
+                <i class="fas fa-hourglass-half icon-main"></i>
+            </div>
+            <h2>KYC Submission Received</h2>
+            <p>Thank you for submitting your KYC details. Your request is being processed and will be reviewed by our verification team. You will be notified once your KYC is approved.</p>
+
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+
+            <div class="status-details">
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-clock"></i></div>
+                    <div><strong>Estimated Completion:</strong> 1-3 business days</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-envelope"></i></div>
+                    <div><strong>Notification:</strong> You will receive an email once verified</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-question-circle"></i></div>
+                    <div><strong>Need Help?</strong> Contact support@techflow.com</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+  
+    <!-- end auth-page-wrapper -->
+    @Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")
+
+    <!-- particles js -->
+    <script src="~/assets/libs/particles.js/particles.js"></script>
+    <!-- particles app js -->
+    <script src="~/assets/js/pages/particles.app.js"></script>
+    <!-- password-addon init -->
+    <script src="~/assets/js/pages/password-addon.init.js"></script>
+
+</body>
+</html>

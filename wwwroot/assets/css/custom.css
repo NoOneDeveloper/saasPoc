@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*
 Template Name: Velzon - Admin & Dashboard Template
 Author: Themesbrand
@@ -5,3 +6,213 @@ Website: https://themesbrand.com/
 Contact: support@themesbrand.com
 File: Custom Css File
 */
+/* Remove default margin/padding and prevent scroll */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* vertical scroll remove */
+  height: 100%;
+}
+
+.auth-one-bg-position {
+  position: fixed; /* absolute → fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* 100vh → 100% */
+}
+
+@media (max-width: 575.98px) {
+  .auth-one-bg-position {
+    height: 280px;
+  }
+}
+.auth-one-bg {
+  background-image: none; /* remove image */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* gradient */
+  background-position: center;
+  background-size: cover;
+}
+
+/* Hide overlay and shapes */
+.auth-one-bg .bg-overlay,
+.auth-one-bg .shape {
+  display: none;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.15); /* semi-transparent white */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  color: #fff; /* text color inside card */
+  -webkit-box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2); /* optional shadow */
+}
+
+.signup-header h1 {
+  color: #fff; /* white text */
+  font-size: 2.5rem; /* bada size */
+  font-weight: 700; /* bold */
+}
+
+.btn-gold {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
+  background: #ffd369; /* golden color */
+  color: #333;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+}
+
+.btn-gold:hover {
+  background: #ffb703; /* hover effect */
+}
+
+.switch-link a {
+  color: #ffd369; /* golden color */
+  text-decoration: none; /* underline remove */
+  font-weight: 600; /* semi-bold */
+}
+
+.switch-link a:hover {
+  text-decoration: underline; /* hover me underline */
+}
+
+/*.auth-page-wrapper {
+    position: relative;
+    z-index: 10;*/ /* above overlay */
+/*display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    background: #fff;
+    border-radius: 20px;
+    max-width: 700px;
+    width: 100%;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    position: relative;*/ /* needed for z-index layering */
+/*z-index: 10;
+}
+
+.icon-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem;
+}
+.icon-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(102, 126, 234, 0.2);
+    animation: pulse 2s infinite ease-in-out;
+}
+.icon-main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem;
+    color: #667eea;
+}
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 65%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 4px;
+    animation: progressAnimation 1.5s ease-in-out infinite alternate;
+}
+
+.status-details {
+    text-align: left;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.detail-icon {
+    margin-right: 0.75rem;
+    color: #667eea;
+    flex-shrink: 0;
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+}
+
+@keyframes progressAnimation {
+    0% {
+        width: 65%;
+    }
+
+    100% {
+        width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 2rem 1rem;
+    }
+    }*/
