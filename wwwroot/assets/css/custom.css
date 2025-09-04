@@ -93,172 +93,126 @@ html, body {
   text-decoration: underline; /* hover me underline */
 }
 
-.auth-page-wrapper {
-  position: relative;
-  z-index: 10; /* above overlay */
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  min-height: 100vh;
-  padding: 2rem;
+/*.auth-page-wrapper {
+    position: relative;
+    z-index: 10;*/ /* above overlay */
+/*display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
 }
 
 .container {
-  background: #fff;
-  border-radius: 20px;
-  max-width: 700px;
-  width: 100%;
-  padding: 2.5rem;
-  text-align: center;
-  -webkit-box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-  position: relative; /* needed for z-index layering */
-  z-index: 10;
+    background: #fff;
+    border-radius: 20px;
+    max-width: 700px;
+    width: 100%;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    position: relative;*/ /* needed for z-index layering */
+/*z-index: 10;
 }
 
 .icon-wrapper {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 1.5rem;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem;
 }
-
 .icon-bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: rgba(102, 126, 234, 0.2);
-  -webkit-animation: pulse 2s infinite ease-in-out;
-          animation: pulse 2s infinite ease-in-out;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(102, 126, 234, 0.2);
+    animation: pulse 2s infinite ease-in-out;
 }
-
 .icon-main {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  font-size: 2.5rem;
-  color: #667eea;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem;
+    color: #667eea;
 }
-
 h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #333;
 }
-
 p {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.5;
-  margin-bottom: 2rem;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 2rem;
 }
-
 .progress-container {
-  width: 100%;
-  background-color: #e0e0e0;
-  height: 8px;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 2rem;
+    width: 100%;
+    background-color: #e0e0e0;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 2rem;
 }
 
 .progress-bar {
-  height: 100%;
-  width: 65%;
-  background: -webkit-gradient(linear, left top, right top, from(#667eea), to(#764ba2));
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  border-radius: 4px;
-  -webkit-animation: progressAnimation 1.5s ease-in-out infinite alternate;
-          animation: progressAnimation 1.5s ease-in-out infinite alternate;
+    height: 100%;
+    width: 65%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 4px;
+    animation: progressAnimation 1.5s ease-in-out infinite alternate;
 }
 
 .status-details {
-  text-align: left;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+    text-align: left;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .detail-item {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
 }
 
 .detail-icon {
-  margin-right: 0.75rem;
-  color: #667eea;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
+    margin-right: 0.75rem;
+    color: #667eea;
+    flex-shrink: 0;
 }
-
-@-webkit-keyframes pulse {
-  0% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    -webkit-transform: scale(1.05);
-            transform: scale(1.05);
-    opacity: 0.5;
-  }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    opacity: 0.7;
-  }
-}
-
 @keyframes pulse {
-  0% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    -webkit-transform: scale(1.05);
-            transform: scale(1.05);
-    opacity: 0.5;
-  }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    opacity: 0.7;
-  }
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
 }
-@-webkit-keyframes progressAnimation {
-  0% {
-    width: 65%;
-  }
-  100% {
-    width: 70%;
-  }
-}
+
 @keyframes progressAnimation {
-  0% {
-    width: 65%;
-  }
-  100% {
-    width: 70%;
-  }
+    0% {
+        width: 65%;
+    }
+
+    100% {
+        width: 70%;
+    }
 }
+
 @media (max-width: 768px) {
-  .container {
-    padding: 2rem 1rem;
-  }
-}
+    .container {
+        padding: 2rem 1rem;
+    }
+    }*/

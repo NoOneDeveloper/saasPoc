@@ -93,10 +93,10 @@ html, body {
 
 //waiting page
 
-.auth-page-wrapper {
+/*.auth-page-wrapper {
     position: relative;
-    z-index: 10; /* above overlay */
-    display: flex;
+    z-index: 10;*/ /* above overlay */
+    /*display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -111,8 +111,8 @@ html, body {
     padding: 2.5rem;
     text-align: center;
     box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-    position: relative; /* needed for z-index layering */
-    z-index: 10;
+    position: relative;*/ /* needed for z-index layering */
+    /*z-index: 10;
 }
 
 .icon-wrapper {
@@ -215,4 +215,4 @@ p {
     .container {
         padding: 2rem 1rem;
     }
-    }
+    }*/
