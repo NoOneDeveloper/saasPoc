@@ -7010,11 +7010,13 @@ strong {
 button,
 a {
   outline: none !important;
+  border-radius: var(--vz-border-radius-lg);
 }
 
 .btn {
   -webkit-box-shadow: var(--vz-element-shadow);
           box-shadow: var(--vz-element-shadow);
+  border-radius: var(--vz-border-radius-lg);
 }
 
 :is(.btn.show, .btn:first-child:active, :not(.btn-check) + .btn:active) {
@@ -18326,7 +18328,8 @@ span.flatpickr-weekday {
   background-image: url("../images/nft/bg-home.jpg");
   background-size: cover;
   background-position: bottom;
-  padding: 222px 0 150px 0;
+  padding: 300px 0 150px 0;
+  height: 100vh;
 }
 .nft-hero .bg-overlay {
   background-color: #05175f;
