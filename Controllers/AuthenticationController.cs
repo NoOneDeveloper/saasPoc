@@ -136,7 +136,6 @@ namespace Velzon.Controllers
         }
 
         [HttpGet]
-
         public IActionResult KycForm()
         {
             return View();

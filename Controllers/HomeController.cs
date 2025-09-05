@@ -9,7 +9,7 @@ namespace Velzon.Controllers
             return View();
         }
         
-        public IActionResult LandingPage()
+        public IActionResult KycForm()
         {
             return View();
         }
