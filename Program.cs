@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using Velzon.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var  provider=builder.Services.BuildServiceProvider();
+var config= provider.GetRequiredService<IConfiguration>();
+builder.Services.AddDbContext<VelzonContext>(options =>
+    options.UseSqlServer(config.GetConnectionString("DBms")));
+
 
 var app = builder.Build();
 
