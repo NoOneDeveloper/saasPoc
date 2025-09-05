@@ -24,7 +24,7 @@ public partial class VelzonContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    { }
+{}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -72,12 +72,6 @@ public partial class VelzonContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.MemorandumAndArticles)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.ShareholdingStructure)
-                .HasMaxLength(255)
-                .IsUnicode(false);
             entity.Property(e => e.TaxIdentificationNumber)
                 .HasMaxLength(100)
                 .IsUnicode(false);

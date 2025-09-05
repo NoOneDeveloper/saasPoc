@@ -11,11 +11,7 @@ public partial class CompanyDocument
 
     public string? CertificateOfIncorporation { get; set; }
 
-    public string? MemorandumAndArticles { get; set; }
-
     public string? TaxIdentificationNumber { get; set; }
-
-    public string? ShareholdingStructure { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
