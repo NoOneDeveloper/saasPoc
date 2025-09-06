@@ -4,7 +4,10 @@ namespace Velzon.Controllers
 {
     public class AdvanceUIController : Controller
     {
-
+        /// <summary>
+        /// Sammi Ullah
+        /// </summary>
+        /// <returns></returns>
         [ActionName("SweetAlerts")]
         public IActionResult SweetAlerts()
         {
