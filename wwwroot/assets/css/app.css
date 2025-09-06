@@ -7010,13 +7010,11 @@ strong {
 button,
 a {
   outline: none !important;
-  border-radius: var(--vz-border-radius-lg);
 }
 
 .btn {
   -webkit-box-shadow: var(--vz-element-shadow);
           box-shadow: var(--vz-element-shadow);
-  border-radius: var(--vz-border-radius-lg);
 }
 
 :is(.btn.show, .btn:first-child:active, :not(.btn-check) + .btn:active) {

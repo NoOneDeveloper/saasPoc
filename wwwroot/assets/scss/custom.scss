@@ -12,21 +12,25 @@ File: Custom Css File
 html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden; /* vertical scroll remove */
+    overflow: auto; /* allows scroll */
+    overflow-y: auto;
     height: 100%;
 }
+
 
 .auth-one-bg-position {
     position: fixed; /* absolute → fixed */
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%; /* 100vh → 100% */
+    height: 100%;
+    min-height: 100%;
+    z-index: -1; /* 100vh → 100% */
 }
 
 @media (max-width: 575.98px) {
     .auth-one-bg-position {
-        height: 280px;
+        height: 100%;
     }
 }
 
