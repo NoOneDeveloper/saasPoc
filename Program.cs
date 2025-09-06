@@ -7,7 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 var  provider=builder.Services.BuildServiceProvider();
 var config= provider.GetRequiredService<IConfiguration>();
-builder.Services.AddDbContext<VelzonContext>(options =>
+
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(config.GetConnectionString("DBms")));
 
 
