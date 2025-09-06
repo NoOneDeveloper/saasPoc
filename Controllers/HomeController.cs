@@ -8,7 +8,8 @@ namespace Velzon.Controllers
         {
             return View();
         }
-        
+
+        [HttpGet]
         public IActionResult KycForm()
         {
             return View();
