@@ -33,7 +33,7 @@ namespace Velzon.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            await _customerService.CreateCustomerAsync(model);
+            await _customerService.CreateCustomerAsync(model);//ali
             return RedirectToAction("Success");
         }
 
