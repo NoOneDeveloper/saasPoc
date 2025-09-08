@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Poc.Infrastructure.DTOs;
 
 namespace Velzon.Controllers
 {
@@ -12,7 +13,8 @@ namespace Velzon.Controllers
         [HttpGet]
         public IActionResult KycForm()
         {
-            return View();
+            var model = new CustomerDTO();
+            return View(model);
         }
     }
 }

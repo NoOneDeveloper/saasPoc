@@ -1,4 +1,8 @@
-﻿
+﻿@using Poc.Infrastructure.DTOs
+@model CustomerDTO
+
+
+
 @{
     ViewBag.Title = "Wizard";
     ViewBag.pTitle = "Wizard";
@@ -19,10 +23,10 @@
                     <div class="step-arrow-nav mb-4">
                         <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link done" id="steparrow-gen-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-gen-info" type="button" role="tab" aria-controls="steparrow-gen-info" aria-selected="true">General</button>
+                                <button class="nav-link active" id="steparrow-gen-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-gen-info" type="button" role="tab" aria-controls="steparrow-gen-info" aria-selected="true">Personal</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="steparrow-description-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-description-info" type="button" role="tab" aria-controls="steparrow-description-info" aria-selected="false">Description</button>
+                                <button class="nav-link" id="steparrow-description-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-description-info" type="button" role="tab" aria-controls="steparrow-description-info" aria-selected="false">Description</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="pills-experience-tab" data-bs-toggle="pill" data-bs-target="#pills-experience" type="button" role="tab" aria-controls="pills-experience" aria-selected="false">Finish</button>
@@ -31,33 +35,67 @@
                     </div>
 
                     <div class="tab-content">
-                        <div class="tab-pane fade" id="steparrow-gen-info" role="tabpanel" aria-labelledby="steparrow-gen-info-tab">
+                        <div class="tab-pane fade show active" id="steparrow-gen-info" role="tabpanel" aria-labelledby="steparrow-gen-info-tab">
                             <div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="mb-3 ">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">First Name</label>
+                                            <input type="text" class="form-control" asp-for="FirstName" id="steparrow-gen-info-username-input" placeholder="@Model.FirstName" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 ">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-email-input">Last Name</label>
+                                            <input type="text" class="form-control" asp-for="LastName" id="steparrow-gen-info-email-input" placeholder="@Model.LastName" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Email</label>
+                                            <input type="text" class="form-control" asp-for="Email" id="steparrow-gen-info-username-input" placeholder="@Model.Email" readonly>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-email-input">Email</label>
-                                            <input type="email" class="form-control" id="steparrow-gen-info-email-input" placeholder="Enter email" required>
-                                            <div class="invalid-feedback">Please enter an email address</div>
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Phone</label>
+                                            <input type="text" class="form-control" asp-for="Phone" id="steparrow-gen-info-username-input" placeholder="@Model.Phone" readonly>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">User Name</label>
-                                            <input type="text" class="form-control" id="steparrow-gen-info-username-input" placeholder="Enter user name" required>
-                                            <div class="invalid-feedback">Please enter a user name</div>
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Mobile Number</label>
+                                            <input type="text" class="form-control" asp-for="Mobile" id="steparrow-gen-info-username-input" placeholder="Enter user name" >
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="steparrow-gen-info-password-input">Password</label>
-                                    <input type="password" class="form-control" id="steparrow-gen-info-password-input" placeholder="Enter password" required>
-                                    <div class="invalid-feedback">Please enter a password</div>
-                                </div>
-                                <div>
-                                    <label class="form-label" for="steparrow-gen-info-confirm-password-input">Confirm Password</label>
-                                    <input type="password" class="form-control" id="steparrow-gen-info-confirm-password-input" placeholder="Enter confirm password" required>
-                                    <div class="invalid-feedback">Please enter a confirm password</div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Country</label>
+                                            <input type="text" class="form-control" asp-for="Country" id="steparrow-gen-info-username-input" placeholder="Enter your Country" >
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">State</label>
+                                            <input type="text" class="form-control" asp-for="State" id="steparrow-gen-info-username-input" placeholder="Enter Your State">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">City</label>
+                                            <input type="text" class="form-control" asp-for="City" id="steparrow-gen-info-username-input" placeholder="Enter Your City">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Address</label>
+                                            <input type="text" class="form-control" asp-for="Address" id="steparrow-gen-info-username-input" placeholder="Enter Your Address">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex align-items-start gap-3 mt-4">
@@ -66,17 +104,77 @@
                         </div>
                         <!-- end tab pane -->
 
-                        <div class="tab-pane fade show active" id="steparrow-description-info" role="tabpanel" aria-labelledby="steparrow-description-info-tab">
+                        <div class="tab-pane fade" id="steparrow-description-info" role="tabpanel" aria-labelledby="steparrow-description-info-tab">
                             <div>
-                                <div class="mb-3">
-                                    <label for="formFile" class="form-label">Upload Image</label>
-                                    <input class="form-control" type="file" id="formFile" />
+                                <div class="row">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="steparrow-gen-info-username-input">Business</label>
+                                        <input type="text" class="form-control" asp-for="BusinessType" id="steparrow-gen-info-username-input" placeholder="Enter Your Business Type">
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="form-label" for="des-info-description-input">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" id="des-info-description-input" rows="3" required></textarea>
-                                    <div class="invalid-feedback">Please enter a description</div>
+                                <div class="row">
+                                    <div class="my-3">
+                                        <h5> Business Address</h5>
+                                    </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Country</label>
+                                            <input type="text" class="form-control" asp-for="BusinessCountry" id="steparrow-gen-info-username-input" placeholder="Enter your Country">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input"> State</label>
+                                            <input type="text" class="form-control" asp-for="BusinessState" id="steparrow-gen-info-username-input" placeholder="Enter Your State">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">City</label>
+                                            <input type="text" class="form-control" asp-for="BusinessCity" id="steparrow-gen-info-username-input" placeholder="Enter Your City">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Address</label>
+                                            <input type="text" class="form-control" asp-for="BusinessAddress" id="steparrow-gen-info-username-input" placeholder="Enter Your Address">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="my-3">
+                                        <h5>Business Proof Documents</h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Certificate of Incorporation / Registration</label>
+                                            <input type="file" class="form-control" asp-for="RegistrationFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input"> Memorandum & Articles of Association</label>
+                                            <input type="file" class="form-control" asp-for="MemorandumFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Business / Trade License</label>
+                                            <input type="file" class="form-control" asp-for="LicenseFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Tax Identification Number</label>
+                                            <input type="file" class="form-control" asp-for="TaxFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
+                                        </div>
+                                    </div>
+                                </div>                               
                             </div>
                             <div class="d-flex align-items-start gap-3 mt-4">
                                 <button type="button" class="btn btn-light btn-label previestab" data-previous="steparrow-gen-info-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to General</button>
@@ -107,3 +205,11 @@
         <!-- end card -->
     </div>
 </div>
+
+@section scripts {
+    <!-- form wizard init -->
+    <script src="~/assets/js/pages/form-wizard.init.js"></script>
+
+    <!-- App js -->
+    <script src="~/assets/js/app.js"></script>
+}
