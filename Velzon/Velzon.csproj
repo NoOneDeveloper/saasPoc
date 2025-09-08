@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Poc.Common\Poc.Common.csproj" />
     <ProjectReference Include="..\Poc.Infrastructure\Poc.Infrastructure.csproj" />
+    <ProjectReference Include="..\Poc.Services\Poc.Implementation.csproj" />
     <ProjectReference Include="..\Poc.Services\Poc.Services.csproj" />
   </ItemGroup>
 

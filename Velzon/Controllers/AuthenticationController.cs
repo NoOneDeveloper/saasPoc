@@ -1,10 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Poc.Infrastructure.DTOs.SinginUpDTO;
+using Poc.Infrastructure.Interfaces.IServices.Customer;
 
 namespace Velzon.Controllers
 {
     public class AuthenticationController : Controller
     {
-
+        private readonly ICustomerService _customerService;
+        public AuthenticationController(ICustomerService customerService)
+        {
+            _customerService = customerService;
+        }
         [ActionName("SignInBasic")]
         public IActionResult SignInBasic()
         {
@@ -22,9 +28,13 @@ namespace Velzon.Controllers
             return View();
         }
         [ActionName("SignUpBasic")]
-        public IActionResult SignUpBasic()
+        public  async Task<IActionResult> SignUpBasic(SignUpRequestDTO model)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return View(model);
+
+            await _customerService.CreateCustomerAsync(model);
+            return RedirectToAction("Success");
         }
 
         [ActionName("SignUpCover")]
