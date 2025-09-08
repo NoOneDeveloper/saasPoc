@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Poc.EF.Context;
+using Poc.Implementation.Repositories.CustomerRepositories;
+using Poc.Implementation.Services.CustomerServices;
+using Poc.Infrastructure.Interfaces.IRepositories.Customer;
+using Poc.Infrastructure.Interfaces.IServices.Customer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,8 @@ var config= provider.GetRequiredService<IConfiguration>();
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(config.GetConnectionString("DBms")));
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 
 var app = builder.Build();
