@@ -12,4 +12,9 @@
     <ProjectReference Include="..\Poc.Infrastructure\Poc.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>

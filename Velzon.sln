@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poc.EF", "Poc.EF\Poc.EF.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poc.Infrastructure", "Poc.Infrastructure\Poc.Infrastructure.csproj", "{C3AC6241-1E64-AD32-D2DF-B56D59D796A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poc.Services", "Poc.Services\Poc.Services.csproj", "{A1AF5E07-EBB3-1D5A-BD83-C29B46BCC3CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poc.Implementation", "Poc.Services\Poc.Implementation.csproj", "{A1AF5E07-EBB3-1D5A-BD83-C29B46BCC3CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
