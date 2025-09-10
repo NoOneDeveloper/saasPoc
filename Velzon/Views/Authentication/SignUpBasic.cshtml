@@ -18,7 +18,7 @@
         <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
             <div class="bg-overlay"></div>
 
-       
+
         </div>
 
         <!-- auth page content -->
@@ -32,7 +32,7 @@
                                     <img src="~/assets/images/logo-light.png" alt="">
                                 </a>
                             </div>
-                          
+
                         </div>
                     </div>
                 </div>
@@ -48,32 +48,33 @@
                                     <h1><i class="fas fa-user-plus"></i> Sign Up</h1>
                                 </div>
                                 <div class="p-2 mt-4">
-                                    <form class="needs-validation" novalidate action="@Url.Action("SignUpBasic", "Authentication")">
+                                    <form class="needs-validation" novalidate action="@Url.Action("SignUpBasic", "Authentication")" method="post">
 
-                                    
+
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label asp-for="FirstName" class="form-label">First Name <span class="text-danger">*</span></label>
-                                                <input asp-for="FirstName" type="text" class="form-control" placeholder="Enter first name" required>
-                                                <div class="invalid-feedback">
-                                                    Please enter first name
-                                                </div>
+                                                <input asp-for="FirstName" type="text" class="form-control" placeholder="Enter first name" >
+												<span asp-validation-for="FirstName" class="text-danger"></span>
+												
+
                                             </div>
 
                                             <div class="col-md-6 mb-3">
                                                 <label asp-for="LastName" class="form-label">Last Name <span class="text-danger">*</span></label>
-                                                <input asp-for="LastName" type="text" class="form-control" placeholder="Enter last name" required>
+                                                <input asp-for="LastName" type="text" class="form-control" placeholder="Enter last name">
                                                 <div class="invalid-feedback">
-                                                    Please enter last name
+                                                    <span asp-validation-for="LastName" class="text-danger"></span>
+
                                                 </div>
                                             </div>
                                         </div>
 
-                                     
+
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label asp-for="Phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
-                                                <input asp-for="Phone" type="tel" class="form-control" placeholder="Enter phone number" required>
+                                                <input asp-for="Phone" type="tel" class="form-control" placeholder="Enter phone number">
                                                 <div class="invalid-feedback">
                                                     Please enter phone number
                                                 </div>
@@ -111,7 +112,7 @@
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label" asp-for="ConfirmPassword">Confirm Password</label>
                                                 <div class="position-relative auth-pass-inputgroup">
-                                                    <input asp-for="ConfirmPassword"  type=" password" class="form-control pe-5 password-input" onpaste="return false"
+                                                    <input asp-for="ConfirmPassword" type=" password" class="form-control pe-5 password-input" onpaste="return false"
                                                            placeholder="Confirm password" aria-describedby="passwordInput"
                                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                                                     <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none"
@@ -137,7 +138,7 @@
 
                                         <!-- Submit -->
                                         <div class="mt-4">
-                                            <button  class="btn btn-gold w-100" type="submit">Sign Up</button>
+                                            <button class="btn btn-gold w-100" type="submit">Sign Up</button>
                                         </div>
 
                                         <!-- Switch Link -->
@@ -164,7 +165,7 @@
         </div>
         <!-- end auth page content -->
         <!-- footer -->
-       @*  <footer class="footer">
+        @*  <footer class="footer">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -179,16 +180,28 @@
         <!-- end Footer -->
     </div>
     <!-- end auth-page-wrapper -->
-    @Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")
 
-    <!-- particles js -->
-    <script src="~/assets/libs/particles.js/particles.js"></script>
-    <!-- particles app js -->
-    <script src="~/assets/js/pages/particles.app.js"></script>
-    <!-- validation init -->
-    <script src="~/assets/js/pages/form-validation.init.js"></script>
-    <!-- password create init -->
-    <script src="~/assets/js/pages/passowrd-create.init.js"></script>
+
+@*     <div>
+        <form method="post">
+
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName"></span>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName"></span>
+
+            <button type="submit">save</button>
+        </form>
+    </div> *@
+
+  
+	<script src="~/lib/jquery/jquery.min.js"></script>
+  
+	<script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    
+
 
 </body>
-</html>
+</html> 

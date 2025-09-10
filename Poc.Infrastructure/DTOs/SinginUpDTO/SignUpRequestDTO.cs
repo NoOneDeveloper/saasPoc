@@ -12,16 +12,17 @@ namespace Poc.Infrastructure.DTOs.SinginUpDTO
         [Key]
         public Guid Id { get; set; }
 
-        [Required]
+       [Required(ErrorMessage = "First Name is required")]
         [StringLength(50)]
         public string? FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Last Name is required")]
         [StringLength(50)]
         public string? LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email is required")]
         [StringLength(500)]
+        [EmailAddress(ErrorMessage = "Invalid Email")]
         public string? Email { get; set; }
 
         [StringLength(15)]
@@ -29,16 +30,18 @@ namespace Poc.Infrastructure.DTOs.SinginUpDTO
 
         [StringLength(15)]
         public string? Mobile { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        public string? Password { get; set; }  // user input
 
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$",
+            ErrorMessage = "Password must be at least 8 characters long, contain uppercase, lowercase and a number")]
+        public string? Password { get; set; }
 
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string? ConfirmPassword { get; set; }
 
-     
+
         [MaxLength(32)]
         public byte[]? Salt { get; set; }
 

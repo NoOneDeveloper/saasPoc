@@ -8,6 +8,7 @@ using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IRepositories.Customer;
 using Microsoft.EntityFrameworkCore;
 using Poc.EF.Entities;
+using Poc.Common.StaticClasses;
 
 namespace Poc.Implementation.Repositories.CustomerRepositories
 {
@@ -38,6 +39,19 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
 
             };
             await _db.SignUpRequests.AddAsync(Entity);
+        }
+
+        public async Task<SignUpRequestDTO?> GetCustomerByEmailAsync(string email)
+        {
+            var entity = await _db.SignUpRequests.FirstOrDefaultAsync(c => c.Email == email);
+            if (entity == null) return null;
+
+            return new SignUpRequestDTO
+            {
+                Email = entity.Email,
+                Salt = entity.Salt,
+                Hash = entity.Hash
+            };
         }
 
         public async  Task SaveChangesAsync()

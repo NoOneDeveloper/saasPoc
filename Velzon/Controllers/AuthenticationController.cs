@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Velzon.Controllers
 {
@@ -11,10 +15,29 @@ namespace Velzon.Controllers
         {
             _customerService = customerService;
         }
+        [AllowAnonymous]
         [ActionName("SignInBasic")]
-        public IActionResult SignInBasic()
+
+        public async Task<IActionResult> SignInBasic(SiginDTO model)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _customerService.ValidateCustomerAsync(model);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Invalid email or password");
+                return View(model);
+            }
+            var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email) };
+            var identity = new ClaimsIdentity(claims, "MyCookieAuth");
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync("MyCookieAuth", principal);
+
+            HttpContext.Session.SetString("UserEmail", user.Email);
+            TempData["LoginSuccess"] = "Welcome! You have successfully logged in.";
+            return RedirectToAction("Index", "Dashboard");
         }
 
         [ActionName("SignInCover")]
@@ -33,8 +56,10 @@ namespace Velzon.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            await _customerService.CreateCustomerAsync(model);//ali
-            return RedirectToAction("Success");
+            await _customerService.CreateCustomerAsync(model);
+            TempData["LoginSuccess"] = $"Welcome {model.Email}! You have successfully signed in.";
+            return RedirectToAction("SignInBasic", "Authentication");
+
         }
 
         [ActionName("SignUpCover")]
