@@ -63,11 +63,8 @@
                                             <div class="col-md-6 mb-3">
                                                 <label asp-for="LastName" class="form-label">Last Name <span class="text-danger">*</span></label>
                                                 <input asp-for="LastName" type="text" class="form-control" placeholder="Enter last name">
-                                                <div class="invalid-feedback">
+                                            
                                                     <span asp-validation-for="LastName" class="text-danger"></span>
-
-                                                </div>
-                                            </div>
                                         </div>
 
 
@@ -75,17 +72,14 @@
                                             <div class="col-md-6 mb-3">
                                                 <label asp-for="Phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
                                                 <input asp-for="Phone" type="tel" class="form-control" placeholder="Enter phone number">
-                                                <div class="invalid-feedback">
-                                                    Please enter phone number
-                                                </div>
+                                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                                
                                             </div>
 
                                             <div class="col-md-6 mb-3">
                                                 <label asp-for="Email" class="form-label">Email <span class="text-danger">*</span></label>
                                                 <input asp-for="Email" type="email" class="form-control" id="useremail" placeholder="Enter email address" required>
-                                                <div class="invalid-feedback">
-                                                    Please enter email
-                                                </div>
+                                                    <span asp-validation-for="Email" class="text-danger"></span>
                                             </div>
                                         </div>
 
@@ -102,29 +96,25 @@
                                                             type="button" id="password-addon">
                                                         <i class="ri-eye-fill align-middle"></i>
                                                     </button>
-                                                    <div class="invalid-feedback">
-                                                        Please enter password
-                                                    </div>
+                                                        <span asp-validation-for="Password" class="text-danger"></span>
                                                 </div>
                                             </div>
 
                                             <!-- Confirm Password -->
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label" asp-for="ConfirmPassword">Confirm Password</label>
-                                                <div class="position-relative auth-pass-inputgroup">
-                                                    <input asp-for="ConfirmPassword" type=" password" class="form-control pe-5 password-input" onpaste="return false"
-                                                           placeholder="Confirm password" aria-describedby="passwordInput"
-                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                                                    <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none"
-                                                            type="button">
-                                                        <i class="ri-eye-fill align-middle"></i>
-                                                    </button>
-                                                    <div class="invalid-feedback">
-                                                        Please confirm password
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label" asp-for="ConfirmPassword">Confirm Password</label>
+                                                    <div class="position-relative auth-pass-inputgroup">
+                                                        <input asp-for="ConfirmPassword" type="password" class="form-control pe-5 password-input"
+                                                               placeholder="Confirm password" aria-describedby="passwordInput"
+                                                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none"
+                                                                type="button">
+                                                            <i class="ri-eye-fill align-middle"></i>
+                                                        </button>
+                                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+
 
 
                                         <!-- Password Rules -->
@@ -145,7 +135,7 @@
                                         <div class="mt-4 text-center switch-link">
                                             <p class="mb-0">
                                                 Already have an account?
-                                                <a href="@Url.Action("SignInBasic", "Authentication")"> Sign In </a>
+                                                <a href="@Url.Action("SignIn", "Authentication")"> Sign In </a>
                                             </p>
                                         </div>
                                     </form>
@@ -165,34 +155,17 @@
         </div>
         <!-- end auth page content -->
         <!-- footer -->
-        @*  <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <p class="mb-0 text-muted">&copy;
-                            <script>document.write(new Date().getFullYear())</script> Velzon. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer> *@
+    
         <!-- end Footer -->
     </div>
     <!-- end auth-page-wrapper -->
+    <!-- particles js -->
+    <script src="~/assets/libs/particles.js/particles.js"></script>
+    <!-- particles app js -->
+    <script src="~/assets/js/pages/particles.app.js"></script>
+    <!-- password-addon init -->
+    <script src="~/assets/js/pages/password-addon.init.js"></script>
 
-
-@*     <div>
-        <form method="post">
-
-            <input asp-for="FirstName" class="form-control" />
-            <span asp-validation-for="FirstName"></span>
-            <input asp-for="LastName" class="form-control" />
-            <span asp-validation-for="LastName"></span>
-
-            <button type="submit">save</button>
-        </form>
-    </div> *@
 
   
 	<script src="~/lib/jquery/jquery.min.js"></script>

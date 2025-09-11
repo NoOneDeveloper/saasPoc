@@ -39,6 +39,12 @@ namespace Poc.Implementation.Services.CustomerServices
 );
         }
 
+        public async Task<bool> IsEmailExistsAsync(string email)
+        {
+            var customer = await _repo.GetCustomerByEmailAsync(email);
+            return customer != null;
+        }
+
         public async Task<SignUpRequestDTO?> ValidateCustomerAsync(SiginDTO input)
         {
             var user = await _repo.GetCustomerByEmailAsync(input.Email);

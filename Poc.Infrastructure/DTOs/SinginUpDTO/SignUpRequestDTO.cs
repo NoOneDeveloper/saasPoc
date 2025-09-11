@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Poc.Infrastructure.Interfaces.IServices.Customer;
 
 namespace Poc.Infrastructure.DTOs.SinginUpDTO
 {
@@ -23,9 +24,12 @@ namespace Poc.Infrastructure.DTOs.SinginUpDTO
         [Required(ErrorMessage = "Email is required")]
         [StringLength(500)]
         [EmailAddress(ErrorMessage = "Invalid Email")]
+        [EmailExists]
         public string? Email { get; set; }
 
-        [StringLength(15)]
+        [Required(ErrorMessage = "Phone is required")]
+        [StringLength(15, MinimumLength = 10, ErrorMessage = "Phone number must be between 10 and 15 digits")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Phone number must contain only digits")]
         public string? Phone { get; set; }
 
         [StringLength(15)]
@@ -59,5 +63,28 @@ namespace Poc.Infrastructure.DTOs.SinginUpDTO
 
         public Guid? ModifiedBy { get; set; }
 
+    }
+}
+public class EmailExistsAttribute : ValidationAttribute
+{
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+    {
+        if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
+            return ValidationResult.Success;
+
+        var email = value.ToString();
+
+        // Service fetch from DI container
+        var customerService = (ICustomerService)validationContext.GetService(typeof(ICustomerService))!;
+        if (customerService == null)
+            throw new InvalidOperationException("ICustomerService not found in DI container.");
+
+        // Check email exist
+        var exists = customerService.IsEmailExistsAsync(email).GetAwaiter().GetResult();
+
+        if (exists)
+            return new ValidationResult("Email already exists.");
+
+        return ValidationResult.Success;
     }
 }

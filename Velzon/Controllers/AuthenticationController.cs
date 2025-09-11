@@ -15,10 +15,18 @@ namespace Velzon.Controllers
         {
             _customerService = customerService;
         }
-        [AllowAnonymous]
-        [ActionName("SignInBasic")]
 
-        public async Task<IActionResult> SignInBasic(SiginDTO model)
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult SignIn()
+        {
+            return View(new SiginDTO()); 
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [ActionName("SignIn")]
+        public async  Task<IActionResult> SignIn(SiginDTO model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -26,20 +34,15 @@ namespace Velzon.Controllers
             var user = await _customerService.ValidateCustomerAsync(model);
             if (user == null)
             {
-                ModelState.AddModelError("", "Invalid email or password");
+                TempData["ErrorMessage"] = "Invalid email or password";
                 return View(model);
             }
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email) };
-            var identity = new ClaimsIdentity(claims, "MyCookieAuth");
-            var principal = new ClaimsPrincipal(identity);
-
-            await HttpContext.SignInAsync("MyCookieAuth", principal);
-
+           
             HttpContext.Session.SetString("UserEmail", user.Email);
             TempData["LoginSuccess"] = "Welcome! You have successfully logged in.";
             return RedirectToAction("Index", "Dashboard");
         }
-
+        
         [ActionName("SignInCover")]
         public IActionResult SignInCover()
         {
@@ -50,6 +53,14 @@ namespace Velzon.Controllers
         {
             return View();
         }
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult SignUpBasic()
+        {
+            return View(new SignUpRequestDTO());
+        }
+        [HttpPost]
+        [AllowAnonymous]
         [ActionName("SignUpBasic")]
         public  async Task<IActionResult> SignUpBasic(SignUpRequestDTO model)
         {
@@ -58,7 +69,7 @@ namespace Velzon.Controllers
 
             await _customerService.CreateCustomerAsync(model);
             TempData["LoginSuccess"] = $"Welcome {model.Email}! You have successfully signed in.";
-            return RedirectToAction("SignInBasic", "Authentication");
+            return RedirectToAction("SignIn", "Authentication");
 
         }
 
