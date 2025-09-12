@@ -5,6 +5,7 @@ using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
 using Microsoft.AspNetCore.Authorization;
+using System.Reflection.Metadata;
 
 namespace Velzon.Controllers
 {
@@ -37,8 +38,12 @@ namespace Velzon.Controllers
                 TempData["ErrorMessage"] = "Invalid email or password";
                 return View(model);
             }
-           
+         
+
+
             HttpContext.Session.SetString("UserEmail", user.Email);
+            string userType = user.Email.EndsWith("@pcipal.com.") ? "Admin" : "Customer";
+            HttpContext.Session.SetString("UserType", userType);
             TempData["LoginSuccess"] = "Welcome! You have successfully logged in.";
             return RedirectToAction("Index", "Dashboard");
         }

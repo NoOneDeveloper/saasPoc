@@ -12,6 +12,7 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
     {
         Task CreateCustomerAsync(SignUpRequestDTO customer);
         Task<SignUpRequestDTO?> ValidateCustomerAsync(SiginDTO input);
+
         Task<bool> IsEmailExistsAsync(string email);
 
     }

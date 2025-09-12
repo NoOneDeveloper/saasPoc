@@ -15,7 +15,9 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.Customer
         Task AddCustomerAsync(SignUpRequestDTO DTO);
         Task SaveChangesAsync();
         Task<SignUpRequestDTO?> GetCustomerByEmailAsync(string email);
-      
+        Task<SignUpRequestDTO?> GetAdminByEmailAsync(string email);
+
 
     }
 }
+
