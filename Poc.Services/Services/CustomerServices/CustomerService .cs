@@ -1,10 +1,13 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Poc.Common.StaticClasses;
 using Poc.EF.Context;
+using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.DTOs.Customer;
 using Poc.Infrastructure.DTOs.Global;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
@@ -30,6 +33,12 @@ namespace Poc.Implementation.Services.CustomerServices
 
             await _repo.AddCustomerAsync(customer);
             await _repo.SaveChangesAsync();
+
+            await EmailHelper.SendEmailAsync(
+                customer.Email!,
+               "Account Created!",
+                EmailTemplates.AccountCreated(customer.FirstName)
+            );
         }
 
         #region Get customer by ID
@@ -78,5 +87,33 @@ namespace Poc.Implementation.Services.CustomerServices
             return customers;
         }
         #endregion
+
+        public async Task<bool> IsEmailExistsAsync(string email)
+        {
+            var customer = await _repo.GetCustomerByEmailAsync(email);
+            return customer != null;
+        }
+
+        public async Task<SignUpRequestDTO?> ValidateCustomerAsync(SiginDTO input)
+        {
+            var user = await _repo.GetCustomerByEmailAsync(input.Email);
+            if (user == null) return null;
+
+            var valid = PasswordHasher.VerifyPassword(input.Password, user.Salt, user.Hash);
+            if (!valid) return null;
+
+
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                await EmailHelper.SendEmailAsync(
+                    user.Email,
+                    "Login Successful",
+                    EmailTemplates.Welcome(user.FirstName)
+                );
+            }
+
+            return user;
+        }
     }
 }
+ 

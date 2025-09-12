@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Poc.Infrastructure.DTOs;
 using Poc.Infrastructure.DTOs.Customer;
@@ -11,6 +12,7 @@ namespace Velzon.Controllers
     {
         private readonly ICustomerService _customer = customer;
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();

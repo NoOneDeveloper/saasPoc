@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Poc.Infrastructure.DTOs.Customer;
 using Poc.Infrastructure.DTOs.Global;
+using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
 
 namespace Poc.Infrastructure.Interfaces.IServices.Customer
@@ -12,6 +13,9 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
     public interface ICustomerService
     {
         Task CreateCustomerAsync(SignUpRequestDTO customer);
+        Task<SignUpRequestDTO?> ValidateCustomerAsync(SiginDTO input);
+        Task<bool> IsEmailExistsAsync(string email);
+
 
         Task<Result<CustomerKycDTO>> GetCustomer(Guid Id); 
 

@@ -1,14 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using Poc.EF.Context;
+
 using Poc.Implementation.Repositories.CustomerRepositories;
 using Poc.Implementation.Services.CustomerServices;
 using Poc.Infrastructure.Interfaces.IRepositories.Customer;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
+using YourWebProject.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<SessionAuthorizeAttribute>();
+});
 var  provider=builder.Services.BuildServiceProvider();
 var config= provider.GetRequiredService<IConfiguration>();
 
@@ -16,6 +22,14 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(config.GetConnectionString("DBms")));
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 
 var app = builder.Build();
@@ -30,7 +44,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();

@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Dashboard";
     Layout = null;
+    var loginMessage = TempData["LoginSuccess"] as string;
 }
 
 <!doctype html>
@@ -19,6 +20,22 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
         @Html.Partial("~/Views/Shared/_menu.cshtml")
+
+
+        <!-- Toast Notification -->
+        @if (!string.IsNullOrEmpty(loginMessage))
+        {
+            <div class="position-fixed top-0 end-0 p-3" style="z-index: 2000; margin-top: 70px;">
+                <div id="login-toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            @loginMessage
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        }
 
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -1330,6 +1347,16 @@
     <script src="~/assets/js/pages/dashboard-ecommerce.init.js"></script>
 
     <!-- App js -->
+   
     <script src="~/assets/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastEl = document.getElementById('login-toast');
+            if (toastEl) {
+                var toast = new bootstrap.Toast(toastEl, { delay: 3000 }); // 3 second ke liye show
+                toast.show();
+            }
+        });
+    </script>
 </body>
 </html>

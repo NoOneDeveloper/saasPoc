@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Velzon.Controllers
 {
@@ -11,12 +15,34 @@ namespace Velzon.Controllers
         {
             _customerService = customerService;
         }
-        [ActionName("SignInBasic")]
-        public IActionResult SignInBasic()
-        {
-            return View();
-        }
 
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult SignIn()
+        {
+            return View(new SiginDTO()); 
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [ActionName("SignIn")]
+        public async  Task<IActionResult> SignIn(SiginDTO model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _customerService.ValidateCustomerAsync(model);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "Invalid email or password";
+                return View(model);
+            }
+           
+            HttpContext.Session.SetString("UserEmail", user.Email);
+            TempData["LoginSuccess"] = "Welcome! You have successfully logged in.";
+            return RedirectToAction("Index", "Dashboard");
+        }
+        
         [ActionName("SignInCover")]
         public IActionResult SignInCover()
         {
@@ -27,14 +53,24 @@ namespace Velzon.Controllers
         {
             return View();
         }
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult SignUpBasic()
+        {
+            return View(new SignUpRequestDTO());
+        }
+        [HttpPost]
+        [AllowAnonymous]
         [ActionName("SignUpBasic")]
         public  async Task<IActionResult> SignUpBasic(SignUpRequestDTO model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            await _customerService.CreateCustomerAsync(model);//ali
-            return RedirectToAction("Success");
+            await _customerService.CreateCustomerAsync(model);
+            TempData["LoginSuccess"] = $"Welcome {model.Email}! You have successfully signed in.";
+            return RedirectToAction("SignIn", "Authentication");
+
         }
 
         [ActionName("SignUpCover")]

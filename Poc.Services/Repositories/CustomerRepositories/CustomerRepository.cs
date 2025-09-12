@@ -11,6 +11,7 @@ using Poc.EF.Entities;
 using Poc.Infrastructure.DTOs.Customer;
 using System.Reflection.Metadata.Ecma335;
 using Poc.Infrastructure.DTOs.Global;
+using Poc.Common.StaticClasses;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -192,6 +193,19 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             };
         }
         #endregion
+
+        public async Task<SignUpRequestDTO?> GetCustomerByEmailAsync(string email)
+        {
+            var entity = await _db.SignUpRequests.FirstOrDefaultAsync(c => c.Email == email);
+            if (entity == null) return null;
+
+            return new SignUpRequestDTO
+            {
+                Email = entity.Email,
+                Salt = entity.Salt,
+                Hash = entity.Hash
+            };
+        }
 
         #region
         public async Task<Result<List<CustomerResponseDTO>>> CustomersListAsync()

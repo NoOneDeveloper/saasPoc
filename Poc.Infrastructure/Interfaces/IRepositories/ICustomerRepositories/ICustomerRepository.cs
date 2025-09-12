@@ -17,6 +17,9 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.Customer
         Task<Result<string>> AddCustomerKycAsync(CustomerKycDTO request);
 
         Task<Result<List<CustomerResponseDTO>>> CustomersListAsync();
+        Task<SignUpRequestDTO?> GetCustomerByEmailAsync(string email);
+      
+
     }
 }
 
