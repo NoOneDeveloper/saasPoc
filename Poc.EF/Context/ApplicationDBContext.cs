@@ -20,6 +20,7 @@ public partial class ApplicationDBContext : DbContext
 
     public virtual DbSet<ProofOfBusiness> ProofOfBusinesses { get; set; }
 
+
     public virtual DbSet<ProofOfBusinessActivity> ProofOfBusinessActivities { get; set; }
 
     public virtual DbSet<SignUpRequest> SignUpRequests { get; set; }

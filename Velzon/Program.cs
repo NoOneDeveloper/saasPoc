@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews(options =>
 {
-    options.Filters.Add<SessionAuthorizeAttribute>();
+    options.Filters.Add<GlobalSessionAuthorizeAttribute>();
 });
 var  provider=builder.Services.BuildServiceProvider();
 var config= provider.GetRequiredService<IConfiguration>();
