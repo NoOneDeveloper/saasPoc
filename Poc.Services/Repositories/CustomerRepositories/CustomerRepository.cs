@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Poc.EF.Context;
-using Poc.Infrastructure.DTOs.SinginUpDTO;
-using Poc.Infrastructure.Interfaces.IRepositories.Customer;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Poc.Common.Enum;
+using Poc.EF.Context;
 using Poc.EF.Entities;
 using Poc.Infrastructure.DTOs.Customer;
-using System.Reflection.Metadata.Ecma335;
 using Poc.Infrastructure.DTOs.Global;
-using Poc.Common.StaticClasses;
-
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Poc.Common.Enum;
-using Microsoft.IdentityModel.Tokens;
+using Poc.Infrastructure.DTOs.SinginUpDTO;
+using Poc.Infrastructure.Interfaces.IRepositories.Customer;
 
 namespace Poc.Implementation.Repositories.CustomerRepositories
 {
@@ -212,7 +203,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             };
         }
 
-        #region
+        #region getting cutomers list those who has not been approved yet
         public async Task<Result<List<CustomerResponseDTO>>> CustomersListAsync()
         {
             var result = new Result<List<CustomerResponseDTO>>();

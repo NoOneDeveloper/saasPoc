@@ -1,15 +1,7 @@
-﻿
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Poc.Common.StaticClasses;
-using Poc.EF.Context;
-using Poc.Infrastructure.DTOs.SigninDTO;
+﻿using Poc.Common.StaticClasses;
 using Poc.Infrastructure.DTOs.Customer;
 using Poc.Infrastructure.DTOs.Global;
+using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IRepositories.Customer;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
