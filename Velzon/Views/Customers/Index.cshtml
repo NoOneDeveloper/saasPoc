@@ -32,16 +32,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                            </tr>
+							@foreach (var customer in customerList)
+							{
+								<tr>
+									<td>@customer.FirstName + @customer.LastName</td>
+									<td>@customer.Email</td>
+									<td>@customer.Phone</td>
+									<td>
+										@if (customer.Status)
+										{
+											<span class="badge badge-soft-success p-2">Active</span>
+										}
+										else
+										{
+											<span class="badge badge-soft-danger p-2">Inactive</span>
+										}
+									</td>
+									<td>@customer.CreatedDate.ToString("dd MMM, yyyy")</td>
+									<td>
+										<a href="#" class="btn btn-sm btn-danger">Delete</a>
+									</td>
+								</tr>
+							}
                         </tbody>
                     </table>
                 }
                 else
                 {
-                    
-                }
-                
+                    <div class="py-2 text-center">
+						<h5 class="mb-1">No Customers Found</h5>
+                    </div>
+                }               
             </div>
         </div>
     </div><!--end col-->
