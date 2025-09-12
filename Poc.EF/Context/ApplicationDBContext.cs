@@ -24,6 +24,8 @@ public partial class ApplicationDBContext : DbContext
 
     public virtual DbSet<SignUpRequest> SignUpRequests { get; set; }
 
+    public virtual DbSet<User> Users { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
@@ -75,6 +77,13 @@ public partial class ApplicationDBContext : DbContext
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedDate).HasDefaultValueSql("(sysdatetime())");
             entity.Property(e => e.Status).HasDefaultValue(true);
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC07F5FE79F8");
+
+            entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
         });
 
         OnModelCreatingPartial(modelBuilder);
