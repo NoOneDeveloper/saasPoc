@@ -42,7 +42,7 @@ namespace Velzon.Controllers
 
 
             HttpContext.Session.SetString("UserEmail", user.Email);
-            string userType = user.Email.EndsWith("@pcipal.com.") ? "Admin" : "Customer";
+            string userType = user.Email.EndsWith("@pcipal.com") ? "Admin" : "Customer";
             HttpContext.Session.SetString("UserType", userType);
             TempData["LoginSuccess"] = "Welcome! You have successfully logged in.";
             return RedirectToAction("Index", "Dashboard");

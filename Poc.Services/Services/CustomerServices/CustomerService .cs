@@ -97,6 +97,10 @@ namespace Poc.Implementation.Services.CustomerServices
         public async Task<SignUpRequestDTO?> ValidateCustomerAsync(SiginDTO input)
         {
             var user = await _repo.GetCustomerByEmailAsync(input.Email);
+
+            if (user == null)
+                user = await _repo.GetAdminByEmailAsync(input.Email);
+
             if (user == null) return null;
 
             var valid = PasswordHasher.VerifyPassword(input.Password, user.Salt, user.Hash);

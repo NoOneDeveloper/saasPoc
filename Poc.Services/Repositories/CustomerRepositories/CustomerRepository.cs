@@ -196,7 +196,16 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
 
         public async Task<SignUpRequestDTO?> GetAdminByEmailAsync(string email)
         {
-            return await GetCustomerByEmailAsync(email);
+            var entity = await _db.Users.FirstOrDefaultAsync(a => a.Email == email);
+            if (entity == null) return null;
+
+            return new SignUpRequestDTO
+            {
+                Email = entity.Email,
+                Salt = entity.PasswordSalt,
+                Hash = entity.PasswordHash,
+               
+            };
         }
 
         public async Task<SignUpRequestDTO?> GetCustomerByEmailAsync(string email)

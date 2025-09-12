@@ -73,6 +73,10 @@ public class EmailExistsAttribute : ValidationAttribute
             return ValidationResult.Success;
 
         var email = value.ToString();
+        if (email.EndsWith("@pcipal.com", StringComparison.OrdinalIgnoreCase))
+        {
+            return new ValidationResult("Registration with @pcipal.com emails is not allowed.");
+        }
 
         // Service fetch from DI container
         var customerService = (ICustomerService)validationContext.GetService(typeof(ICustomerService))!;

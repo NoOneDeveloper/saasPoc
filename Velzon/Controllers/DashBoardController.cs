@@ -4,7 +4,7 @@ using YourWebProject.Filters;
 
 namespace Velzon.Controllers
 {
-    [SessionAuthorize("Admin")]
+    [SessionAuthorize("Customer")]
     public class DashBoardController : Controller
     {
     

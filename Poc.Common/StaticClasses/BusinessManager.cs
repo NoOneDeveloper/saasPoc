@@ -26,6 +26,7 @@ namespace Poc.Common.StaticClasses
             {
                 rng.GetBytes(salt);
             }
+
             return salt;
         }
 
@@ -34,6 +35,8 @@ namespace Poc.Common.StaticClasses
         {
             using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations, HashAlgorithmName.SHA256))
             {
+      
+
                 return pbkdf2.GetBytes(HashSize);
             }
         }

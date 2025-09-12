@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using YourWebProject.Filters;
 
 namespace Velzon.Controllers
 {
+    [SessionAuthorize("Admin")]
     public class EcommerceController : Controller
     {
 
