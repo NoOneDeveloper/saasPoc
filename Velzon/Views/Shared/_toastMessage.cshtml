@@ -1,0 +1,16 @@
+﻿
+<script>
+
+
+    function showToast(response) {
+            Toastify({
+                text: response.message,
+                duration: 10000,
+                gravity: "top", // "top" or "bottom"
+                position: "center", // "left", "center" or "right"
+                backgroundColor: response.success ? "linear-gradient(to right, #2ecc71, #a8e063)" : "linear-gradient(to right, #ff416c, #ff4b2b)", // green or red
+                close: true,
+                stopOnFocus: true
+            }).showToast();
+        }
+</script>

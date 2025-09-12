@@ -2,14 +2,16 @@
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-bs-theme="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable" data-theme="galaxy" data-theme-colors="green">
 <head>
-    @Html.Partial("~/Views/Shared/_title_meta.cshtml")
+    <partial name="~/Views/Shared/_title_meta.cshtml" />
     @RenderSection("styles", required: false)
-    @Html.Partial("~/Views/Shared/_head_css.cshtml")
+    <partial name="~/Views/Shared/_head_css.cshtml" />
+    <partial name="~/Views/Shared/_Packages_css.cshtml" />
+    
 </head>
 <body>
     <!-- Begin page -->
     <div id="layout-wrapper">
-        @Html.Partial("~/Views/Shared/_menu.cshtml")
+        <partial name="~/Views/Shared/_menu.cshtml" />
 
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -18,21 +20,24 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-                    @Html.Partial("~/Views/Shared/_page_title.cshtml")
+
+                    <partial name="~/Views/Shared/_page_title.cshtml" />
 
                     @RenderBody()
                 </div>
             </div>
 
             @RenderSection("externalhtml", required: false)
-            @Html.Partial("~/Views/Shared/_footer.cshtml")
+            <partial name="~/Views/Shared/_footer.cshtml" />
+
         </div>
 
     </div>
     <!-- END layout-wrapper -->
  @*    @Html.Partial("~/Views/Shared/_customizer.cshtml") *@
-
-    @Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")
+    <partial name="_toastMessage.cshtml" />
+    <partial name="~/Views/Shared/_vendor_scripts.cshtml" />
+    <partial name="_ValidationScriptsPartial.cshtml" />
 
     @RenderSection("scripts", required: false)
 </body>

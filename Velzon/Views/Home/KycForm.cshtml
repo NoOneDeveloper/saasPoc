@@ -1,5 +1,6 @@
-﻿@using Poc.Infrastructure.DTOs
-@model CustomerDTO
+﻿@using Poc.Infrastructure.DTOs.Customer
+@using Poc.Infrastructure.DTOs.Global
+@model CustomerKycDTO
 
 
 
@@ -9,17 +10,23 @@
     ViewBag.pageTitle = "Forms";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@* @{
+	var customer = @Model.Data;
+} *@
 
 <div class="row justify-content-center">
     <div class="col-xl-10">
         <div class="card">
             <div class="card-body">
-                <form action="#" class="form-steps" autocomplete="off">
+                <form id="CustomerKycForm" asp-action="KycForm" asp-controller="Home" method="post" enctype="multipart/form-data">
                     <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
                         <img src="~/assets/images/logo-dark.png" class="card-logo card-logo-dark" alt="logo dark">
                         <img src="~/assets/images/logo-light.png" class="card-logo card-logo-light" alt="logo light">
                     </div>
+                    @* inputs for salt and hash  *@
+                    <input type="hidden" name="SaltBase64" asp-for="SaltBase64" value="@Convert.ToBase64String(Model.Salt ?? Array.Empty<byte>())" />
+                    <input type="hidden" name="HashBase64" asp-for="HashBase64" value="@Convert.ToBase64String(Model.Hash ?? Array.Empty<byte>())" />
+
                     <div class="step-arrow-nav mb-4">
                         <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -37,63 +44,74 @@
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="steparrow-gen-info" role="tabpanel" aria-labelledby="steparrow-gen-info-tab">
                             <div>
-                                <div class="row">
+                                <div class="row mb-4">
                                     <div class="col-lg-4">
-                                        <div class="mb-3 ">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">First Name</label>
-                                            <input type="text" class="form-control" asp-for="FirstName" id="steparrow-gen-info-username-input" placeholder="@Model.FirstName" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 ">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-email-input">Last Name</label>
-                                            <input type="text" class="form-control" asp-for="LastName" id="steparrow-gen-info-email-input" placeholder="@Model.LastName" readonly>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" asp-for="FirstName" value="@Model.FirstName" id="steparrow-gen-info-firstname-input" placeholder="@Model.FirstName" readonly>
+                                            <label class="form-label" for="steparrow-gen-info-firstname-input">First Name</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Email</label>
-                                            <input type="text" class="form-control" asp-for="Email" id="steparrow-gen-info-username-input" placeholder="@Model.Email" readonly>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" asp-for="LastName" value="@Model.LastName" id="steparrow-gen-info-LastName-input" placeholder="@Model.LastName" readonly>
+                                            <label class="form-label" for="steparrow-gen-info-LastName-input">Last Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="Email" value="@Model.Email" id="steparrow-gen-info-Email-input" placeholder="@Model.Email" readonly>
+                                            <label class="form-label" for="steparrow-gen-info-Email-input">Email</label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row mb-4">
                                     <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Phone</label>
-                                            <input type="text" class="form-control" asp-for="Phone" id="steparrow-gen-info-username-input" placeholder="@Model.Phone" readonly>
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="Phone" value="@Model.Phone" id="steparrow-gen-info-Phone-input" placeholder="@Model.Phone" readonly>
+                                            <label class="form-label" for="steparrow-gen-info-Phone-input">Phone</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Mobile Number</label>
-                                            <input type="text" class="form-control" asp-for="Mobile" id="steparrow-gen-info-username-input" placeholder="Enter user name" >
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="Mobile" id="steparrow-gen-info-Mobile-input" placeholder="Enter user name">
+                                            <label class="form-label" for="steparrow-gen-info-Mobile-input">Mobile Number</label>
+                                            <span asp-validation-for="Mobile" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                         <h5>Customer Address</h5>
+                                        <hr/>
+                                    </div>                               
+                                </div>
+                                <div class="row mb-4">
                                     <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Country</label>
-                                            <input type="text" class="form-control" asp-for="Country" id="steparrow-gen-info-username-input" placeholder="Enter your Country" >
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="Country" id="steparrow-gen-info-Country-input" placeholder="Enter your Country">
+                                            <label class="form-label" for="steparrow-gen-info-Country-input">Country</label>
+                                            <span asp-validation-for="Country" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">State</label>
-                                            <input type="text" class="form-control" asp-for="State" id="steparrow-gen-info-username-input" placeholder="Enter Your State">
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="State" id="steparrow-gen-info-State-input" placeholder="Enter Your State">
+                                            <label class="form-label" for="steparrow-gen-info-State-input">State</label>
+                                            <span asp-validation-for="State" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">City</label>
-                                            <input type="text" class="form-control" asp-for="City" id="steparrow-gen-info-username-input" placeholder="Enter Your City">
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="City" id="steparrow-gen-info-City-input" placeholder="Enter Your City">
+                                            <label class="form-label" for="steparrow-gen-info-City-input">City</label>
+                                            <span asp-validation-for="City" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Address</label>
-                                            <input type="text" class="form-control" asp-for="Address" id="steparrow-gen-info-username-input" placeholder="Enter Your Address">
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="Address" id="steparrow-gen-info-Address-input" placeholder="Enter Your Address">
+                                            <label class="form-label" for="steparrow-gen-info-Address-input">Address</label>
+                                            <span asp-validation-for="Address" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -106,79 +124,97 @@
 
                         <div class="tab-pane fade" id="steparrow-description-info" role="tabpanel" aria-labelledby="steparrow-description-info-tab">
                             <div>
-                                <div class="row">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="steparrow-gen-info-username-input">Business</label>
-                                        <input type="text" class="form-control" asp-for="BusinessType" id="steparrow-gen-info-username-input" placeholder="Enter Your Business Type">
-                                    </div>
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" asp-for="BusinessType" id="steparrow-gen-info-Type-input" placeholder="Enter Your Business Type">
+                                            <label class="form-label" for="steparrow-gen-info-Type-input">Business</label>
+                                            <span asp-validation-for="BusinessType" class="text-danger"></span>
+                                        </div>
+                                    </div> 
                                 </div>
                                 <div class="row">
-                                    <div class="my-3">
+                                   <div class="col-12">
                                         <h5> Business Address</h5>
+                                        <hr/>
+                                   </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-lg-3">
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="BusinessCountry" id="steparrow-gen-info-BusinessCountry-input" placeholder="Enter your Country">
+                                            <label class="form-label" for="steparrow-gen-info-BusinessCountry-input">Country</label>
+                                            <span asp-validation-for="BusinessCountry" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="BusinessState" id="steparrow-gen-info-BusinessState-input" placeholder="Enter Your State">
+                                            <label class="form-label" for="steparrow-gen-info-BusinessState-input"> State</label>
+                                            <span asp-validation-for="BusinessState" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="BusinessCity" id="steparrow-gen-info-BusinessCity-input" placeholder="Enter Your City">
+                                            <label class="form-label" for="steparrow-gen-info-BusinessCity-input">City</label>
+                                            <span asp-validation-for="BusinessCity" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class=" form-floating">
+                                            <input type="text" class="form-control" asp-for="BusinessAddress" id="steparrow-gen-info-BusinessAddress-input" placeholder="Enter Your Address">
+                                            <label class="form-label" for="steparrow-gen-info-BusinessAddress-input">Address</label>
+                                            <span asp-validation-for="BusinessAddress" class="text-danger"></span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Country</label>
-                                            <input type="text" class="form-control" asp-for="BusinessCountry" id="steparrow-gen-info-username-input" placeholder="Enter your Country">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input"> State</label>
-                                            <input type="text" class="form-control" asp-for="BusinessState" id="steparrow-gen-info-username-input" placeholder="Enter Your State">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">City</label>
-                                            <input type="text" class="form-control" asp-for="BusinessCity" id="steparrow-gen-info-username-input" placeholder="Enter Your City">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Address</label>
-                                            <input type="text" class="form-control" asp-for="BusinessAddress" id="steparrow-gen-info-username-input" placeholder="Enter Your Address">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="my-3">
+                                <div class="row mb-3">
+                                   <div class="col-12 ">
                                         <h5>Business Proof Documents</h5>
+                                        <hr/>
+                                   </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-6">
+                                        <div class=" form-floating">
+                                            <input type="file" class="form-control" asp-for="RegistrationFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Certificate of Incorporation / Registration</label>
+                                            <span asp-validation-for="RegistrationFileContent" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class=" form-floating">
+                                            <input type="file" class="form-control" asp-for="MemorandumFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
+                                            <label class="form-label" for="steparrow-gen-info-username-input"> Memorandum & Articles of Association</label>
+                                            <span asp-validation-for="MemorandumFileContent" class="text-danger"></span>
+
+                                        </div>
+                                    </div>                                  
+                                </div> 
+                                <div class="row mb-3">
+                                    <div class="col-lg-6">
+                                        <div class=" form-floating">
+                                            <input type="file" class="form-control" asp-for="LicenseFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Business / Trade License</label>
+                                            <span asp-validation-for="LicenseFileContent" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class=" form-floating">
+                                            <input type="file" class="form-control" asp-for="TaxFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Tax Identification Number</label>
+                                            <span asp-validation-for="TaxFileContent" class="text-danger"></span>
+
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Certificate of Incorporation / Registration</label>
-                                            <input type="file" class="form-control" asp-for="RegistrationFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input"> Memorandum & Articles of Association</label>
-                                            <input type="file" class="form-control" asp-for="MemorandumFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Business / Trade License</label>
-                                            <input type="file" class="form-control" asp-for="LicenseFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Tax Identification Number</label>
-                                            <input type="file" class="form-control" asp-for="TaxFileContent" id="steparrow-gen-info-username-input" placeholder="Upload document">
-                                        </div>
-                                    </div>
-                                </div>                               
                             </div>
                             <div class="d-flex align-items-start gap-3 mt-4">
                                 <button type="button" class="btn btn-light btn-label previestab" data-previous="steparrow-gen-info-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to General</button>
-                                <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="pills-experience-tab"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
+                                <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab" data-nexttab="pills-experience-tab"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
                             </div>
                         </div>
                         <!-- end tab pane -->
@@ -192,7 +228,7 @@
                                     </div>
                                 </div>
                                 <h5>Well Done !</h5>
-                                <p class="text-muted">You have Successfully Signed Up</p>
+                                <p class="text-muted">You have Successfully Registered We Will Notify Shortly</p>
                             </div>
                         </div>
                         <!-- end tab pane -->
@@ -208,8 +244,134 @@
 
 @section scripts {
     <!-- form wizard init -->
+
     <script src="~/assets/js/pages/form-wizard.init.js"></script>
 
     <!-- App js -->
     <script src="~/assets/js/app.js"></script>
+
+    <script>
+
+        $.validator.addMethod('allowedextensionsandsize', function (value, element, params) {
+            if (element.files.length > 0) {
+                var file = element.files[0];
+
+                // Allowed extensions
+                var extensions = params.extensions.split(',').map(x => x.trim().toLowerCase());
+                var ext = value.substr(value.lastIndexOf('.')).toLowerCase();
+                if (!extensions.includes(ext)) {
+                    return false;
+                }
+
+                // File size check
+                var maxSize = parseInt(params.maxsize); // in bytes
+                if (file.size > maxSize) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        $.validator.unobtrusive.adapters.add(
+            'allowedextensionsandsize',
+            ['extensions', 'maxsize'],
+            function (options) {
+                options.rules['allowedextensionsandsize'] = {
+                    extensions: options.params.extensions,
+                    maxsize: options.params.maxsize
+                };
+                options.messages['allowedextensionsandsize'] = options.message;
+            }
+        );
+
+
+        $(document).ready(function () {
+            var form = $("form");
+
+            // ✅ Handle "Next" button (Tab 1 → Tab 2)
+            $(".nexttab").click(function (e) {
+                var nextTabId = $(this).data("nexttab");
+
+                // Find inputs in current tab
+                var currentTabPane = $(this).closest(".tab-pane");
+                var inputs = currentTabPane.find("input, select, textarea");
+
+                // Remove ignore so hidden fields won't be skipped
+                form.validate().settings.ignore = "";
+
+                // Validate only current tab’s inputs
+                if (inputs.length && !inputs.valid()) {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // Move to next tab
+                $("#" + nextTabId).tab("show");
+            });
+
+            // ✅ Handle final submit (Tab 2 Submit button)
+            form.on("submit", function (e) {
+                form.validate().settings.ignore = "";
+
+                if (!form.valid()) {
+                    e.preventDefault();
+
+                    // Jump to the first invalid tab
+                    var firstError = form.find(".input-validation-error").first();
+                    if (firstError.length) {
+                        var tabId = firstError.closest(".tab-pane").attr("id");
+                        $('button[data-bs-target="#' + tabId + '"]').tab("show");
+                    }
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $("#CustomerKycForm").submit(function (e) {
+                e.preventDefault();
+
+                // check if form is valid client-side
+                if (!$(this).valid()) {
+                    return false;
+                }
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: $(this).attr("method"),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.success) {
+                           showToast(response)
+                           form.reset();    
+                        } else {
+							showToast(response);
+                        }
+                    },
+                    error: function (xhr) {
+                        // parse model validation errors if any
+                        if (xhr.responseJSON) {
+                            let errors = [];
+                            for (var key in xhr.responseJSON) {
+                                errors.push(xhr.responseJSON[key].join("<br/>"));
+                            }
+                            $("#formResult").html(
+                                '<div class="alert alert-danger">' + errors.join("<br/>") + '</div>'
+                            );
+                        } else {
+                            $("#formResult").html(
+                                '<div class="alert alert-danger">Server error occurred.</div>'
+                            );
+                        }
+                    }
+                });
+            });
+        });
+
+       
+
+    </script>
 }

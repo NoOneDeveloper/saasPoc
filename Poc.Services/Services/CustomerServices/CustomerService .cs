@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Poc.Common.StaticClasses;
 using Poc.EF.Context;
+using Poc.Infrastructure.DTOs.Customer;
+using Poc.Infrastructure.DTOs.Global;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IRepositories.Customer;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
@@ -29,5 +31,52 @@ namespace Poc.Implementation.Services.CustomerServices
             await _repo.AddCustomerAsync(customer);
             await _repo.SaveChangesAsync();
         }
+
+        #region Get customer by ID
+        public async Task<Result<CustomerKycDTO>> GetCustomer(Guid Id)
+        {
+            var customer = await _repo.GetByIdAsync(Id);
+            if (!customer.Success)
+            {
+               customer.Success = false;
+               customer.Message = "Customer not found";
+            }
+            return customer;
+        }
+        #endregion
+
+        #region Add Customer KYC
+        public async Task<Result<string>> AddCustomer(CustomerKycDTO customerKycDTO)
+        {           
+            var request = await _repo.AddCustomerKycAsync(customerKycDTO);
+
+            if (!request.Success)
+            {
+                request.Success = false;
+                request.Message = "Failed to add customer KYC";
+            }
+
+            return request;
+        }
+        #endregion
+
+        #region Get List of Customers From repository
+        public async Task<Result<List<CustomerResponseDTO>>> ListAsync()
+        {
+            var customers = await _repo.CustomersListAsync();
+
+            if (!customers.Success || customers.Data == null || !customers.Data.Any())
+            {
+                return new Result<List<CustomerResponseDTO>>
+                {
+                    Success = false,
+                    Message = "No customers found",
+                    Data = new List<CustomerResponseDTO>() // safe empty list
+                };
+            }
+
+            return customers;
+        }
+        #endregion
     }
 }
