@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using YourWebProject.Filters;
 
 namespace Velzon.Controllers
 {
     public class BaseUIController : Controller
     {
-
+        [SessionAuthorize("Admin")]
         [ActionName("Alerts")]
+
         public IActionResult Alerts()
         {
             return View();

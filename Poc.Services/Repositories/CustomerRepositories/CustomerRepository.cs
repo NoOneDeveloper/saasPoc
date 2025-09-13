@@ -44,7 +44,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                 Salt = DTO.Salt,
                 Hash = DTO.Hash,
                 CreatedDate = DTO.CreatedDate,
-               
+
                 Status = DTO.Status,
                 Reason = DTO.Reason,
                 ModifiedBy = DTO.ModifiedBy
@@ -61,7 +61,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             var result = new Result<CustomerKycDTO>();
             var customer = await _db.SignUpRequests
                             .AsNoTracking()
-                            .Where (c => c.Id == Id)
+                            .Where(c => c.Id == Id)
                             .Select(c => new CustomerKycDTO
                             {
                                 FirstName = c.FirstName,
@@ -73,8 +73,8 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                                 Hash = c.Hash,
                             }).FirstOrDefaultAsync();
 
-             result.Data = customer;
-             return result;
+            result.Data = customer;
+            return result;
         }
 
         #endregion
@@ -105,7 +105,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                     Address = request.Address,
                     Status = false,
                     CreatedDate = DateTime.UtcNow,
-                    Salt  = Salt,
+                    Salt = Salt,
                     Hash = Hash
                 };
                 await _db.Customers.AddAsync(customerDTO);
@@ -201,11 +201,13 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
 
             return new SignUpRequestDTO
             {
+                Id = entity.Id,
                 Email = entity.Email,
                 Salt = entity.PasswordSalt,
                 Hash = entity.PasswordHash,
-               
+
             };
+            
         }
 
         public async Task<SignUpRequestDTO?> GetCustomerByEmailAsync(string email)
@@ -214,7 +216,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             if (entity == null) return null;
 
             return new SignUpRequestDTO
-            {
+            {    Id=entity.Id,
                 Email = entity.Email,
                 Salt = entity.Salt,
                 Hash = entity.Hash
@@ -250,13 +252,19 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                 result.Message = $"Error retrieving customers: {ex.Message}";
                 result.Data = null;
             }
-                return result;
+            return result;
         }
         #endregion
-        public async  Task SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
             await _db.SaveChangesAsync();
         }
+
+        public async Task<bool> EmailExistsAsync(string email)
+        {
+            return await _db.SignUpRequests.AnyAsync(u => u.Email == email);
+        }
+
 
     }
 }

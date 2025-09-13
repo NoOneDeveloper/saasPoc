@@ -20,6 +20,7 @@ var config= provider.GetRequiredService<IConfiguration>();
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(config.GetConnectionString("DBms")));
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
@@ -27,7 +28,7 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
+;    options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
 

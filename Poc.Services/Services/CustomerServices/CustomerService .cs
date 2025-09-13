@@ -13,15 +13,19 @@ using Poc.Infrastructure.DTOs.Global;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IRepositories.Customer;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
+using Microsoft.AspNetCore.Http;
 
 namespace Poc.Implementation.Services.CustomerServices
 {
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _repo;
-        public CustomerService(ICustomerRepository repo)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public CustomerService(ICustomerRepository repo, IHttpContextAccessor httpContextAccessor)
         {
             _repo = repo;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async  Task CreateCustomerAsync(SignUpRequestDTO customer)
         {
@@ -118,6 +122,40 @@ namespace Poc.Implementation.Services.CustomerServices
 
             return user;
         }
+
+        public async Task<bool> CheckEmailExistsAsync(string email)
+        {
+            return await _repo.EmailExistsAsync(email);
+        }
+
+        public async Task SendPasswordResetEmailAsync(string email)
+        {
+            // 1️⃣ Check if email exists
+            bool exists = await _repo.EmailExistsAsync(email);
+            if (!exists) return; // Email not found
+
+            // 2️⃣ Generate reset token
+            var token = Guid.NewGuid().ToString();
+
+            // 2️⃣a Optional: Token expiration
+            var expiration = DateTime.UtcNow.AddHours(1);
+
+            // Optional: save token + expiration in DB if you want to track it
+            // await _repo.SaveTokenAsync(email, token, expiration);
+
+            // 3️⃣ Build reset link
+            var resetLink = _httpContextAccessor.HttpContext.Request.Scheme + "://" +
+                            _httpContextAccessor.HttpContext.Request.Host +
+                            $"/Authentication/PasswordChangeBasic?token={token}&email={email}";
+
+            // 4️⃣ Send email with expiration info
+            await EmailHelper.SendEmailAsync(
+                email,
+                "Reset Your Password",
+                EmailTemplates.PasswordReset("User", resetLink, expiration) // pass expiration
+            );
+        }
+
     }
 }
  

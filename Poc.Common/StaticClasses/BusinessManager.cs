@@ -101,6 +101,16 @@ namespace Poc.Common.StaticClasses
 
         public static string PasswordReset(string firstName, string resetLink) =>
             $"<h3>Hello {firstName}</h3><p>Click <a href='{resetLink}'>here</a> to reset your password.</p>";
+        public static string PasswordReset(string firstName, string resetLink, DateTime expirationTime)
+        {
+            return $@"
+        <h3>Hello {firstName}</h3>
+        <p>Click <a href='{resetLink}'>here</a> to reset your password.</p>
+        <p><strong>Note:</strong> This link will expire on {expirationTime:dd-MMM-yyyy HH:mm} UTC.</p>
+        <p>If you did not request this, please ignore this email.</p>
+    ";
+        }
+
     }
     #endregion
 

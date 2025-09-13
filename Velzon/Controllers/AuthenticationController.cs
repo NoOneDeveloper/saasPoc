@@ -83,7 +83,7 @@ namespace Velzon.Controllers
         {
             return View();
         }
-
+        [AllowAnonymous]
         [ActionName("PasswordChangeBasic")]
         public IActionResult PasswordChangeBasic()
         {
@@ -95,10 +95,36 @@ namespace Velzon.Controllers
         {
             return View();
         }
-
+        [HttpGet]
+        [AllowAnonymous]
         [ActionName("PasswordResetBasic")]
         public IActionResult PasswordResetBasic()
         {
+            return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [ActionName("PasswordResetBasic")]
+        public async  Task<IActionResult> PasswordResetBasic(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                TempData["Error"] = "Please enter your email";
+                return View();
+            }
+
+            // 1️⃣ Check if email exists
+            bool exists = await _customerService.CheckEmailExistsAsync(email);
+            if (!exists)
+            {
+                TempData["Error"] = "Email not found";
+                return View();
+            }
+
+            // 2️⃣ Send password reset email
+            await _customerService.SendPasswordResetEmailAsync(email);
+            TempData["Success"] = "Password reset link has been sent to your email";
+
             return View();
         }
 
@@ -123,6 +149,7 @@ namespace Velzon.Controllers
         [ActionName("LogoutBasic")]
         public IActionResult LogoutBasic()
         {
+            HttpContext.Session.Clear();
             return View();
         }
 

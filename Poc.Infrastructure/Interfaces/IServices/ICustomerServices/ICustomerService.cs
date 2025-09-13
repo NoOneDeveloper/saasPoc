@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,5 +25,7 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
 
         Task<Result<string>> AddCustomer(CustomerKycDTO customerKycDTO);
         Task<Result<List<CustomerResponseDTO>>> ListAsync();
+        Task<bool> CheckEmailExistsAsync(string email);
+        Task SendPasswordResetEmailAsync(string email);
     }
 }

@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 namespace Poc.Infrastructure.DTOs.SigninDTO
 {
     public class SiginDTO
+
     {
+        public Guid? Id { get; set; }
+
         [Required(ErrorMessage ="Email is required")]
         [EmailAddress]
         public string Email { get; set; }

@@ -19,7 +19,7 @@ namespace YourWebProject.Filters
 
             if (string.IsNullOrEmpty(userEmail))
             {
-                context.Result = new RedirectToActionResult("SignInBasic", "Authentication", null);
+                context.Result = new RedirectToActionResult("SignIn", "Authentication", null);
             }
         }
     }

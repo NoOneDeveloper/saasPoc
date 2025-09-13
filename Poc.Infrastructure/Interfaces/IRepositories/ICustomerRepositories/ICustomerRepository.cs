@@ -19,7 +19,8 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.Customer
         Task<Result<List<CustomerResponseDTO>>> CustomersListAsync();
         Task<SignUpRequestDTO?> GetCustomerByEmailAsync(string email);
         Task<SignUpRequestDTO?> GetAdminByEmailAsync(string email);
-
+        Task<bool> EmailExistsAsync(string email);
+  
 
     }
 }
