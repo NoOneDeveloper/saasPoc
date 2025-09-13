@@ -21,6 +21,6 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
         Task<Result<CustomerKycDTO>> GetCustomer(Guid Id); 
 
         Task<Result<string>> AddCustomer(CustomerKycDTO customerKycDTO);
-        Task<Result<List<CustomerResponseDTO>>> ListAsync();
+        Task<Result<List<SignUpCustomersDTO>>> ListAsync();
     }
 }

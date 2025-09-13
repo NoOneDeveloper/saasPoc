@@ -1,13 +1,13 @@
 ﻿@using Poc.Infrastructure.DTOs.Customer
 @using Poc.Infrastructure.DTOs.Global
-@model Result<List<CustomerResponseDTO>>
+@model Result<List<SignUpCustomersDTO>>
 
 @{
-    var customerList = Model.Data;
+    List<SignUpCustomersDTO>? customerList = Model.Data;
 }
 
 @{
-    ViewData["Title"] = "Customers";
+    ViewData[index: "Title"] = "Customers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,6 +18,8 @@
                 <h5 class="card-title mb-0">Basic Datatables</h5>
             </div>
             <div class="card-body">
+            @if(customerList != null)
+            {
                 @if (customerList.Any())
                 {
                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
@@ -28,42 +30,105 @@
                                 <th data-ordering="false">phone</th>
                                 <th data-ordering="false">Status</th>
                                 <th>Created At</th>
-                                <th data-ordering="false">Action</th>
+                                <th class="text-center" data-ordering="false">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-							@foreach (var customer in customerList)
+							@foreach (SignUpCustomersDTO customer in customerList)
 							{
 								<tr>
-									<td>@customer.FirstName + @customer.LastName</td>
+									<td>@customer.FirstName @customer.LastName</td>
 									<td>@customer.Email</td>
 									<td>@customer.Phone</td>
 									<td>
 										@if (customer.Status)
 										{
-											<span class="badge badge-soft-success p-2">Active</span>
+                                            <span class="badge bg-success-subtle text-success badge-border ">Active</span>
 										}
 										else
 										{
-											<span class="badge badge-soft-danger p-2">Inactive</span>
+                                            <span class="badge bg-danger-subtle text-danger badge-border ">Inactive</span>
 										}
 									</td>
-									<td>@customer.CreatedDate.ToString("dd MMM, yyyy")</td>
-									<td>
-										<a href="#" class="btn btn-sm btn-danger">Delete</a>
+									<td>@customer.CreatedDate.ToString(format: "dd-MMM-yyyy")</td>
+									<td class="d-flex justify-content-center">
+                                            <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                <input type="checkbox" class="form-check-input status-toggle"
+                                                       id="customSwitchsizemd"
+                                                data-id="@customer.Id">
+                                                @customer.Id
+                                            </div>
 									</td>
 								</tr>
 							}
                         </tbody>
                     </table>
                 }
-                else
-                {
-                    <div class="py-2 text-center">
-						<h5 class="mb-1">No Customers Found</h5>
-                    </div>
-                }               
+            }             
+            else
+            {
+                <div class="py-2 text-center">
+                    <h5 class="mb-1">No Customers Found</h5>
+                </div>
+            }               
             </div>
         </div>
     </div><!--end col-->
 </div><!--end row-->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Attach event listener to all checkboxes with class "status-toggle"
+        document.querySelectorAll(".status-toggle").forEach(cb => {
+            cb.addEventListener("change", function (e) {
+                e.preventDefault(); // stop immediate toggle
+
+                let checkbox = this;
+                let customerId = checkbox.getAttribute("data-id");
+
+                // Revert the toggle until user confirms
+                checkbox.checked = !checkbox.checked;
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Do you really want to change the status?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, change it!",
+                    cancelButtonText: "No, cancel"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User confirmed → toggle again
+                        checkbox.checked = !checkbox.checked;
+
+                        // Send AJAX request to ASP.NET Controller
+                        fetch('/Customers/ChangeStatus', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                Id: customerId,
+                                status: checkbox.checked
+                            })
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                Swal.fire("Updated!", "Status changed successfully.", "success");
+                            } else {
+                                Swal.fire("Error!", "Something went wrong.", "error");
+                                checkbox.checked = !checkbox.checked; // revert
+                            }
+                        })
+                        .catch(() => {
+                            Swal.fire("Error!", "Request failed.", "error");
+                            checkbox.checked = !checkbox.checked; // revert
+                        });
+                    }
+                });
+            });
+        });
+    });
+</script>

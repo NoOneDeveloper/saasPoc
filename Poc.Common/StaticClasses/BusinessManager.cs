@@ -1,15 +1,16 @@
-﻿using MailKit.Net.Smtp;
+﻿using System.Security.Cryptography;
+using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Http;
 using MimeKit;
-using System;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 
 namespace Poc.Common.StaticClasses
 {
     public static class BusinessManager
     {
-    
+
     }
+
+    
 
 
     public static class PasswordHasher

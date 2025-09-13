@@ -62,17 +62,17 @@ namespace Poc.Implementation.Services.CustomerServices
         #endregion
 
         #region Get List of Customers From repository
-        public async Task<Result<List<CustomerResponseDTO>>> ListAsync()
+        public async Task<Result<List<SignUpCustomersDTO>>> ListAsync()
         {
             var customers = await _repo.CustomersListAsync();
 
             if (!customers.Success || customers.Data == null || !customers.Data.Any())
             {
-                return new Result<List<CustomerResponseDTO>>
+                return new Result<List<SignUpCustomersDTO>>
                 {
                     Success = false,
                     Message = "No customers found",
-                    Data = new List<CustomerResponseDTO>() // safe empty list
+                    Data = new List<SignUpCustomersDTO>() // safe empty list
                 };
             }
 

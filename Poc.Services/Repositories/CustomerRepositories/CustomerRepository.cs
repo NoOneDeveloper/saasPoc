@@ -213,14 +213,14 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
         }
 
         #region getting cutomers list those who has not been approved yet
-        public async Task<Result<List<CustomerResponseDTO>>> CustomersListAsync()
+        public async Task<Result<List<SignUpCustomersDTO>>> CustomersListAsync()
         {
-            var result = new Result<List<CustomerResponseDTO>>();
+            var result = new Result<List<SignUpCustomersDTO>>();
             try
             {
                 var customers = await _db.Customers
                     .AsNoTracking()
-                    .Select(c => new CustomerResponseDTO
+                    .Select(c => new SignUpCustomersDTO
                     {
                         Id = c.Id,
                         FirstName = c.FirstName,
@@ -242,6 +242,38 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                 result.Data = null;
             }
                 return result;
+        }
+        #endregion
+
+        #region changestatus of cutomers
+        public async Task<Result<string>> ChangeStatusAsync(StatusUpdateDTO request)
+        {
+            var result = new Result<string>();
+            Guid customerId = Guid.Parse(request.Id);
+            try
+            {
+                //var customer = await _db.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
+                var customer = await _db.SignUpRequests.FirstOrDefaultAsync(c => c.Id == customerId);
+                if (customer == null)
+                {
+                    result.Success = false;
+                    result.Message = "Customer not found.";
+                    return result;
+                }
+                customer.Status = request.Status;
+                customer.ModifiedBy = request.ModifiedBy;
+                customer.ModifiedDate = DateTime.UtcNow;
+                _db.Customers.Update(customer);
+                await _db.SaveChangesAsync();
+                result.Success = true;
+                result.Message = "Customer status updated successfully.";
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = $"Error updating customer status: {ex.Message}";
+            }
+            return result;
         }
         #endregion
         public async  Task SaveChangesAsync()
