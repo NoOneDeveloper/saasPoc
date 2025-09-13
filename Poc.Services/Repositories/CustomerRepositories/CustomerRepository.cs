@@ -261,9 +261,8 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                     return result;
                 }
                 customer.Status = request.Status;
-                customer.ModifiedBy = request.ModifiedBy;
                 customer.ModifiedDate = DateTime.UtcNow;
-                _db.Customers.Update(customer);
+                _db.SignUpRequests.Update(customer);
                 await _db.SaveChangesAsync();
                 result.Success = true;
                 result.Message = "Customer status updated successfully.";
