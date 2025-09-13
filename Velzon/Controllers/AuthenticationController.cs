@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
-using Microsoft.AspNetCore.Authorization;
-using System.Reflection.Metadata;
 
 namespace Velzon.Controllers
 {

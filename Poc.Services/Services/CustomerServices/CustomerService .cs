@@ -1,15 +1,7 @@
-﻿
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Poc.Common.StaticClasses;
-using Poc.EF.Context;
-using Poc.Infrastructure.DTOs.SigninDTO;
+﻿using Poc.Common.StaticClasses;
 using Poc.Infrastructure.DTOs.Customer;
 using Poc.Infrastructure.DTOs.Global;
+using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IRepositories.Customer;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
@@ -74,17 +66,17 @@ namespace Poc.Implementation.Services.CustomerServices
         #endregion
 
         #region Get List of Customers From repository
-        public async Task<Result<List<CustomerResponseDTO>>> ListAsync()
+        public async Task<Result<List<SignUpCustomersDTO>>> ListAsync()
         {
             var customers = await _repo.CustomersListAsync();
 
             if (!customers.Success || customers.Data == null || !customers.Data.Any())
             {
-                return new Result<List<CustomerResponseDTO>>
+                return new Result<List<SignUpCustomersDTO>>
                 {
                     Success = false,
                     Message = "No customers found",
-                    Data = new List<CustomerResponseDTO>() // safe empty list
+                    Data = new List<SignUpCustomersDTO>() // safe empty list
                 };
             }
 
