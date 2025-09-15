@@ -3,22 +3,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Poc.Infrastructure.DTOs.Customer
 {
-    public class ProofOfBusinessDTO
+    public class ProofofBusinessActivityDTO
     {
-        [Required]
-        [StringLength(200)]
+        public Guid Id { get; set; }
+
         public string Type { get; set; }
 
         [Required]
-        public string FileContent { get; set; }
+        public string Reason { get; set; }
+
+        [Column(TypeName = "datetime")]
+        public DateTime? CreatedDate { get; set; }
 
         public bool Status { get; set; }
 
-        [Column(TypeName = "datetime")]
-        public DateTime CeatedDate { get; set; }
-
-        public Guid? ModifiedBy { get; set; }
+        public Guid ModifiedBy { get; set; }
 
         public Guid CustomerId { get; set; }
     }
+       
 }

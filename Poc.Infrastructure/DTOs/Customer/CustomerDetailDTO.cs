@@ -62,37 +62,10 @@ namespace Poc.Infrastructure.DTOs.Customer
         [Required(ErrorMessage = "Address is Required")]
         public string BusinessAddress { get; set; }
 
-
         //for customer prof of business details
+        List<ProofOfBusinessDTO> ProofOfBusinesses { get; set; } = new();
+        List<ProofofBusinessActivityDTO> ProofOfBusinessesActivity { get; set; } = new();
 
-
-        public string RegistrationFileContent { get; set; }
-
-
-        public string MemorandumFileContent { get; set; }
-
-
-        public string LicenseFileContent { get; set; }
-
-        public string TaxFileContent { get; set; }
-
-
-        [Key]
-        public Guid Id { get; set; }
-
-        [Required]
-        [StringLength(200)]
-        public string Type { get; set; }
-
-        [Required]
-        public string Reason { get; set; }
-
-        [Column(TypeName = "datetime")]
-        public DateTime? CreatedDate { get; set; }
-
-        public bool Status { get; set; }
-
-        public Guid ModifiedBy { get; set; }
 
     }
 }
