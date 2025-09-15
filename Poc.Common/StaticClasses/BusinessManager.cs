@@ -2,7 +2,8 @@
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Http;
 using MimeKit;
-
+using System.Text.Json;
+using System.Text;
 namespace Poc.Common.StaticClasses
 {
     public static class BusinessManager
@@ -10,8 +11,30 @@ namespace Poc.Common.StaticClasses
 
     }
 
-    
+    public static class SessionExtensions
+    {
+        public static void SetStringCustom(this ISession session, string key, string value)
+        {
+            session.Set(key, Encoding.UTF8.GetBytes(value));
+        }
 
+        public static string GetStringCustom(this ISession session, string key)
+        {
+            var data = session.TryGetValue(key, out byte[] value) ? value : null;
+            return data == null ? null : Encoding.UTF8.GetString(data);
+        }
+
+        public static void SetObject<T>(this ISession session, string key, T value)
+        {
+            session.SetStringCustom(key, JsonSerializer.Serialize(value));
+        }
+
+        public static T GetObject<T>(this ISession session, string key)
+        {
+            var value = session.GetStringCustom(key);
+            return value == null ? default : JsonSerializer.Deserialize<T>(value);
+        }
+    }
 
     public static class PasswordHasher
     {

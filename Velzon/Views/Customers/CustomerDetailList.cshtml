@@ -1,13 +1,10 @@
 ﻿@using Poc.Infrastructure.DTOs.Customer
 @using Poc.Infrastructure.DTOs.Global
-@model Result<List<SignUpCustomersDTO>>
+@model Result<List<CustomerKycDTO>>
 
 @{
-    List<SignUpCustomersDTO>? customerList = Model.Data;
-}
-
-@{
-    ViewData["Title"] = "Customers";
+    List<CustomerKycDTO>? kycList = Model.Data;
+    ViewData["Title"] = "Customer KYC";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,57 +12,56 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">Basic Datatables</h5>
+                <h5 class="card-title mb-0">Customer KYC Records</h5>
             </div>
             <div class="card-body">
-                @if (customerList != null)
+                @if (kycList != null && kycList.Any())
                 {
-                    @if (customerList.Any())
-                    {
-                        <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                        <table id="kycTable" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
+                                    <th>Country</th>
+                                    <th>State</th>
+                                    <th>City</th>
                                     <th>Status</th>
-                                    <th>Created At</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (SignUpCustomersDTO customer in customerList)
-                                {
-                                    <tr>
-                                        <td>@customer.FirstName @customer.LastName</td>
-                                        <td>@customer.Email</td>
-                                        <td>@customer.Phone</td>
-                                        <td>
-                                            <span id="status-badge-@customer.Id"
-                                                  class="badge @(customer.Status ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger") badge-border">
-                                                @(customer.Status ? "Active" : "Inactive")
-                                            </span>
-                                        </td>
-                                        <td>@customer.CreatedDate.ToString("dd-MMM-yyyy")</td>
-                                        <td class="d-flex justify-content-center">
-                                            <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                                <input type="checkbox"
-                                                       class="form-check-input status-toggle"
-                                                       data-id="@customer.Id"
-                                                @(customer.Status ? "checked" : "") />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
+                            @foreach (var customer in kycList)
+                            {
+                                        <tr>
+                                            <td>@customer.Email</td>
+                                            <td>@customer.Phone</td>
+                                            <td>@customer.Country</td>
+                                            <td>@customer.State</td>
+                                            <td>@customer.City</td>
+                                            <td>
+                                                <span id="status-badge-@customer.UserId"
+                                                      class="badge bg-success-subtle text-success badge-border">
+                                                    Active
+                                                </span>
+                                            </td>
+                                            <td class="d-flex justify-content-center">
+                                                <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                                    <input type="checkbox"
+                                                           class="form-check-input status-toggle"
+                                                           data-id="@customer.UserId"
+                                                           checked />
+                                                </div>
+                                            </td>
+                                        </tr>
+                            }
                             </tbody>
                         </table>
-                    }
                 }
                 else
                 {
-                    <div class="py-2 text-center">
-                        <h5 class="mb-1">No Customers Found</h5>
-                    </div>
+                        <div class="py-2 text-center">
+                            <h5 class="mb-1">No KYC Records Found</h5>
+                        </div>
                 }
             </div>
         </div>
@@ -80,15 +76,15 @@
                 e.preventDefault();
 
                 let checkbox = this;
-                let customerId = checkbox.getAttribute("data-id");
-                let badge = document.getElementById("status-badge-" + customerId);
+                let userId = checkbox.getAttribute("data-id");
+                let badge = document.getElementById("status-badge-" + userId);
 
                 // Revert until confirm
                 checkbox.checked = !checkbox.checked;
 
                 Swal.fire({
                     title: "Are you sure?",
-                    text: "Do you really want to change the status?",
+                    text: "Do you want to change this customer's status?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonText: "Yes, change it!",
@@ -97,13 +93,13 @@
                     if (result.isConfirmed) {
                         checkbox.checked = !checkbox.checked;
 
-                        fetch('/Customers/ChangeStatus', {
+                        fetch('/CustomerKyc/ChangeStatus', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({
-                                Id: customerId,
+                                Id: userId,
                                 status: checkbox.checked
                             })
                         })

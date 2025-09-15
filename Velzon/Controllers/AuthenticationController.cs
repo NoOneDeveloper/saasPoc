@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
-
+using Poc.Common.StaticClasses;
 namespace Velzon.Controllers
 {
     public class AuthenticationController : Controller
@@ -35,9 +35,10 @@ namespace Velzon.Controllers
                 TempData["ErrorMessage"] = "Invalid email or password";
                 return View(model);
             }
-         
 
 
+
+            HttpContext.Session.SetObject("UserDto", user);
             HttpContext.Session.SetString("UserEmail", user.Email);
             string userType = user.Email.EndsWith("@pcipal.com") ? "Admin" : "Customer";
             HttpContext.Session.SetString("UserType", userType);

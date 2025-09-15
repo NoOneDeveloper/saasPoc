@@ -12,7 +12,7 @@ namespace Poc.Infrastructure.DTOs.Customer
     public class CustomerKycDTO
     {
 
-        //for customers personl details 
+        public Guid UserId { get; set; }
         public string FirstName { get; set; }
 
         [Required]

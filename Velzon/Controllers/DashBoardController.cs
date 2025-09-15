@@ -8,7 +8,7 @@ namespace Velzon.Controllers
     [SessionAuthorize("Customer")]
     public class DashBoardController : Controller
     {
-        [SessionAuthorize("Customer")]
+
         public IActionResult Index()
         {
             return View();

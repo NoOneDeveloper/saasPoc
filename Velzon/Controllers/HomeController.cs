@@ -5,7 +5,8 @@ using Poc.Infrastructure.DTOs;
 using Poc.Infrastructure.DTOs.Customer;
 using Poc.Infrastructure.DTOs.Global;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
-
+using Poc.Infrastructure.DTOs.SigninDTO;
+using Poc.Common.StaticClasses;
 namespace Velzon.Controllers
 {
     public class HomeController(ICustomerService customer) : Controller
@@ -21,16 +22,27 @@ namespace Velzon.Controllers
         [HttpGet]
         public async Task<IActionResult> KycForm()
         {
-            var response = await _customer.GetCustomer(Guid.Parse("A1B085A9-D7AD-4D51-9EE9-A06058C2355D"));
-            return View(response.Data);
-        }
+            var user = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+            if (user == null)
+                return RedirectToAction("SignIn", "Authentication");
 
-        [HttpPost]
+
+            var response = await _customer.GetCustomer(user.Id.Value);
+
+            return View(response.Data);
+
+        }
+            [HttpPost]
         public async Task<IActionResult> KycForm(CustomerKycDTO request)
         {
             if (!ModelState.IsValid)
                 return View(request);
+            var user = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+            if (user == null)
+                return RedirectToAction("SignIn", "Authentication");
 
+            // 👇 link KYC with logged-in user
+            request.UserId = user.Id.Value;
             var reponse = await _customer.AddCustomer(request);
             return Json(new { success = true, message = "Registered Successfuly" });
         }

@@ -19,7 +19,7 @@ namespace Poc.Implementation.Services.CustomerServices
             _repo = repo;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async  Task CreateCustomerAsync(SignUpRequestDTO customer)
+        public async Task CreateCustomerAsync(SignUpRequestDTO customer)
         {
             customer.Salt = PasswordHasher.GenerateSalt();
             customer.Hash = PasswordHasher.HashPassword(customer.Password, customer.Salt);
@@ -43,8 +43,8 @@ namespace Poc.Implementation.Services.CustomerServices
             var customer = await _repo.GetByIdAsync(Id);
             if (!customer.Success)
             {
-               customer.Success = false;
-               customer.Message = "Customer not found";
+                customer.Success = false;
+                customer.Message = "Customer not found";
             }
             return customer;
         }
@@ -52,7 +52,7 @@ namespace Poc.Implementation.Services.CustomerServices
 
         #region Add Customer KYC
         public async Task<Result<string>> AddCustomer(CustomerKycDTO customerKycDTO)
-        {           
+        {
             var request = await _repo.AddCustomerKycAsync(customerKycDTO);
 
             if (!request.Success)
@@ -148,6 +148,29 @@ namespace Poc.Implementation.Services.CustomerServices
             );
         }
 
+        public async Task<Result<string>> UpdateCustomerStatus(Guid customerId, bool status, Guid modifiedBy)
+        {
+            var result = new Result<string>();
+
+            // 1️⃣ Call repository to update
+            var updateResult = await _repo.UpdateCustomerStatusAsync(customerId, status, modifiedBy);
+
+            if (!updateResult)
+            {
+                result.Success = false;
+                result.Message = "Failed to update customer status";
+            }
+            else
+            {
+                result.Success = true;
+                result.Message = "Status updated successfully";
+            }
+
+            return result;
+        }
+
+
     }
 }
+
  

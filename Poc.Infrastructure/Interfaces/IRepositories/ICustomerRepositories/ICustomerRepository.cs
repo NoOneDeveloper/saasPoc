@@ -17,12 +17,14 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.Customer
         Task<Result<string>> AddCustomerKycAsync(CustomerKycDTO request);
 
         Task<Result<List<SignUpCustomersDTO>>> CustomersListAsync();
+
         Task<SignUpRequestDTO?> GetCustomerByEmailAsync(string email);
         Task<SignUpRequestDTO?> GetAdminByEmailAsync(string email);
         Task<bool> EmailExistsAsync(string email);
-  
 
+        Task<bool> UpdateCustomerStatusAsync(Guid customerId, bool status, Guid modifiedBy);
         Task<Result<string>> ChangeStatusAsync(StatusUpdateDTO request);
+        Task<CustomerKycDTO> GetCustomerWithDetailsAsync(Guid customerId);
 
 
     }

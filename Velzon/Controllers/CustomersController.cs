@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Poc.Infrastructure.DTOs.Customer;
+using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
-using YourWebProject.Filters;
-
+using Poc.Common.StaticClasses;
 namespace Velzon.Controllers
 {
-    [SessionAuthorize("Admin")]
+   
     public class CustomersController(ICustomerService customerService) : Controller()
     {
         private readonly ICustomerService _customerService = customerService;
@@ -16,17 +16,51 @@ namespace Velzon.Controllers
             return View(customersResponse);
         }
 
+
+        public async Task<IActionResult> CustomerList()
+        {
+            var customersResponse = await _customerService.ListAsync();
+            return View(customersResponse);
+        }
+
+        public async Task<IActionResult> Details()
+        {
+            var customersResponse = await _customerService.ListAsync();
+            return View(customersResponse);
+        }
         [HttpPost]
         public async Task<IActionResult> ChangeStatus([FromBody] StatusUpdateDTO input)
         {
             var guidId = Guid.Parse(input.Id);
+
+            // ✅ Pehle customer verify kar lo
             var customerResponse = await _customerService.GetCustomer(guidId);
             if (!customerResponse.Success)
             {
-                TempData["ErrorMessage"] = customerResponse.Message;
-                return RedirectToAction("Index");
+                return BadRequest(new { success = false, message = customerResponse.Message });
             }
-            return View(customerResponse.Data);
+
+            // ✅ Logged-in user (Session se uthao)
+            var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+            if (loggedInUser == null)
+            {
+                return Unauthorized(new { success = false, message = "Session expired, please login again" });
+            }
+
+            // ✅ Status update call
+            var updateResult = await _customerService.UpdateCustomerStatus(
+                guidId,
+                input.Status,
+                loggedInUser.Id.Value
+            );
+
+            if (!updateResult.Success)
+            {
+                return BadRequest(new { success = false, message = updateResult.Message });
+            }
+
+            return Ok(new { success = true, message = "Status updated successfully" });
         }
+
     }
 }

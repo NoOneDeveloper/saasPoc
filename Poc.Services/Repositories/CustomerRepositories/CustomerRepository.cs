@@ -84,7 +84,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                 // 1. Create and save the customer
                 var customerDTO = new Customer()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = request.UserId,
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     Email = request.Email,
@@ -105,13 +105,13 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                 // 2. Create and save the CustomerBusiness entity
                 var customerBusiness = new CustomerBusiness
                 {
-                    Id = Guid.NewGuid(),
+                    Id =Guid.NewGuid(),
                     Type = request.BusinessType,
                     Country = request.BusinessCountry,
                     State = request.BusinessState,
                     City = request.BusinessCity,
                     Address = request.BusinessAddress,
-                    CustomerId = customerDTO.Id,
+                    CustomerId = request.UserId,
                     CeatedDate = DateTime.UtcNow
                 };
                 await _db.CustomerBusinesses.AddAsync(customerBusiness);
@@ -142,7 +142,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                         Type = proof.Type,
                         FileContent = proof.FileContent,
                         Status = false,
-                        CustomerId = customerDTO.Id,
+                        CustomerId = request.UserId,
                         CeatedDate = DateTime.UtcNow,
                     };
                     _db.ProofOfBusinesses.Add(entity);
@@ -232,6 +232,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                         Status = c.Status,
                         CreatedDate = c.CreatedDate,
                         Reason = c.Reason,
+                        
                     }).ToListAsync();
 
                 result.Data = customers;
@@ -287,6 +288,23 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             return await _db.SignUpRequests.AnyAsync(u => u.Email == email);
         }
 
+        public async Task<bool> UpdateCustomerStatusAsync(Guid customerId, bool status, Guid modifiedBy)
+        {
+            var customer = await _db.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
+            if (customer == null)
+                return false;
 
+            customer.Status = status;
+            customer.ModifiedBy = modifiedBy;      // 👈 Logged-in user id
+            customer.ModifiedDate = DateTime.UtcNow;
+
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+        public Task<CustomerKycDTO> GetCustomerWithDetailsAsync(Guid customerId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
