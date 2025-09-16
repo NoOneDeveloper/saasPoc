@@ -14,9 +14,7 @@ public partial class ProofOfBusiness
     [Key]
     public Guid Id { get; set; }
 
-    [Required]
-    [StringLength(200)]
-    public string Type { get; set; }
+    public int Type { get; set; }
 
     [Required]
     public string FileContent { get; set; }

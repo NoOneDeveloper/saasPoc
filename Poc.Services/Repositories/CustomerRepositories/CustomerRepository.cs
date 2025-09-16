@@ -94,7 +94,6 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                     State = request.State,
                     City = request.City,
                     Address = request.Address,
-                    Status = false,
                     CreatedDate = DateTime.UtcNow,
                     Salt = Salt,
                     Hash = Hash
@@ -126,13 +125,13 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                 var proofs = new List<ProofOfBusinessDTO>();
 
                 if (request.RegistrationFileContent != null)
-                    proofs.Add(await SaveFileAndMapAsync(request.RegistrationFileContent, FilesType.Registration.ToString(), uploadsFolder));
+                    proofs.Add(await SaveFileAndMapAsync(request.RegistrationFileContent, ((int)FilesType.Registration), uploadsFolder));
                 if (request.MemorandumFileContent != null)
-                    proofs.Add(await SaveFileAndMapAsync(request.MemorandumFileContent, FilesType.MemorandumArticles.ToString(), uploadsFolder));
+                    proofs.Add(await SaveFileAndMapAsync(request.MemorandumFileContent, ((int)FilesType.MemorandumArticles), uploadsFolder));
                 if (request.LicenseFileContent != null)
-                    proofs.Add(await SaveFileAndMapAsync(request.LicenseFileContent, FilesType.TradeLicense.ToString(), uploadsFolder));
+                    proofs.Add(await SaveFileAndMapAsync(request.LicenseFileContent, ((int)FilesType.TradeLicense), uploadsFolder));
                 if (request.TaxFileContent != null)
-                    proofs.Add(await SaveFileAndMapAsync(request.TaxFileContent, FilesType.TaxIdentification.ToString(), uploadsFolder));
+                    proofs.Add(await SaveFileAndMapAsync(request.TaxFileContent, ((int)FilesType.TaxIdentification), uploadsFolder));
 
                 foreach (var proof in proofs)
                 {
@@ -141,7 +140,6 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                         Id = Guid.NewGuid(),
                         Type = proof.Type,
                         FileContent = proof.FileContent,
-                        Status = false,
                         CustomerId = request.UserId,
                         CeatedDate = DateTime.UtcNow,
                     };
@@ -166,7 +164,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
         #endregion
 
         #region private fuction for saving images in root folder
-        private async Task<ProofOfBusinessDTO> SaveFileAndMapAsync(IFormFile file, string type, string uploadsFolder)
+        private async Task<ProofOfBusinessDTO> SaveFileAndMapAsync(IFormFile file, int type, string uploadsFolder)
         {
             var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(file.FileName)}";
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
@@ -314,6 +312,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             {
                 var customerDetails = await (from c in _db.Customers
                                              join cb in _db.CustomerBusinesses on c.Id equals cb.CustomerId
+                                             where c.Id == customerId
                                              select new CustomerDetailDTO
                                              {
                                                  UserId = c.Id,
@@ -340,7 +339,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                                                                             Type = p.Type,
                                                                             FileContent = p.FileContent,
                                                                             Status = p.Status,
-                                                                            CeatedDate = p.CeatedDate
+                                                                            CeatedDate = p.CeatedDate,
                                                                         }).ToList(),
                                                 ProofOfBusinessesActivity = _db.ProofOfBusinessActivities
                                                                         .Where(p => p.CustomerId == c.Id)

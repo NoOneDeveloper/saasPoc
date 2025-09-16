@@ -13,9 +13,7 @@ public partial class ProofOfBusinessActivity
     [Key]
     public Guid Id { get; set; }
 
-    [Required]
-    [StringLength(200)]
-    public string Type { get; set; }
+    public int? Type { get; set; }
 
     [Required]
     public string Reason { get; set; }

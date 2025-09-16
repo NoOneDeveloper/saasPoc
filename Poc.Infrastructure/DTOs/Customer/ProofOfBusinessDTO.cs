@@ -7,7 +7,7 @@ namespace Poc.Infrastructure.DTOs.Customer
     {
         [Required]
         [StringLength(200)]
-        public string Type { get; set; }
+        public int Type { get; set; }
 
         [Required]
         public string FileContent { get; set; }
@@ -20,5 +20,6 @@ namespace Poc.Infrastructure.DTOs.Customer
         public Guid? ModifiedBy { get; set; }
 
         public Guid CustomerId { get; set; }
+        public string Reason { get; set; }
     }
 }
