@@ -7,7 +7,7 @@ namespace Poc.Infrastructure.DTOs.Customer
     {
         public Guid Id { get; set; }
 
-        public string Type { get; set; }
+        public int? Type { get; set; }
 
         [Required]
         public string Reason { get; set; }

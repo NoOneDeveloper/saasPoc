@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Poc.EF.Entities;
 
-[Table("CustomerBusiness")]
+
+    [Table("CustomerBusiness")]
 public partial class CustomerBusiness
 {
     [Key]

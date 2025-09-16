@@ -3,24 +3,24 @@
 
 @model Result<CustomerDetailDTO>
 
-	@{
-		ViewData["Title"] = "Customer Details";
-		Layout = "~/Views/Shared/_Layout.cshtml";
-		var customer = Model.Data;
-		var customerProof = Model.Data?.ProofOfBusinesses;
-        var filePath = Url.Content("~/assets/uploads/");
-	}
+@{
+    ViewData["Title"] = "Customer Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var customer = Model.Data;
+    var customerProof = Model.Data?.ProofOfBusinesses;
+    var filePath = Url.Content("~/assets/uploads/");
+}
 @if (customer != null)
 {
 
-<div class="row">
-    <div class="col-xxl-9 order-2">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Business Details</h5>
-            </div>
-            <div class="card-body p-4">
-                <div class="row">
+    <div class="row">
+        <div class="col-xxl-9 order-2">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Business Details</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
                         <div class="col-xxl-4 ">
                             <div class="table-responsive table-card">
                                 <table class="table table-borderless align-middle mb-0">
@@ -52,13 +52,12 @@
                         <div class="col-xxl-8">
                             @foreach (var item in customerProof)
                             {
-                                <div class="card @(item.Status == true ? "card-border-success" : "card-border-danger")">
+                                <div class="card @(item.Status == true ? "card-border-success" : item.Status==false ? "card-border-danger" : "card-border-warning")">
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
                                                 @if (!string.IsNullOrEmpty(item.FileContent))
                                                 {
-
                                                     <a href="@filePath@item.FileContent" target="_blank" class="btn btn-primary btn-sm">
                                                         View
                                                     </a>
@@ -70,12 +69,21 @@
                                             <div class="flex-grow-1 ms-3">
                                                 <div class="d-flex align-items-center">
                                                     <p class="card-text mb-0 me-2">@item.Type</p>
-                                                    <span class="badge @(item.Status == true ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger") badge-border">
-                                                        @(item.Status == true ? "Approved" : "Not Approved")
+                                                    <span class="badge @(item.Status == true ? "bg-success-subtle text-success" : item.Status==false ? "bg-danger-subtle text-danger" : "bg-warning-subtle text-warning") badge-border">
+                                                        @(item.Status == true ? "Approved" : item.Status==false ? "Not Approved" : "Pending")
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
+                                        @if (item.Status == false)
+                                        {
+                                            @* <div class="row">
+												<div class="col-lg-12 mt-3">
+													<label for="exampleFormControlTextarea1" class="form-label">Rejection Reason</label>
+													<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly>@item</textarea>
+												</div>
+                                            </div> *@
+                                        }
                                     </div>
                                 </div>
                             }
