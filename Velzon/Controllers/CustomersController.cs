@@ -25,15 +25,19 @@ namespace Velzon.Controllers
 
         public async Task<IActionResult> Details(Guid id)
         {
-            var customerDetail = await _customerService.GetCustomerDetailsAsync(id);
-            if (customerDetail == null)
+            var customerResponse = await _customerService.GetCustomerAdminDetailsAsync(id);
+
+            // ✅ Agar data hi null hai ya success false hai
+            if (customerResponse == null || !customerResponse.Success || customerResponse.Data == null)
             {
-                return NotFound();
+                return NotFound(new { success = false, message = customerResponse?.Message ?? "Customer not found" });
             }
-            return View(customerDetail);
+
+            // ✅ Data ko View mein bhejna
+            return View(customerResponse.Data);
         }
 
-      
+
 
 
         [HttpPost]
@@ -74,16 +78,41 @@ namespace Velzon.Controllers
 
             if (loggedInUser == null)
                 return Unauthorized(new { success = false, message = "Session expired, please login again" });
-            
+
             var guidId = Guid.Parse(loggedInUser.Id.ToString());
 
-            var customerResponse = await _customerService.GetCustomerDetailsAsync(guidId);
-            if (!customerResponse.Success)
+            var customerResponse = await _customerService.GetCustomerAdminDetailsAsync(guidId);
+
+            if (!customerResponse.Success || customerResponse.Data == null)
             {
                 return RedirectToAction("CustomerList");
             }
-            return View(customerResponse);
+
+            return View(customerResponse.Data);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ToggleProofStatus([FromBody] StatusUpdateDTO input)
+        {
+            var proofId = Guid.Parse(input.Id);
+
+            var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+            if (loggedInUser == null)
+            {
+                return Unauthorized(new { success = false, message = "Session expired, please login again" });
+            }
+
+            var result = await _customerService.UpdateProofStatus(proofId, input.Status, loggedInUser.Id.Value);
+
+            if (!result.Success)
+            {
+                return BadRequest(new { success = false, message = result.Message });
+            }
+
+            return Ok(new { success = true, message = "Status updated successfully" });
+        }
+
+
 
     }
 }

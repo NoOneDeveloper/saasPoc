@@ -168,9 +168,26 @@ namespace Poc.Implementation.Services.CustomerServices
             return result;
         }
 
-        public async  Task<CustomerDetailDTO> GetCustomerDetailsAsync(Guid customerId)
+        public async Task<Result<CustomerDetailDTO>> GetCustomerAdminDetailsAsync(Guid customerId)
         {
-            return await _repo.GetCustomerDetailsAsync(customerId);
+            var customerDetail = await _repo.GetCustomerDetailsAsync(customerId);
+
+            if (customerDetail == null)
+            {
+                return new Result<CustomerDetailDTO>
+                {
+                    Success = false,
+                    Message = "Customer not found",
+                    Data = null
+                };
+            }
+
+            return new Result<CustomerDetailDTO>
+            {
+                Success = true,
+                Message = "Customer details fetched successfully",
+                Data = customerDetail
+            };
         }
 
 
@@ -191,6 +208,26 @@ namespace Poc.Implementation.Services.CustomerServices
 
             customerResponse = customerRequest;
             return customerResponse;
+        }
+
+        public async  Task<Result<string>> UpdateProofStatus(Guid proofId, bool status, Guid modifiedBy)
+        {
+            var result = new Result<string>();
+
+            var updated = await _repo.UpdateProofStatusAsync(proofId, status, modifiedBy);
+
+            if (!updated)
+            {
+                result.Success = false;
+                result.Message = "Failed to update proof status";
+            }
+            else
+            {
+                result.Success = true;
+                result.Message = "Status updated successfully";
+            }
+
+            return result;
         }
         #endregion
 

@@ -322,18 +322,17 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
              City = c.City,
              Address = c.Address,
 
-             // Business details (sirf ek record map hoga)
              BusinessType = b.Type,
              BusinessCountry = b.Country,
              BusinessState = b.State,
              BusinessCity = b.City,
              BusinessAddress = b.Address,
 
-             // Proof of Business
+           
              ProofOfBusinesses = (from p in _db.ProofOfBusinesses
                                   where p.CustomerId == c.Id
                                   select new ProofOfBusinessDTO
-                                  {
+                                  {    Id=p.Id,
                                       Type = p.Type,
                                       FileContent = p.FileContent,
                                       Status = p.Status,
@@ -341,7 +340,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                                       ModifiedBy = p.ModifiedBy,
                                   }).ToList(),
 
-             // Proof of Business Activities
+           
              ProofOfBusinessesActivity = (from a in _db.ProofOfBusinessActivities
                                           where a.CustomerId == c.Id
                                           select new ProofofBusinessActivityDTO
@@ -414,6 +413,19 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             }
             
             return response;
+        }
+
+        public async Task<bool> UpdateProofStatusAsync(Guid proofId, bool status, Guid modifiedBy)
+        {
+            var proof = await _db.ProofOfBusinesses.FirstOrDefaultAsync(p => p.Id == proofId);
+            if (proof == null) return false;
+
+            proof.Status = status;
+            proof.ModifiedBy = modifiedBy;
+            proof.CeatedDate = DateTime.Now;
+
+            await _db.SaveChangesAsync();
+            return true;
         }
     }
 }
