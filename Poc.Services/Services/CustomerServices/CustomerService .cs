@@ -6,6 +6,7 @@ using Poc.Infrastructure.DTOs.SinginUpDTO;
 using Poc.Infrastructure.Interfaces.IRepositories.Customer;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
 using Microsoft.AspNetCore.Http;
+using Poc.Implementation.Repositories.CustomerRepositories;
 
 namespace Poc.Implementation.Services.CustomerServices
 {
@@ -122,20 +123,14 @@ namespace Poc.Implementation.Services.CustomerServices
 
         public async Task SendPasswordResetEmailAsync(string email)
         {
-            // 1️⃣ Check if email exists
             bool exists = await _repo.EmailExistsAsync(email);
-            if (!exists) return; // Email not found
+            if (!exists) return;
 
-            // 2️⃣ Generate reset token
+
             var token = Guid.NewGuid().ToString();
 
-            // 2️⃣a Optional: Token expiration
             var expiration = DateTime.UtcNow.AddHours(1);
 
-            // Optional: save token + expiration in DB if you want to track it
-            // await _repo.SaveTokenAsync(email, token, expiration);
-
-            // 3️⃣ Build reset link
             var resetLink = _httpContextAccessor.HttpContext.Request.Scheme + "://" +
                             _httpContextAccessor.HttpContext.Request.Host +
                             $"/Authentication/PasswordChangeBasic?token={token}&email={email}";
@@ -168,6 +163,13 @@ namespace Poc.Implementation.Services.CustomerServices
 
             return result;
         }
+
+        public async  Task<CustomerDetailDTO> GetCustomerDetailsAsync(Guid customerId)
+        {
+            return await _repo.GetCustomerDetailsAsync(customerId);
+        }
+
+
 
 
     }

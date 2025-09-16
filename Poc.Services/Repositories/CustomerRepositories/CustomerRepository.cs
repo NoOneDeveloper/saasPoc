@@ -141,7 +141,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                         Id = Guid.NewGuid(),
                         Type = proof.Type,
                         FileContent = proof.FileContent,
-                        Status = false,
+                       Status = false,
                         CustomerId = request.UserId,
                         CeatedDate = DateTime.UtcNow,
                     };
@@ -302,9 +302,61 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             return true;
         }
 
-        public Task<CustomerKycDTO> GetCustomerWithDetailsAsync(Guid customerId)
+        public async  Task<CustomerDetailDTO> GetCustomerDetailsAsync(Guid customerId)
         {
-            throw new NotImplementedException();
+            var customerQuery =
+         from c in _db.Customers
+         where c.Id == customerId
+         join b in _db.CustomerBusinesses on c.Id equals b.CustomerId into businessGroup
+         from b in businessGroup.DefaultIfEmpty()
+         select new CustomerDetailDTO
+         {
+             UserId = c.Id,
+             FirstName = c.FirstName,
+             LastName = c.LastName,
+             Email = c.Email,
+             Phone = c.Phone,
+             Mobile = c.Mobile,
+             Country = c.Country,
+             State = c.State,
+             City = c.City,
+             Address = c.Address,
+
+             // Business details (sirf ek record map hoga)
+             BusinessType = b.Type,
+             BusinessCountry = b.Country,
+             BusinessState = b.State,
+             BusinessCity = b.City,
+             BusinessAddress = b.Address,
+
+             // Proof of Business
+             ProofOfBusinesses = (from p in _db.ProofOfBusinesses
+                                  where p.CustomerId == c.Id
+                                  select new ProofOfBusinessDTO
+                                  {
+                                      Type = p.Type,
+                                      FileContent = p.FileContent,
+                                      Status = p.Status,
+                                      CeatedDate = p.CeatedDate,
+                                      ModifiedBy = p.ModifiedBy,
+                                  }).ToList(),
+
+             // Proof of Business Activities
+             ProofOfBusinessesActivity = (from a in _db.ProofOfBusinessActivities
+                                          where a.CustomerId == c.Id
+                                          select new ProofofBusinessActivityDTO
+                                          {
+                                              Type = a.Type,
+                                              Reason = a.Reason,
+                                              CreatedDate = a.CreatedDate,
+                                              Status = a.Status,
+                                              ModifiedBy = a.ModifiedBy,
+                                          }).ToList()
+         };
+
+            return await customerQuery.FirstOrDefaultAsync();
         }
+
+
     }
 }

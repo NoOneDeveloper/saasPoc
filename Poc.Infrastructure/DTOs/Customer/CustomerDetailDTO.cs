@@ -63,8 +63,8 @@ namespace Poc.Infrastructure.DTOs.Customer
         public string BusinessAddress { get; set; }
 
         //for customer prof of business details
-        List<ProofOfBusinessDTO> ProofOfBusinesses { get; set; } = new();
-        List<ProofofBusinessActivityDTO> ProofOfBusinessesActivity { get; set; } = new();
+       public  List<ProofOfBusinessDTO> ProofOfBusinesses { get; set; } = new();
+       public List<ProofofBusinessActivityDTO> ProofOfBusinessesActivity { get; set; } = new();
 
 
     }

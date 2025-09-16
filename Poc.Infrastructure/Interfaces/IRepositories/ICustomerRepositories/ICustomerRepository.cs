@@ -24,7 +24,16 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.Customer
 
         Task<bool> UpdateCustomerStatusAsync(Guid customerId, bool status, Guid modifiedBy);
         Task<Result<string>> ChangeStatusAsync(StatusUpdateDTO request);
-        Task<CustomerKycDTO> GetCustomerWithDetailsAsync(Guid customerId);
+        Task<CustomerDetailDTO> GetCustomerDetailsAsync(Guid customerId);
+
+
+    
+
+
+
+
+
+
 
 
     }

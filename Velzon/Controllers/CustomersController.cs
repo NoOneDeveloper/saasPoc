@@ -23,37 +23,42 @@ namespace Velzon.Controllers
             return View(customersResponse);
         }
 
-        public async Task<IActionResult> Details()
+        public async Task<IActionResult> Details(Guid id)
         {
-            var customersResponse = await _customerService.ListAsync();
-            return View(customersResponse);
+            var customerDetail = await _customerService.GetCustomerDetailsAsync(id);
+            if (customerDetail == null)
+            {
+                return NotFound();
+            }
+            return View(customerDetail);
         }
+
+      
+
+
         [HttpPost]
         public async Task<IActionResult> ChangeStatus([FromBody] StatusUpdateDTO input)
         {
             var guidId = Guid.Parse(input.Id);
 
-            // ✅ Pehle customer verify kar lo
+       
             var customerResponse = await _customerService.GetCustomer(guidId);
             if (!customerResponse.Success)
             {
                 return BadRequest(new { success = false, message = customerResponse.Message });
             }
 
-            // ✅ Logged-in user (Session se uthao)
             var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
             if (loggedInUser == null)
             {
                 return Unauthorized(new { success = false, message = "Session expired, please login again" });
             }
 
-            // ✅ Status update call
             var updateResult = await _customerService.UpdateCustomerStatus(
                 guidId,
                 input.Status,
                 loggedInUser.Id.Value
             );
-
             if (!updateResult.Success)
             {
                 return BadRequest(new { success = false, message = updateResult.Message });
