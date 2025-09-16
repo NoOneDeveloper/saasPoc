@@ -42,8 +42,8 @@
                                         <td>@customer.Phone</td>
                                         <td>
                                             <span id="status-badge-@customer.Id"
-                                                  class="badge @(customer.Status ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger") badge-border">
-                                                @(customer.Status ? "Active" : "Inactive")
+                                                  class="badge @(customer.Status==true ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger") badge-border">
+                                                @(customer.Status==true ? "Active" : "Inactive")
                                             </span>
                                         </td>
                                         <td>@customer.CreatedDate.ToString("dd-MMM-yyyy")</td>
@@ -52,7 +52,7 @@
                                                 <input type="checkbox"
                                                        class="form-check-input status-toggle"
                                                        data-id="@customer.Id"
-                                                @(customer.Status ? "checked" : "") />
+                                                @(customer.Status==true ? "checked" : "") />
                                             </div>
                                         </td>
                                     </tr>

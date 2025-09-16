@@ -12,9 +12,29 @@
    "ProjectRootNamespace": "Velzon",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 2,
-   "SelectedToBeGenerated": 1,
+   "SelectedToBeGenerated": 0,
    "T4TemplatePath": null,
    "Tables": [
+      {
+         "Name": "[dbo].[Customer]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CustomerBusiness]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProofOfBusiness]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProofOfBusinessActivities]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SignUpRequest]",
+         "ObjectType": 0
+      },
       {
          "Name": "[dbo].[Users]",
          "ObjectType": 0

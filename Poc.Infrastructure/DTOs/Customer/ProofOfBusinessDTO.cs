@@ -12,7 +12,7 @@ namespace Poc.Infrastructure.DTOs.Customer
         [Required]
         public string FileContent { get; set; }
 
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
 
         [Column(TypeName = "datetime")]
         public DateTime CeatedDate { get; set; }

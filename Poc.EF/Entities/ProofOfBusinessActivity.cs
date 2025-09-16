@@ -23,7 +23,7 @@ public partial class ProofOfBusinessActivity
     [Column(TypeName = "datetime")]
     public DateTime? CreatedDate { get; set; }
 
-    public bool Status { get; set; }
+    public bool? Status { get; set; }
 
     public Guid ModifiedBy { get; set; }
 

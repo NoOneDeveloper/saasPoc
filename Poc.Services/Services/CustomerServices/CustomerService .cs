@@ -132,7 +132,7 @@ namespace Poc.Implementation.Services.CustomerServices
             // 2️⃣a Optional: Token expiration
             var expiration = DateTime.UtcNow.AddHours(1);
 
-            // Optional: save token + expiration in DB if you want to track it
+            // Optiocunal: save token + expiration in DB if you want to track it
             // await _repo.SaveTokenAsync(email, token, expiration);
 
             // 3️⃣ Build reset link
@@ -168,6 +168,25 @@ namespace Poc.Implementation.Services.CustomerServices
 
             return result;
         }
+
+
+        #region get customerDetials BycustomerId
+        public async Task<Result<CustomerDetailDTO>> GetCustomerDetailsAsync(Guid customerId)
+        {
+            Result<CustomerDetailDTO> customerResponse = new();
+
+            var customerRequest = await _repo.GetCustomerDetailsById(customerId);
+
+            if (customerRequest.Data == null || !customerRequest.Success)
+            {
+                customerResponse.Success = false;
+                customerResponse.Message = "Customer details not found";
+            }
+
+            customerResponse = customerRequest;
+            return customerResponse;
+        }
+        #endregion
 
 
     }

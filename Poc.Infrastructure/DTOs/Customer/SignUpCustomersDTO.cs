@@ -25,7 +25,7 @@ namespace Poc.Infrastructure.DTOs.Customer
 
         public DateTime? ModifiedDate { get; set; }
 
-        public bool Status { get; set; } = false;
+        public bool? Status { get; set; } = false;
 
         public string? Reason { get; set; }
 
