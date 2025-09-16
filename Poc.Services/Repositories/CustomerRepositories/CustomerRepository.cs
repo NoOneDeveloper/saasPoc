@@ -357,6 +357,63 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             return await customerQuery.FirstOrDefaultAsync();
         }
 
+        public async Task<Result<CustomerDetailDTO>> GetCustomerDetailsById(Guid customerId)
+        {
+            var response = new Result<CustomerDetailDTO>();
+            try
+            {
+                var customerDetails = await (from c in _db.Customers
+                                             join cb in _db.CustomerBusinesses on c.Id equals cb.CustomerId
+                                             select new CustomerDetailDTO
+                                             {
+                                                 UserId = c.Id,
+                                                 FirstName = c.FirstName,
+                                                 LastName = c.LastName,
+                                                 Email = c.Email,
+                                                 Phone = c.Phone,
+                                                 Mobile = c.Mobile,
+                                                 Country = c.Country,
+                                                 State = c.State,
+                                                 City = c.City,
+                                                 Address = c.Address,
+                                                 CreatedDate = c.CreatedDate,
+                                                 ModifiedDate = c.ModifiedDate,
+                                                 BusinessType = cb.Type,
+                                                 BusinessCountry = cb.Country,
+                                                 BusinessState = cb.State,
+                                                 BusinessCity = cb.City,
+                                                 BusinessAddress = cb.Address,
+                                                 ProofOfBusinesses = _db.ProofOfBusinesses
+                                                                        .Where(p => p.CustomerId == c.Id)
+                                                                        .Select(p => new ProofOfBusinessDTO
+                                                                        {
+                                                                            Type = p.Type,
+                                                                            FileContent = p.FileContent,
+                                                                            Status = p.Status,
+                                                                            CeatedDate = p.CeatedDate
+                                                                        }).ToList(),
+                                                ProofOfBusinessesActivity = _db.ProofOfBusinessActivities
+                                                                        .Where(p => p.CustomerId == c.Id)
+                                                                        .Select(p => new ProofofBusinessActivityDTO
+                                                                        {
+                                                                            Type = p.Type,
+                                                                            Reason = p.Reason,
+                                                                            Status = p.Status,
+                                                                            ModifiedBy = p.ModifiedBy,
+                                                                        }).ToList()
+                                             }).FirstOrDefaultAsync();
 
+                response.Data = customerDetails;
+
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = $"Error retrieving customer details: {ex.Message}";
+                response.Data = null;
+            }
+            
+            return response;
+        }
     }
 }

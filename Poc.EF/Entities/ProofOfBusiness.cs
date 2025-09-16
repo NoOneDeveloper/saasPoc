@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Poc.EF.Entities;    
+namespace Poc.EF.Entities;
 
 [Table("ProofOfBusiness")]
 public partial class ProofOfBusiness
@@ -21,14 +21,14 @@ public partial class ProofOfBusiness
     [Required]
     public string FileContent { get; set; }
 
-    public bool Status { get; set; }
-
     [Column(TypeName = "datetime")]
     public DateTime CeatedDate { get; set; }
 
     public Guid? ModifiedBy { get; set; }
 
     public Guid CustomerId { get; set; }
+
+    public bool? Status { get; set; }
 
     [ForeignKey("CustomerId")]
     [InverseProperty("ProofOfBusinesses")]

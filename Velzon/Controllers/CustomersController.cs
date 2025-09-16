@@ -67,5 +67,23 @@ namespace Velzon.Controllers
             return Ok(new { success = true, message = "Status updated successfully" });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CustomerDetails()
+        {
+            var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+
+            if (loggedInUser == null)
+                return Unauthorized(new { success = false, message = "Session expired, please login again" });
+            
+            var guidId = Guid.Parse(loggedInUser.Id.ToString());
+
+            var customerResponse = await _customerService.GetCustomerDetailsAsync(guidId);
+            if (!customerResponse.Success)
+            {
+                return RedirectToAction("CustomerList");
+            }
+            return View(customerResponse);
+        }
+
     }
 }

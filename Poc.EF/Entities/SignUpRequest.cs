@@ -45,9 +45,9 @@ public partial class SignUpRequest
 
     public DateTime? ModifiedDate { get; set; }
 
-    public bool Status { get; set; }
-
     public string Reason { get; set; }
 
     public Guid? ModifiedBy { get; set; }
+
+    public bool? Status { get; set; }
 }

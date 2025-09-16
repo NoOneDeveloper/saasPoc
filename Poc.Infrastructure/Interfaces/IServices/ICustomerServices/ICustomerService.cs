@@ -30,8 +30,6 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
         Task<bool> CheckEmailExistsAsync(string email);
         Task SendPasswordResetEmailAsync(string email);
 
-  
-
-
+        Task<Result<CustomerDetailDTO>> GetCustomerDetailsAsync(Guid customerId);
     }
 }

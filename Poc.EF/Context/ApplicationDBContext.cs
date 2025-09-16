@@ -20,7 +20,6 @@ public partial class ApplicationDBContext : DbContext
 
     public virtual DbSet<ProofOfBusiness> ProofOfBusinesses { get; set; }
 
-
     public virtual DbSet<ProofOfBusinessActivity> ProofOfBusinessActivities { get; set; }
 
     public virtual DbSet<SignUpRequest> SignUpRequests { get; set; }
@@ -35,7 +34,7 @@ public partial class ApplicationDBContext : DbContext
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedDate).HasDefaultValueSql("(sysdatetime())");
-            entity.Property(e => e.Status).HasDefaultValue(true);
+            entity.Property(e => e.Status).HasDefaultValueSql("(NULL)");
         });
 
         modelBuilder.Entity<CustomerBusiness>(entity =>
@@ -54,6 +53,7 @@ public partial class ApplicationDBContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__ProofOfB__3214EC074CB2802C");
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.Status).HasDefaultValueSql("(NULL)");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.ProofOfBusinesses)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -65,6 +65,7 @@ public partial class ApplicationDBContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__ProofOfB__3214EC07D80E35DA");
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.Status).HasDefaultValue(false);
 
             entity.HasOne(d => d.Customer).WithMany(p => p.ProofOfBusinessActivities)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -77,7 +78,7 @@ public partial class ApplicationDBContext : DbContext
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedDate).HasDefaultValueSql("(sysdatetime())");
-            entity.Property(e => e.Status).HasDefaultValue(true);
+            entity.Property(e => e.Status).HasDefaultValueSql("(NULL)");
         });
 
         modelBuilder.Entity<User>(entity =>

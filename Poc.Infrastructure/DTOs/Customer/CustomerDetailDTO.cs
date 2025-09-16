@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Poc.Common.RemoteValidation;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Poc.Infrastructure.DTOs.Customer
 {
@@ -18,7 +15,7 @@ namespace Poc.Infrastructure.DTOs.Customer
         [Required]
         [StringLength(320)]
         public string Email { get; set; }
-
+         
         [StringLength(15)]
         public string Phone { get; set; }
 
@@ -39,7 +36,11 @@ namespace Poc.Infrastructure.DTOs.Customer
 
         [Required(ErrorMessage = "Address is Required")]
         public string Address { get; set; }
+        public DateTime CreatedDate { get; set; }
 
+        public DateTime? ModifiedDate { get; set; }
+
+        public Guid? ModifiedBy { get; set; }
 
 
         //for customers business details
@@ -63,8 +64,9 @@ namespace Poc.Infrastructure.DTOs.Customer
         public string BusinessAddress { get; set; }
 
         //for customer prof of business details
-       public  List<ProofOfBusinessDTO> ProofOfBusinesses { get; set; } = new();
-       public List<ProofofBusinessActivityDTO> ProofOfBusinessesActivity { get; set; } = new();
+        public List<ProofOfBusinessDTO> ProofOfBusinesses = new();
+
+        public List<ProofofBusinessActivityDTO> ProofOfBusinessesActivity = new();
 
 
     }

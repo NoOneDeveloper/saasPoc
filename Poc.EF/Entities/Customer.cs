@@ -40,8 +40,6 @@ public partial class Customer
     [MaxLength(64)]
     public byte[] Hash { get; set; }
 
-    public bool Status { get; set; }
-
     public string Reason { get; set; }
 
     [StringLength(50)]
@@ -60,6 +58,8 @@ public partial class Customer
     public DateTime? ModifiedDate { get; set; }
 
     public Guid? ModifiedBy { get; set; }
+
+    public bool? Status { get; set; }
 
     [InverseProperty("Customer")]
     public virtual ICollection<CustomerBusiness> CustomerBusinesses { get; set; } = new List<CustomerBusiness>();
