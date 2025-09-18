@@ -305,6 +305,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             throw new NotImplementedException();
         }
 
+        #region get customer details By Id for customer details page
         public async Task<Result<CustomerDetailDTO>> GetCustomerDetailsById(Guid customerId)
         {
             var response = new Result<CustomerDetailDTO>();
@@ -340,20 +341,14 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                                                                             FileContent = p.FileContent,
                                                                             Status = p.Status,
                                                                             CeatedDate = p.CeatedDate,
+                                                                            Reason = _db.ProofOfBusinessActivities
+                                                                                          .Where(a => a.CustomerId == c.Id && a.Type == p.Type)
+                                                                                          .Select(a => a.Reason)
+                                                                                          .FirstOrDefault() ?? string.Empty
                                                                         }).ToList(),
-                                                ProofOfBusinessesActivity = _db.ProofOfBusinessActivities
-                                                                        .Where(p => p.CustomerId == c.Id)
-                                                                        .Select(p => new ProofofBusinessActivityDTO
-                                                                        {
-                                                                            Type = p.Type,
-                                                                            Reason = p.Reason,
-                                                                            Status = p.Status,
-                                                                            ModifiedBy = p.ModifiedBy,
-                                                                        }).ToList()
                                              }).FirstOrDefaultAsync();
 
                 response.Data = customerDetails;
-
             }
             catch (Exception ex)
             {
@@ -364,5 +359,57 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             
             return response;
         }
+
+        #endregion
+
+        #region change document
+        public async Task<Result<string>> ChangeDocuments(Guid customerId, ChangeFileDTO input)
+        {
+            var result = new Result<string>();
+
+            try{
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "assets/uploads");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                var request = await _db.ProofOfBusinesses
+                                       .FirstOrDefaultAsync(p => p.CustomerId == customerId && p.Type == input.Type);
+
+                if (request == null)
+                {
+                    result.Success = false;
+                    result.Message = "Document record not found.";
+                }
+
+                //// Delete old file (if exists)
+                //if (!string.IsNullOrEmpty(request.FileContent))
+                //{
+                //    var oldFilePath = Path.Combine(uploadsFolder, request.FileContent);
+                //    if (File.Exists(oldFilePath))
+                //        File.Delete(oldFilePath);
+                //}
+
+                var newFileDto = await SaveFileAndMapAsync(input.FileContent, input.Type, uploadsFolder);
+
+                request.FileContent = newFileDto.FileContent;
+                request.Status = null;
+                request.CeatedDate = DateTime.UtcNow;
+
+                _db.ProofOfBusinesses.Update(request);
+                await _db.SaveChangesAsync();
+
+                result.Success = true;
+                result.Message = "Document updated successfully.";
+
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = $"Error updating document: {ex.Message}";
+            }
+            return result;
+        }
+
+        #endregion
     }
 }

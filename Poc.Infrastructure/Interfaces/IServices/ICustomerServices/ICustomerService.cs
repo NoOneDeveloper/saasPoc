@@ -31,5 +31,8 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
         Task SendPasswordResetEmailAsync(string email);
 
         Task<Result<CustomerDetailDTO>> GetCustomerDetailsAsync(Guid customerId);
+
+        Task<Result<string>> changeFileAsync(Guid customerId, ChangeFileDTO request);
+
     }
 }

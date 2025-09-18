@@ -188,7 +188,25 @@ namespace Poc.Implementation.Services.CustomerServices
         }
         #endregion
 
+        #region chnage documnet
+        public async Task<Result<string>> changeFileAsync(Guid customerId, ChangeFileDTO request)
+        {
+            var response = await _repo.ChangeDocuments(customerId, request);
+            if (!response.Success)
+            {
+                response.Success = false;
+                response.Message = "Failed to change documents";
+            }
+            else
+            {
+                response.Success = true;
+                response.Message = "Documents changed successfully";
 
+            }
+            return response;
+        }
+
+        #endregion
     }
 }
 

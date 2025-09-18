@@ -1,4 +1,5 @@
-﻿@using Poc.Infrastructure.DTOs.Customer
+﻿@using Poc.Common.Enum
+@using Poc.Infrastructure.DTOs.Customer
 @using Poc.Infrastructure.DTOs.Global
 
 @model Result<CustomerDetailDTO>
@@ -10,141 +11,184 @@
     var customerProof = Model.Data?.ProofOfBusinesses;
     var filePath = Url.Content("~/assets/uploads/");
 }
+
+
 @if (customer != null)
 {
-
     <div class="row">
-        <div class="col-xxl-9 order-2">
+        <div class="col-xxl-6 order-2">
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Business Details</h5>
                 </div>
                 <div class="card-body p-4">
-                    <div class="row">
-                        <div class="col-xxl-4 ">
-                            <div class="table-responsive table-card">
-                                <table class="table table-borderless align-middle mb-0">
-                                    <tbody>
-                                        <tr>
-                                            <td class="fw-medium">Business</td>
-                                            <td><span id="t-no">@customer.BusinessType</span> </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-medium">Country</td>
-                                            <td>@customer.BusinessCountry</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-medium">State</td>
-                                            <td>@customer.BusinessState</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-medium">City</td>
-                                            <td>@customer.BusinessCity</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-medium">Address</td>
-                                            <td>@customer.BusinessAddress</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-xxl-8">
-                            @foreach (var item in customerProof)
-                            {
-                                <div class="card @(item.Status == true ? "card-border-success" : item.Status==false ? "card-border-danger" : "card-border-warning")">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0">
-                                                @if (!string.IsNullOrEmpty(item.FileContent))
-                                                {
-                                                    <a href="@filePath@item.FileContent" target="_blank" class="btn btn-primary btn-sm">
-                                                        View
-                                                    </a>
-                                                    <a href="@filePath" download class="btn btn-outline-secondary btn-sm ms-2">
-                                                        Download
-                                                    </a>
-                                                }
-                                            </div>
-                                            <div class="flex-grow-1 ms-3">
-                                                <div class="d-flex align-items-center">
-                                                    <p class="card-text mb-0 me-2">@item.Type</p>
-                                                    <span class="badge @(item.Status == true ? "bg-success-subtle text-success" : item.Status==false ? "bg-danger-subtle text-danger" : "bg-warning-subtle text-warning") badge-border">
-                                                        @(item.Status == true ? "Approved" : item.Status==false ? "Not Approved" : "Pending")
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @if (item.Status == false)
-                                        {
-                                            @* <div class="row">
-												<div class="col-lg-12 mt-3">
-													<label for="exampleFormControlTextarea1" class="form-label">Rejection Reason</label>
-													<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly>@item</textarea>
-												</div>
-                                            </div> *@
-                                        }
-                                    </div>
-                                </div>
-                            }
-                        </div>
+                    <div class="table-responsive table-card">
+                        <table class="table table-borderless align-middle mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-medium">Business</td>
+                                    <td><span id="t-no">@customer.BusinessType</span> </td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">Country</td>
+                                    <td>@customer.BusinessCountry</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">State</td>
+                                    <td>@customer.BusinessState</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">City</td>
+                                    <td>@customer.BusinessCity</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">Address</td>
+                                    <td>@customer.BusinessAddress</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>            
                 </div>  
             </div>
         </div>
         <!--end card-->
-    </div>
-    <!--end col-->
-    <div class="col-xxl-3 order-1">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Personal Details</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive table-card">
-                    <table class="table table-borderless align-middle mb-0">
-                        <tbody>
-                            <tr>
-                                <td class="fw-medium">Name</td>
-                                <td><span id="t-no">@customer.FirstName @customer.LastName</span> </td>
-                            </tr>
-                            <tr>
-                                <td class="fw-medium">Email</td>
-                                <td id="t-client">@customer.Email</td>
-                            </tr>
-                            <tr>
-                                <td class="fw-medium">Phone</td>
-                                <td>@customer.Phone</td>
-                            </tr>
-                            <tr>
-                                <td class="fw-medium">Mobile</td>
-                                <td>@customer.Mobile</td>
-                            </tr>
-                            <tr>
-                                <td class="fw-medium">Country</td>
-                                <td>@customer.Country</td>
-                            </tr>
-                            <tr>
-                                <td class="fw-medium">State</td>
-                                <td>@customer.State</td>
-                            </tr><tr>
-                                <td class="fw-medium">City</td>
-                                <td>@customer.City</td>
-                            </tr><tr>
-                                <td class="fw-medium">Address</td>
-                                <td>@customer.Address</td>
-                            </tr>                          
-                            <tr>
-                                <td class="fw-medium">Create Date</td>
-                                <td id="c-date">@customer.CreatedDate</td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <!--end col-->
+        <div class="col-xxl-6 order-1">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Personal Details</h5>
                 </div>
+                <div class="card-body">
+                    <div class="table-responsive table-card">
+                        <table class="table table-borderless align-middle mb-0">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-medium">Name</td>
+                                    <td><span id="t-no">@customer.FirstName @customer.LastName</span> </td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">Email</td>
+                                    <td id="t-client">@customer.Email</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">Phone</td>
+                                    <td>@customer.Phone</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">Mobile</td>
+                                    <td>@customer.Mobile</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">Country</td>
+                                    <td>@customer.Country</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-medium">State</td>
+                                    <td>@customer.State</td>
+                                </tr><tr>
+                                    <td class="fw-medium">City</td>
+                                    <td>@customer.City</td>
+                                </tr><tr>
+                                    <td class="fw-medium">Address</td>
+                                    <td>@customer.Address</td>
+                                </tr>                          
+                                <tr>
+                                    <td class="fw-medium">Create Date</td>
+                                    <td id="c-date">@customer.CreatedDate</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--end card-body-->
             </div>
-            <!--end card-body-->
         </div>
-    </div>
     <!--end col-->
-</div>
+    </div>
 
+    <div class="row">
+        @foreach (var item in customerProof)
+        {
+        <div class="col-xxl-8">
+            
+                <div class="card @(item.Status == true ? "card-border-success" : item.Status==false ? "card-border-danger" : "card-border-warning")">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                @if (!string.IsNullOrEmpty(item.FileContent))
+                                {
+                                    <a href="@filePath@item.FileContent" target="_blank" class="btn btn-primary btn-sm">
+                                        View
+                                    </a>
+                                    <a href="@filePath" download class="btn btn-outline-secondary btn-sm ms-2">
+                                        Download
+                                    </a>
+                                }
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="d-flex align-items-center">
+                                    <p class="card-text mb-0 me-2">@((FilesType)item.Type)</p>
+                                    <span class="badge @(item.Status == true ? "bg-success-subtle text-success" : item.Status==false ? "bg-danger-subtle text-danger" : "bg-warning-subtle text-warning") badge-border">
+                                        @(item.Status == true ? "Approved" : item.Status == false ? "Not Approved" : "Pending")
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        @if (item.Status == false)
+                        {
+                            <div class="row">
+                                <div class="col-lg-12 mt-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Rejection Reason</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" readonly>@item.Reason</textarea>
+                                </div>
+                            </div>
+                            <form id="uploadForm" enctype="multipart/form-data">
+                                <input type="hidden" id="docType" value="@item.Type" />
+
+                                <div class="mb-3">
+                                    <label for="fileInput" class="form-label">Select File</label>
+                                    <input type="file" id="fileInput" class="form-control" />
+                                </div>
+
+                                <button type="button" class="btn btn-primary" id="uploadBtn">Upload</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+           
+        </div>
+        }
+    </div>
 }
+
+
+<script>
+    document.getElementById("uploadBtn").addEventListener("click", async function () {
+        const formData = new FormData();
+
+        // Get values
+        const type = document.getElementById("docType").value;
+        const fileInput = document.getElementById("fileInput");
+        const file = fileInput.files[0];
+
+        // Append to form data with names matching your DTO
+        formData.append("Type", type);
+        formData.append("FileContent", file);
+
+        try {
+            const response = await fetch('@Url.Action("CustomerDetails", "Customers")', {
+                method: "POST",
+                body: formData
+            });
+
+            if (response.success) {
+					location.reload(); 
+            } else {
+                showToast(response)
+            }
+        } catch (error) {
+            showToast(response)
+        }
+    });
+</script>
+

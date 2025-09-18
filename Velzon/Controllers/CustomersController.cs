@@ -3,6 +3,7 @@ using Poc.Infrastructure.DTOs.Customer;
 using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
 using Poc.Common.StaticClasses;
+using Poc.Infrastructure.DTOs.Global;
 namespace Velzon.Controllers
 {
    
@@ -78,6 +79,23 @@ namespace Velzon.Controllers
                 return RedirectToAction("CustomerList");
             }
             return View(customerResponse);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CustomerDetails(ChangeFileDTO input)
+        {
+            var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+
+            if (loggedInUser == null)
+                return Unauthorized(new { success = false, message = "Session expired, please login again" });
+
+            var response = await _customerService.changeFileAsync(loggedInUser.Id.Value, input);
+            if (!response.Success)
+            {
+                var model = new Result<CustomerDetailDTO>();
+                return View(model);
+            }
+            return Json(new { success = true, message = "Document updated successfully" });
         }
 
     }
