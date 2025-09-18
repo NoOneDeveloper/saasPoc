@@ -300,9 +300,60 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             return true;
         }
 
-        public Task<CustomerKycDTO> GetCustomerWithDetailsAsync(Guid customerId)
+        public async  Task<CustomerDetailDTO> GetCustomerDetailsAsync(Guid customerId)
         {
-            throw new NotImplementedException();
+            var customerQuery =
+         from c in _db.Customers
+         where c.Id == customerId
+         join b in _db.CustomerBusinesses on c.Id equals b.CustomerId into businessGroup
+         from b in businessGroup.DefaultIfEmpty()
+         select new CustomerDetailDTO
+         {
+             UserId = c.Id,
+             FirstName = c.FirstName,
+             LastName = c.LastName,
+             Email = c.Email,
+             Phone = c.Phone,
+             Mobile = c.Mobile,
+             Country = c.Country,
+             State = c.State,
+             City = c.City,
+             Address = c.Address,
+
+             BusinessType = b.Type,
+             BusinessCountry = b.Country,
+             BusinessState = b.State,
+             BusinessCity = b.City,
+             BusinessAddress = b.Address,
+
+
+             ProofOfBusinesses = (from p in _db.ProofOfBusinesses
+                                  where p.CustomerId == c.Id
+                                  select new ProofOfBusinessDTO
+                                  { Id = p.Id,
+                                      Type = p.Type,
+                                      TypeName = ((FilesType)p.Type).ToString(),
+                                      FileContent = p.FileContent,
+                                      Status = p.Status,
+                                      CeatedDate = p.CeatedDate,
+                                      ModifiedBy = p.ModifiedBy,
+                                  }).ToList(),
+
+
+             ProofOfBusinessesActivity = (from a in _db.ProofOfBusinessActivities
+                                          where a.CustomerId == c.Id
+                                          select new ProofofBusinessActivityDTO
+                                          { Id = a.Id,
+                                              Type = a.Type,
+                                              TypeName = ((FilesType)a.Type).ToString(),
+                                              Reason = a.Reason,
+                                              CreatedDate = a.CreatedDate,
+                                              Status = a.Status,
+                                              ModifiedBy = a.ModifiedBy,
+                                          }).ToList()
+         };
+
+            return await customerQuery.FirstOrDefaultAsync();
         }
 
         #region get customer details By Id for customer details page
@@ -358,6 +409,53 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             }
             
             return response;
+        }
+
+        public async Task<bool> UpdateProofStatusAsync(Guid proofId, bool status, Guid modifiedBy)
+        {
+            var proof = await _db.ProofOfBusinesses.FirstOrDefaultAsync(p => p.Id == proofId);
+            if (proof == null) return false;
+
+            proof.Status = status;
+            proof.ModifiedBy = modifiedBy;
+            proof.CeatedDate = DateTime.Now;
+
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task AddProofActivity(ProofofBusinessActivityDTO dto)
+        {
+            var entity = new ProofOfBusinessActivity
+            {
+                
+                CustomerId = dto.CustomerId,
+                Type = dto.Type,
+                Reason = dto.Reason,
+                Status = dto.Status,
+                ModifiedBy = dto.ModifiedBy,
+                CreatedDate = dto.CreatedDate ?? DateTime.UtcNow
+            };
+
+            await _db.ProofOfBusinessActivities.AddAsync(entity);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<ProofOfBusinessDTO> GetProofById(Guid proofId)
+        {
+            var proof = await _db.ProofOfBusinesses.FindAsync(proofId);
+            if (proof == null) return null;
+
+            return new ProofOfBusinessDTO
+            {
+                Id = proof.Id,
+                CustomerId = proof.CustomerId,
+                Type = proof.Type,
+                Status = proof.Status,
+                FileContent = proof.FileContent
+               
+                 
+            };
         }
 
         #endregion

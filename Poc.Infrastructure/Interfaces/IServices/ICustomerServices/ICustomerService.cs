@@ -25,12 +25,16 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
 
         Task<Result<string>> AddCustomer(CustomerKycDTO customerKycDTO);
         Task<Result<List<SignUpCustomersDTO>>> ListAsync();
-
-
+        Task<Result<CustomerDetailDTO>> GetCustomerAdminDetailsAsync(Guid customerId);
+      
         Task<bool> CheckEmailExistsAsync(string email);
         Task SendPasswordResetEmailAsync(string email);
 
         Task<Result<CustomerDetailDTO>> GetCustomerDetailsAsync(Guid customerId);
+        Task<Result<string>> UpdateProofStatus(Guid proofId, bool status, Guid modifiedBy);
+        Task AddProofActivity(ProofofBusinessActivityDTO dto);
+        Task<ProofOfBusinessDTO> GetProofById(Guid proofId);
+
 
         Task<Result<string>> changeFileAsync(Guid customerId, ChangeFileDTO request);
 
