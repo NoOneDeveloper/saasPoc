@@ -11,6 +11,7 @@ namespace Poc.Infrastructure.DTOs.Customer
 
         [Required]
         public string Reason { get; set; }
+        public string TypeName { get; set; }
 
         [Column(TypeName = "datetime")]
         public DateTime? CreatedDate { get; set; }

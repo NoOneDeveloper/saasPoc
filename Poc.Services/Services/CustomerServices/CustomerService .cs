@@ -229,6 +229,18 @@ namespace Poc.Implementation.Services.CustomerServices
 
             return result;
         }
+
+        public async  Task AddProofActivity(ProofofBusinessActivityDTO dto)
+        {
+            await _repo.AddProofActivity(dto);
+        }
+
+        public async Task<ProofOfBusinessDTO> GetProofById(Guid proofId)
+        {
+            return await _repo.GetProofById(proofId);
+        }
+
+
         #endregion
 
 

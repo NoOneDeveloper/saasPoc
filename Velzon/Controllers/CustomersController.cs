@@ -113,6 +113,27 @@ namespace Velzon.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> AddProofActivity([FromBody] ProofofBusinessActivityDTO input)
+        {
+            var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+            if (loggedInUser == null)
+                return Unauthorized(new { success = false, message = "Session expired" });
+
+            var proof = await _customerService.GetProofById(input.Id);
+            if (proof == null) return BadRequest(new { success = false, message = "Proof not found" });
+
+            input.CustomerId = proof.CustomerId;
+            input.Type = proof.Type;
+            input.ModifiedBy = loggedInUser.Id.Value;
+            input.CreatedDate = DateTime.UtcNow;
+
+            await _customerService.AddProofActivity(input);
+            await _customerService.UpdateProofStatus(proof.Id, input.Status.Value, loggedInUser.Id.Value);
+
+            return Ok(new { success = true });
+        }
+
 
     }
 }

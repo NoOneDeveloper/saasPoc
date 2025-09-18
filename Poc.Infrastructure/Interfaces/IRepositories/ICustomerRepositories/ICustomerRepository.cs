@@ -30,8 +30,8 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.Customer
 
 
 
-
-
+        Task<ProofOfBusinessDTO> GetProofById(Guid proofId);
+        Task AddProofActivity(ProofofBusinessActivityDTO dto);
 
 
 

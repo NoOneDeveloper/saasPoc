@@ -326,24 +326,26 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
              BusinessCity = b.City,
              BusinessAddress = b.Address,
 
-           
+
              ProofOfBusinesses = (from p in _db.ProofOfBusinesses
                                   where p.CustomerId == c.Id
                                   select new ProofOfBusinessDTO
-                                  {    Id=p.Id,
+                                  { Id = p.Id,
                                       Type = p.Type,
+                                      TypeName = ((FilesType)p.Type).ToString(),
                                       FileContent = p.FileContent,
                                       Status = p.Status,
                                       CeatedDate = p.CeatedDate,
                                       ModifiedBy = p.ModifiedBy,
                                   }).ToList(),
 
-           
+
              ProofOfBusinessesActivity = (from a in _db.ProofOfBusinessActivities
                                           where a.CustomerId == c.Id
                                           select new ProofofBusinessActivityDTO
-                                          {
+                                          { Id = a.Id,
                                               Type = a.Type,
+                                              TypeName = ((FilesType)a.Type).ToString(),
                                               Reason = a.Reason,
                                               CreatedDate = a.CreatedDate,
                                               Status = a.Status,
@@ -425,6 +427,40 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
 
             await _db.SaveChangesAsync();
             return true;
+        }
+
+        public async Task AddProofActivity(ProofofBusinessActivityDTO dto)
+        {
+            var entity = new ProofOfBusinessActivity
+            {
+                
+                CustomerId = dto.CustomerId,
+                Type = dto.Type,
+                Reason = dto.Reason,
+                Status = dto.Status,
+                ModifiedBy = dto.ModifiedBy,
+                CreatedDate = dto.CreatedDate ?? DateTime.UtcNow
+            };
+
+            await _db.ProofOfBusinessActivities.AddAsync(entity);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<ProofOfBusinessDTO> GetProofById(Guid proofId)
+        {
+            var proof = await _db.ProofOfBusinesses.FindAsync(proofId);
+            if (proof == null) return null;
+
+            return new ProofOfBusinessDTO
+            {
+                Id = proof.Id,
+                CustomerId = proof.CustomerId,
+                Type = proof.Type,
+                Status = proof.Status,
+                FileContent = proof.FileContent
+               
+                 
+            };
         }
     }
 }

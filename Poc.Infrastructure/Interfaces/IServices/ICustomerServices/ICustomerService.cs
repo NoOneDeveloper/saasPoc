@@ -32,5 +32,8 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
 
         Task<Result<CustomerDetailDTO>> GetCustomerDetailsAsync(Guid customerId);
         Task<Result<string>> UpdateProofStatus(Guid proofId, bool status, Guid modifiedBy);
+        Task AddProofActivity(ProofofBusinessActivityDTO dto);
+        Task<ProofOfBusinessDTO> GetProofById(Guid proofId);
+
     }
 }
