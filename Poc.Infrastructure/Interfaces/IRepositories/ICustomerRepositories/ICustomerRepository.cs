@@ -39,6 +39,8 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.Customer
 
         Task<Result<CustomerDetailDTO>> GetCustomerDetailsById(Guid customerId);
 
+        Task<Result<string>> ChangeDocuments(Guid customerId, ChangeFileDTO input);
+
 
     }
 }

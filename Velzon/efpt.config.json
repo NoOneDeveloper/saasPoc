@@ -16,27 +16,11 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[Customer]",
+         "Name": "[dbo].[InputData]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[CustomerBusiness]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProofOfBusiness]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ProofOfBusinessActivities]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[SignUpRequest]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Users]",
+         "Name": "[dbo].[PaymentGateway]",
          "ObjectType": 0
       }
    ],

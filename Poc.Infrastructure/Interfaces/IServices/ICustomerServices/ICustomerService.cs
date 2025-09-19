@@ -35,5 +35,8 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
         Task AddProofActivity(ProofofBusinessActivityDTO dto);
         Task<ProofOfBusinessDTO> GetProofById(Guid proofId);
 
+
+        Task<Result<string>> changeFileAsync(Guid customerId, ChangeFileDTO request);
+
     }
 }

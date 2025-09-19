@@ -32,7 +32,7 @@ namespace Velzon.Controllers
             return View(response.Data);
 
         }
-            [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> KycForm(CustomerKycDTO request)
         {
             if (!ModelState.IsValid)

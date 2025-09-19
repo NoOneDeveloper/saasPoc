@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+using Poc.Common.RemoteValidation;
 
 namespace Poc.Infrastructure.DTOs.Customer
 {
@@ -42,6 +44,11 @@ namespace Poc.Infrastructure.DTOs.Customer
 
         public Guid? ModifiedBy { get; set; }
 
+        [Required(ErrorMessage = "File is Required")]
+        [AllowedExtensions(new[] { ".jpg", ".jpeg", ".png", ".pdf", ".HEIC" }, 5)]
+        public IFormFile FileContent { get; set; }
+
+        public int Type { get; set; }
 
         //for customers business details
         [Required(ErrorMessage = "Business Name is Required")]
@@ -67,6 +74,8 @@ namespace Poc.Infrastructure.DTOs.Customer
         public List<ProofOfBusinessDTO> ProofOfBusinesses = new();
 
         public List<ProofofBusinessActivityDTO> ProofOfBusinessesActivity = new();
+
+        public ChangeFileDTO changeFileDTO { get; set; } = new();
 
 
     }

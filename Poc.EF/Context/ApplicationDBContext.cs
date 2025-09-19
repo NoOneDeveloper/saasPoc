@@ -25,7 +25,9 @@ public partial class ApplicationDBContext : DbContext
     public virtual DbSet<SignUpRequest> SignUpRequests { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<InputDatum> InputData { get; set; }
 
+    public virtual DbSet<PaymentGateway> PaymentGateways { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
@@ -88,6 +90,24 @@ public partial class ApplicationDBContext : DbContext
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
         });
 
+        modelBuilder.Entity<InputDatum>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__InputDat__3214EC07FC337A5B");
+
+            entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.IsRequired).HasDefaultValue(false);
+
+            entity.HasOne(d => d.PaymentGateway).WithMany(p => p.InputData)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_InputData_PaymentGateway");
+        });
+
+        modelBuilder.Entity<PaymentGateway>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__PaymentG__3214EC078CEB4C1B");
+
+            entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+        });
         OnModelCreatingPartial(modelBuilder);
     }
 
