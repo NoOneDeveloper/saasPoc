@@ -1,0 +1,59 @@
+﻿@using Poc.Common.Enum
+
+<div class="container mt-4">
+    <h3 class="mb-3">Select Dropdown Values</h3>
+
+    <div class="row">
+        <!-- Solution -->
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Solution Types</label>
+            <select class="form-control" id="solutionSelect" name="SolutionType">
+                <option value="">-- Select --</option>
+                @foreach (var item in Enum.GetValues(typeof(Dropdownvalues.SolutionType)))
+                {
+                    <option value="@((int)item)">@item</option>
+                }
+            </select>
+        </div>
+
+        <!-- Integration -->
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Integration Types</label>
+            <select class="form-control" id="integrationSelect" name="IntegrationType">
+                <option value="">-- Select --</option>
+                @foreach (var item in Enum.GetValues(typeof(Dropdownvalues.IntegrationType)))
+                {
+                    <option value="@((int)item)">@item</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Gateway -->
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Payment Gateways</label>
+            <select class="form-control" id="gatewaySelect" name="PaymentGateway">
+                <option value="">-- Select --</option>
+                @foreach (var item in Enum.GetValues(typeof(Dropdownvalues.PaymentGateway)))
+                {
+                    <option value="@((int)item)">@item</option>
+                }
+            </select>
+        </div>
+
+        <!-- Transaction -->
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Transaction Types</label>
+            <select class="form-control" id="transactionSelect" name="TransactionType">
+                <option value="">-- Select --</option>
+                @foreach (var item in Enum.GetValues(typeof(Dropdownvalues.TransactionType)))
+                {
+                    <option value="@((int)item)">@item</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <button class="btn btn-success" type="submit">Next</button>
+</div>

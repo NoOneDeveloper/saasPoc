@@ -112,6 +112,10 @@ namespace Velzon.Controllers
             return Ok(new { success = true, message = "Status updated successfully" });
         }
 
+        public IActionResult DropdownValues()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddProofActivity([FromBody] ProofofBusinessActivityDTO input)
