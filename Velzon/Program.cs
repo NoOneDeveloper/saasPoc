@@ -2,9 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using Poc.EF.Context;
 
 using Poc.Implementation.Repositories.CustomerRepositories;
+using Poc.Implementation.Repositories.RequirementRepository;
 using Poc.Implementation.Services.CustomerServices;
+using Poc.Implementation.Services.RequirementService;
 using Poc.Infrastructure.Interfaces.IRepositories.Customer;
+using Poc.Infrastructure.Interfaces.IRepositories.IRequirementRepositories;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
+using Poc.Infrastructure.Interfaces.IServices.IRequirementServices;
 using YourWebProject.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +27,8 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IRequirementsRepository, RequirementRepository>();
+builder.Services.AddScoped<IRequirementService, RequirementService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();

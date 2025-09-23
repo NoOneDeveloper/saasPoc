@@ -1,0 +1,161 @@
+@using System.Text.Json
+@{
+    ViewData["Title"] = "Success";
+}
+
+@{
+    var alpacaJsonData = TempData["AlpacaJsonData"] as string;
+    var safeJson = !string.IsNullOrEmpty(alpacaJsonData) ?
+        JsonSerializer.Serialize(alpacaJsonData) : "[]";
+}
+@section Styles {
+    <link href="https://code.cloudcms.com/alpaca/1.5.27/bootstrap/alpaca.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            Alpaca Form
+        </div>
+        <div class="card-body">
+            <div id="alpaca-form"></div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <!-- jQuery MUST come first -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Handlebars is required by Alpaca -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+
+    <!-- Bootstrap (optional but recommended) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Alpaca.js LAST -->
+    <script src="https://cdn.jsdelivr.net/npm/alpaca@1.5.27/dist/alpaca/bootstrap/alpaca.min.js"> </script>
+
+    <script>
+        $(document).ready(function () {
+            // Parse the JSON safely
+            var alpacaData = [];
+            try {
+                var jsonString = @Html.Raw(safeJson);
+                alpacaData = JSON.parse(jsonString);
+                console.log("Parsed Alpaca data:", alpacaData);
+            } catch (e) {
+                console.error("Failed to parse Alpaca data", e);
+                return;
+            }
+
+            function convertToAlpacaSchema(data) {
+                var properties = {};
+                var options = {
+                    fields: {},
+                    form: {
+                        attributes: {
+                            method: "POST",
+                            action: "/api/submit"
+                        },
+                        buttons: {
+                            submit: {
+                                title: "Submit Form",
+                                click: function() {
+                                    var value = this.getValue();
+                                    console.log("Form data:", value);
+                                    // Add your form submission logic here
+                                }
+                            }
+                        }
+                    }
+                };
+
+                data.forEach(function (field, index) {
+                    var fieldName = field.FieldName || field.fieldName || "field_" + (field.Id || field.id || index);
+                    var fieldType = field.fieldType ? field.fieldType.toLowerCase() : "string";
+                    var isRequired = field.isRequired === true;
+
+                    // Map field types properly
+                    var alpacaType = "text";
+                    var schemaType = "string";
+
+                    switch (fieldType) {
+                        case "number":
+                        case "int":
+                        case "integer":
+                            alpacaType = "number";
+                            schemaType = "number";
+                            break;
+                        case "boolean":
+                        case "bool":
+                            alpacaType = "checkbox";
+                            schemaType = "boolean";
+                            break;
+                        case "date":
+                        case "datetime":
+                            alpacaType = "date";
+                            schemaType = "string"; // Date is string in JSON schema
+                            break;
+                        case "textarea":
+                        case "text":
+                        default:
+                            alpacaType = "text";
+                            schemaType = "string";
+                    }
+
+                    // Schema properties
+                    properties[fieldName] = {
+                        type: schemaType,
+                        title: field.FieldName || field.fieldName || fieldName
+                    };
+
+                    if (isRequired) {
+                        properties[fieldName].required = true;
+                    }
+
+                    // Options
+                    options.fields[fieldName] = {
+                        type: alpacaType,
+                       label: field.FieldName || field.fieldName || fieldName,
+                        description: field.description || "",
+                        required: isRequired
+                    };
+
+                    // Additional options for specific field types
+                    if (alpacaType === "textarea") {
+                        options.fields[fieldName].rows = 4;
+                    }
+                });
+
+                return {
+                    schema: {
+                        type: "object",
+                        properties: properties
+                    },
+                    options: options
+                };
+            }
+
+            if (alpacaData && alpacaData.length > 0) {
+                try {
+                    var formConfig = convertToAlpacaSchema(alpacaData);
+                    console.log("Alpaca form config:", formConfig);
+
+                    $("#alpaca-form").alpaca(formConfig);
+                } catch (error) {
+                    console.error("Error creating Alpaca form:", error);
+                    $("#alpaca-form").html(
+                        '<div class="alert alert-danger">Error creating form: ' + error.message + '</div>'
+                    );
+                }
+            } else {
+                $("#alpaca-form").html(
+                    '<div class="alert alert-info">No fields selected for form generation.</div>'
+                );
+            }
+        });
+    </script>
+}

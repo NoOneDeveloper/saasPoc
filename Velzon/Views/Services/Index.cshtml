@@ -1,0 +1,77 @@
+﻿@using Poc.Common.Enum
+@using Poc.Infrastructure.DTOs.Global
+@using Poc.Infrastructure.DTOs.Requirement
+@model Result<ServicesRequestDTO>
+
+<div class="row">
+    <!-- Solution -->
+    <div class="col-xxl-8 offset-xxl-2">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Select Values</h5>
+                </div>
+                <div class="card-body">
+
+                    <!-- Solution + Integration -->
+                    <form method="post" asp-controller="Services" asp-action="Index">
+                        <div class="row">
+                            <div class="col-xxl-6 mb-3">                             
+                                <label class="form-label">Solution Types</label>
+                                <select asp-for="Data.SolutionType" class="form-control" id="solutionSelect" name="SolutionType">
+                                    <option value="">-- Select --</option>
+                                    @foreach (var item in Enum.GetValues(typeof(Dropdownvalues.SolutionType)))
+                                    {
+                                        <option value="@((int)item)">@item</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-xxl-6 mb-3">
+                                <label class="form-label">Integration Types</label>
+                                <select asp-for="Data.IntegrationType" class="form-control" id="integrationSelect" name="IntegrationType">
+                                    <option value="">-- Select --</option>
+                                    @foreach (var item in Enum.GetValues(typeof(Dropdownvalues.IntegrationType)))
+                                    {
+                                        <option value="@((int)item)">@item</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    <!-- Gateway + Transaction -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Payment Gateways</label>
+                                <select asp-for="Data.PaymentGateway" class="form-control" id="gatewaySelect" name="PaymentGateway">
+                                    <option value="">-- Select --</option>
+                                    @foreach (var item in Model.Data.PaymentGatewayDTO)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Transaction Types</label>
+                                <select asp-for="Data.TransactionType" class="form-control" id="transactionSelect" name="TransactionType">
+                                    <option value="">-- Select --</option>
+                                    @foreach (var item in Enum.GetValues(typeof(Dropdownvalues.TransactionType)))
+                                    {
+                                        <option value="@((int)item)">@item</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col text-center mb-4">
+                            <button class="btn btn-success" type="submit">Next</button>
+                        </div>
+                    </form>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+</div>
+
