@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Poc.Infrastructure.DTOs;
-using Poc.Infrastructure.DTOs.Customer;
-using Poc.Infrastructure.DTOs.Global;
-using Poc.Infrastructure.Interfaces.IServices.Customer;
-using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Common.StaticClasses;
+using Poc.Infrastructure.DTOs.Customer;
+using Poc.Infrastructure.DTOs.SigninDTO;
+using Poc.Infrastructure.Interfaces.IServices.Customer;
 namespace Velzon.Controllers
 {
     public class HomeController(ICustomerService customer) : Controller
@@ -45,6 +42,12 @@ namespace Velzon.Controllers
             request.UserId = user.Id.Value;
             var reponse = await _customer.AddCustomer(request);
             return Json(new { success = true, message = "Registered Successfuly" });
+        }
+
+        [HttpGet]
+        public IActionResult Success()
+        {
+            return View();
         }
     }
 }

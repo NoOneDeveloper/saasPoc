@@ -223,3 +223,66 @@ p {
         padding: 2rem 1rem;
     }
     }*/
+.material-field {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.material-field input.form-control,
+.material-field textarea.form-control,
+.material-field select.form-control {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  border-radius: 0;
+  padding: 0.5rem 0;
+  background: transparent;
+  font-size: 1rem;
+  width: 100%;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.material-field input.form-control:focus,
+.material-field textarea.form-control:focus,
+.material-field select.form-control:focus {
+  outline: none;
+  border-bottom-color: #3f51b5;
+}
+.material-field input.form-control:not(:-moz-placeholder) + label, .material-field textarea.form-control:not(:-moz-placeholder) + label, .material-field select.form-control:not(:-moz-placeholder) + label {
+  top: -0.75rem;
+  font-size: 0.75rem;
+  color: #3f51b5;
+}
+.material-field input.form-control:not(:-ms-input-placeholder) + label, .material-field textarea.form-control:not(:-ms-input-placeholder) + label, .material-field select.form-control:not(:-ms-input-placeholder) + label {
+  top: -0.75rem;
+  font-size: 0.75rem;
+  color: #3f51b5;
+}
+.material-field input.form-control:focus + label, .material-field input.form-control:not(:placeholder-shown) + label,
+.material-field textarea.form-control:focus + label,
+.material-field textarea.form-control:not(:placeholder-shown) + label,
+.material-field select.form-control:focus + label,
+.material-field select.form-control:not(:placeholder-shown) + label {
+  top: -0.75rem;
+  font-size: 0.75rem;
+  color: #3f51b5;
+}
+.material-field input.form-control:disabled,
+.material-field textarea.form-control:disabled,
+.material-field select.form-control:disabled {
+  border-bottom-style: dashed;
+  background: transparent;
+  color: #aaa;
+}
+.material-field label {
+  position: absolute;
+  top: 0.5rem;
+  left: 0;
+  font-size: 1rem;
+  color: #666;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  pointer-events: none;
+}
+.material-field label.required::after {
+  content: " *";
+  color: #e53935;
+}

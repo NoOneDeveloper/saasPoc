@@ -20,7 +20,6 @@
             <div class="card-body">
                 <form id="CustomerKycForm" asp-action="KycForm" asp-controller="Home" method="post" enctype="multipart/form-data">
                     <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
-                        <img src="~/assets/images/logo-dark.png" class="card-logo card-logo-dark" alt="logo dark">
                         <img src="~/assets/images/logo-light.png" class="card-logo card-logo-light" alt="logo light">
                     </div>
                     @* inputs for salt and hash  *@
@@ -35,9 +34,9 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="steparrow-description-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-description-info" type="button" role="tab" aria-controls="steparrow-description-info" aria-selected="false">Description</button>
                             </li>
-                            <li class="nav-item" role="presentation">
+                           @*  <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="pills-experience-tab" data-bs-toggle="pill" data-bs-target="#pills-experience" type="button" role="tab" aria-controls="pills-experience" aria-selected="false">Finish</button>
-                            </li>
+                            </li> *@
                         </ul>
                     </div>
 
@@ -219,7 +218,7 @@
                         </div>
                         <!-- end tab pane -->
 
-                        <div class="tab-pane fade" id="pills-experience" role="tabpanel">
+                       @*  <div class="tab-pane fade" id="pills-experience" role="tabpanel">
                             <div class="text-center">
 
                                 <div class="avatar-md mt-5 mb-4 mx-auto">
@@ -230,7 +229,7 @@
                                 <h5>Well Done !</h5>
                                 <p class="text-muted">You have Successfully Registered We Will Notify Shortly</p>
                             </div>
-                        </div>
+                        </div> *@
                         <!-- end tab pane -->
                     </div>
                     <!-- end tab content -->
@@ -346,7 +345,8 @@
                     success: function (response) {
                         if (response.success) {
                            showToast(response)
-                           form.reset();    
+                           form.reset();
+                           window.location.href = "/Home/Success";
                         } else {
 							showToast(response);
                         }

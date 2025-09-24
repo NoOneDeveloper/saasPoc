@@ -18,7 +18,7 @@
         <div class="card-header">
             Alpaca Form
         </div>
-        <div class="card-body">
+        <div class="card-body mx-3">
             <div id="alpaca-form"></div>
         </div>
     </div>
@@ -121,7 +121,9 @@
                         type: alpacaType,
                        label: field.FieldName || field.fieldName || fieldName,
                         description: field.description || "",
-                        required: isRequired
+                        required: isRequired,
+                        fieldClass: "material-field",
+                        placeholder: " "
                     };
 
                     // Additional options for specific field types

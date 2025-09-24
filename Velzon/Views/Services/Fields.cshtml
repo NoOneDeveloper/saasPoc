@@ -6,41 +6,70 @@
 }
 
 <div class="row">
-    <div class="col-xl-12">
-        <form asp-action="Fields" asp-controller="Services" method="post">
-            <table class="table table-striped align-middle" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>Field</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                        <th>IsRequired</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Count; i++)
-                    {
-                        <tr>
-                            <td>
-                                <input type="checkbox" asp-for="@Model[i].IsSelected" class="form-check-input" />
-                                <input type="hidden" asp-for="@Model[i].Id" />
-                                <input type="hidden" asp-for="@Model[i].FieldName" />
-                                <input type="hidden" asp-for="@Model[i].FieldType" />
-                                <input type="hidden" asp-for="@Model[i].Description" />
-                                <input type="hidden" asp-for="@Model[i].IsRequired" />
-                                <input type="hidden" asp-for="@Model[i].OrderIndex" />
-                            </td>
-                            <td>@Model[i].FieldName</td>
-                            <td>@Model[i].FieldType</td>
-                            <td>@Model[i].Description</td>
-                            <td>@Model[i].IsRequired</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <button type="submit" class="btn btn-outline-primary">Save</button>
-        </form>
+    <div class="col-xl-10 offset-xl-1" >
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Select Fields According to Your Flow</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Fields" asp-controller="Services" method="post">
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped  align-middle" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Field</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>IsRequired</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @* <input class="justify-content-center" type="checkbox" asp-for="@Model[i].IsSelected" class="form-check-input" /> *@
+                                            @if (Model[i].IsRequired == true)
+                                            {
+                                                <!-- Required: checkbox checked + readonly -->
+                                                <input type="checkbox"
+                                                       class="form-check-input"
+                                                       checked="checked"
+                                                       onclick="return false;"
+                                                       asp-for="@Model[i].IsSelected" />
+                                            }
+                                            else
+                                            {
+                                                <!-- Not required: normal unchecked checkbox -->
+                                                <input type="checkbox"
+                                                       class="form-check-input"
+                                                       asp-for="@Model[i].IsSelected" />
+                                            }
+                                            <input type="hidden" asp-for="@Model[i].Id" />
+                                            <input type="hidden" asp-for="@Model[i].FieldName" />
+                                            <input type="hidden" asp-for="@Model[i].FieldType" />
+                                            <input type="hidden" asp-for="@Model[i].Description" />
+                                            <input type="hidden" asp-for="@Model[i].IsRequired" />
+                                            <input type="hidden" asp-for="@Model[i].OrderIndex" />
+                                        </td>
+                                        <td>@Model[i].FieldName</td>
+                                        <td>@Model[i].FieldType</td>
+                                        <td>@Model[i].Description</td>
+                                        <td>@Model[i].IsRequired</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-end ">
+                        <button type="submit" class="btn btn-outline-primary">Save Fields</button>
+                    </div>
+                </form>
+            </div>
+		</div>
+        
     </div>
 </div>
 
