@@ -54,7 +54,9 @@ namespace Velzon.Controllers
             // Filter selected inputs and order by OrderIndex
             var selectedInputs = input.Where(x => x.IsSelected).OrderBy(x => x.OrderIndex).ToList();
 
-            TempData["AlpacaJsonData"] = System.Text.Json.JsonSerializer.Serialize(selectedInputs);
+             var Json = System.Text.Json.JsonSerializer.Serialize(selectedInputs);
+
+            TempData["AlpacaJsonData"] = Json;
 
             return RedirectToAction("Success");
         }

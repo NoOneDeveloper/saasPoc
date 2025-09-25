@@ -53,7 +53,7 @@ namespace Poc.Implementation.Repositories.RequirementRepository
                     FieldType = a.FieldType,
                     IsRequired = a.IsRequired,
                     Description = a.Description,
-                    
+                    OrderIndex = a.OrderIndex,
                 })
                 .ToListAsync();
 
