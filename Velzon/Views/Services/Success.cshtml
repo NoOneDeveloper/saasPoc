@@ -39,11 +39,12 @@
     <script src="https://cdn.jsdelivr.net/npm/alpaca@1.5.27/dist/alpaca/bootstrap/alpaca.min.js"> </script>
 
     <script>
+
         $(document).ready(function () {
             // Parse the JSON safely
             var alpacaData = [];
             try {
-                var jsonString = @Html.Raw(safeJson);
+                var jsonString = @Html.Raw(safeJson)
                 alpacaData = JSON.parse(jsonString);
                 console.log("Parsed Alpaca data:", alpacaData);
             } catch (e) {
@@ -52,6 +53,14 @@
             }
 
             function convertToAlpacaSchema(data) {
+
+                var sortedData = data.sort(function (a, b) {
+                    var aOrder = parseInt(a.OrderIndex ?? a.orderIndex ?? 0, 10);
+                    var bOrder = parseInt(b.OrderIndex ?? b.orderIndex ?? 0, 10);
+                    return aOrder - bOrder;
+                });
+
+
                 var properties = {};
                 var options = {
                     fields: {},
@@ -73,10 +82,12 @@
                     }
                 };
 
-                data.forEach(function (field, index) {
+                sortedData.forEach(function (field, index) {
                     var fieldName = field.FieldName || field.fieldName || "field_" + (field.Id || field.id || index);
-                    var fieldType = field.fieldType ? field.fieldType.toLowerCase() : "string";
+                    var fieldType = field.FieldType ? field.FieldType.toLowerCase() : "string";
+					console.log("Processing field:", fieldName, "of type:", fieldType);
                     var isRequired = field.isRequired === true;
+                    var orderIndex = field.orderIndex || index;
 
                     // Map field types properly
                     var alpacaType = "text";
@@ -93,6 +104,11 @@
                         case "bool":
                             alpacaType = "checkbox";
                             schemaType = "boolean";
+                            break;
+                        case "email":
+                        case "text":
+                            alpacaType = "email";
+                            schemaType = "string";
                             break;
                         case "date":
                         case "datetime":
@@ -119,11 +135,12 @@
                     // Options
                     options.fields[fieldName] = {
                         type: alpacaType,
-                       label: field.FieldName || field.fieldName || fieldName,
+                        label: "",
                         description: field.description || "",
                         required: isRequired,
                         fieldClass: "material-field",
-                        placeholder: " "
+                        placeholder: field.FieldName || field.fieldName || fieldName,
+						order: orderIndex
                     };
 
                     // Additional options for specific field types

@@ -18,7 +18,7 @@
                         <table class="table table-striped  align-middle" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Select</th>
+                                    <th class="text-center">Select</th>
                                     <th>Field</th>
                                     <th>Type</th>
                                     <th>Description</th>
@@ -29,7 +29,7 @@
                                 @for (int i = 0; i < Model.Count; i++)
                                 {
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             @* <input class="justify-content-center" type="checkbox" asp-for="@Model[i].IsSelected" class="form-check-input" /> *@
                                             @if (Model[i].IsRequired == true)
                                             {
