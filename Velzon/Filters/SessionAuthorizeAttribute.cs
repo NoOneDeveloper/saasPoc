@@ -9,11 +9,12 @@ namespace YourWebProject.Filters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class SessionAuthorizeAttribute : ActionFilterAttribute
     {
-        private readonly string _userType;
+        private readonly string[] _allowedRoles;
 
-        public SessionAuthorizeAttribute(string userType)
+        // 🔑 Constructor ab multiple roles accept karega
+        public SessionAuthorizeAttribute(params string[] roles)
         {
-            _userType = userType;
+            _allowedRoles = roles;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -31,11 +32,11 @@ namespace YourWebProject.Filters
             if (string.IsNullOrEmpty(userEmail))
             {
                 context.Result = new RedirectToActionResult("SignInB", "Authentication", null);
-                return; // stop further execution
+                return;
             }
 
-            // 2️⃣ If login exists but wrong role → Access Denied
-            if (!string.Equals(userType, _userType, StringComparison.OrdinalIgnoreCase))
+            // 2️⃣ If login exists but role is not in allowed list → Access Denied
+            if (!_allowedRoles.Any(r => string.Equals(r, userType, StringComparison.OrdinalIgnoreCase)))
             {
                 context.Result = new RedirectToActionResult("Errors404Basic", "Authentication", null);
                 return;

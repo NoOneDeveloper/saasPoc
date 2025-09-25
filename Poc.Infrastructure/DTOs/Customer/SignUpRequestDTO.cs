@@ -57,7 +57,7 @@ namespace Poc.Infrastructure.DTOs.SinginUpDTO
 
         public DateTime? ModifiedDate { get; set; }
 
-        public bool Status { get; set; } = false;
+        public bool? Status { get; set; } 
 
         public string? Reason { get; set; }
 

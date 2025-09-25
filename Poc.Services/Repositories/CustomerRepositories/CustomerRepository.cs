@@ -201,14 +201,16 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
 
         public async Task<SignUpRequestDTO?> GetCustomerByEmailAsync(string email)
         {
-            var entity = await _db.SignUpRequests.FirstOrDefaultAsync(c => c.Email == email);
+            var entity = await _db.SignUpRequests.FirstOrDefaultAsync(c => c.Email == email );
             if (entity == null) return null;
 
             return new SignUpRequestDTO
             {    Id=entity.Id,
                 Email = entity.Email,
                 Salt = entity.Salt,
-                Hash = entity.Hash
+                Hash = entity.Hash,
+                Status = entity.Status
+
             };
         }
 
@@ -218,8 +220,8 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             var result = new Result<List<SignUpCustomersDTO>>();
             try
             {
-                var customers = await _db.Customers
-                    .AsNoTracking()
+                var customers = await _db.SignUpRequests
+                    .AsNoTracking().Where(c => c.Status == null || c.Status ==false)
                     .Select(c => new SignUpCustomersDTO
                     {
                         Id = c.Id,
@@ -288,7 +290,7 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
 
         public async Task<bool> UpdateCustomerStatusAsync(Guid customerId, bool status, Guid modifiedBy)
         {
-            var customer = await _db.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
+            var customer = await _db.SignUpRequests.FirstOrDefaultAsync(c => c.Id == customerId);
             if (customer == null)
                 return false;
 
@@ -504,6 +506,38 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             {
                 result.Success = false;
                 result.Message = $"Error updating document: {ex.Message}";
+            }
+            return result;
+        }
+
+        public async  Task<Result<List<SignUpCustomersDTO>>> ApprovedCustomersListAsync()
+        {
+            var result = new Result<List<SignUpCustomersDTO>>();
+            try
+            {
+                var customers = await _db.Customers
+                    .AsNoTracking()
+                    .Select(c => new SignUpCustomersDTO
+                    {
+                        Id = c.Id,
+                        FirstName = c.FirstName,
+                        LastName = c.LastName,
+                        Email = c.Email,
+                        Phone = c.Phone,
+                        Status = c.Status,
+                        CreatedDate = c.CreatedDate,
+                        Reason = c.Reason,
+
+                    }).ToListAsync();
+
+                result.Data = customers;
+
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = $"Error retrieving customers: {ex.Message}";
+                result.Data = null;
             }
             return result;
         }

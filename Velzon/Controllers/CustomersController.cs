@@ -4,26 +4,27 @@ using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
 using Poc.Common.StaticClasses;
 using Poc.Infrastructure.DTOs.Global;
+using YourWebProject.Filters;
 namespace Velzon.Controllers
 {
    
     public class CustomersController(ICustomerService customerService) : Controller()
     {
         private readonly ICustomerService _customerService = customerService;
-
+        [SessionAuthorize("Admin")]
         public async Task<IActionResult> Index()
         {
             var customersResponse = await _customerService.ListAsync();
             return View(customersResponse);
         }
 
-
+        [SessionAuthorize("Admin")]
         public async Task<IActionResult> CustomerList()
         {
-            var customersResponse = await _customerService.ListAsync();
+            var customersResponse = await _customerService.ApprovedCustomersListAsync();
             return View(customersResponse);
         }
-
+        [SessionAuthorize("Admin")]
         public async Task<IActionResult> Details(Guid id)
         {
             var customerResponse = await _customerService.GetCustomerAdminDetailsAsync(id);

@@ -25,6 +25,7 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
 
         Task<Result<string>> AddCustomer(CustomerKycDTO customerKycDTO);
         Task<Result<List<SignUpCustomersDTO>>> ListAsync();
+        Task<Result<List<SignUpCustomersDTO>>> ApprovedCustomersListAsync();
         Task<Result<CustomerDetailDTO>> GetCustomerAdminDetailsAsync(Guid customerId);
       
         Task<bool> CheckEmailExistsAsync(string email);

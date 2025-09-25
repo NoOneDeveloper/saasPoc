@@ -26,7 +26,7 @@ namespace Poc.Implementation.Services.CustomerServices
             customer.Hash = PasswordHasher.HashPassword(customer.Password, customer.Salt);
             customer.Id = Guid.NewGuid();
             customer.CreatedDate = DateTime.UtcNow;
-            customer.Status = true;
+            customer.Status = false;
 
             await _repo.AddCustomerAsync(customer);
             await _repo.SaveChangesAsync();
@@ -93,17 +93,26 @@ namespace Poc.Implementation.Services.CustomerServices
 
         public async Task<SignUpRequestDTO?> ValidateCustomerAsync(SiginDTO input)
         {
+            // Try customer first
             var user = await _repo.GetCustomerByEmailAsync(input.Email);
 
-            if (user == null)
+            if (user != null)
+            {
+                if (!(user.Status ?? false))
+                    return new SignUpRequestDTO { Status = false };
+            }
+            else
+            {
+                // Try admin if customer not found
                 user = await _repo.GetAdminByEmailAsync(input.Email);
+                if (user == null) return null;
+            }
 
-            if (user == null) return null;
+            // Validate password
+            if (!PasswordHasher.VerifyPassword(input.Password, user.Salt, user.Hash))
+                return null;
 
-            var valid = PasswordHasher.VerifyPassword(input.Password, user.Salt, user.Hash);
-            if (!valid) return null;
-
-
+            // Send welcome email
             if (!string.IsNullOrEmpty(user.Email))
             {
                 await EmailHelper.SendEmailAsync(
@@ -259,6 +268,23 @@ namespace Poc.Implementation.Services.CustomerServices
 
             }
             return response;
+        }
+
+        public async Task<Result<List<SignUpCustomersDTO>>> ApprovedCustomersListAsync()
+        {
+            var customers = await _repo.ApprovedCustomersListAsync();
+
+            if (!customers.Success || customers.Data == null || !customers.Data.Any())
+            {
+                return new Result<List<SignUpCustomersDTO>>
+                {
+                    Success = false,
+                    Message = "No customers found",
+                    Data = new List<SignUpCustomersDTO>() // safe empty list
+                };
+            }
+
+            return customers;
         }
 
         #endregion

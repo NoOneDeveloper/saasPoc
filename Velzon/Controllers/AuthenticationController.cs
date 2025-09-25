@@ -24,7 +24,7 @@ namespace Velzon.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ActionName("SignIn")]
-        public async  Task<IActionResult> SignIn(SiginDTO model)
+        public async Task<IActionResult> SignIn(SiginDTO model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -33,6 +33,12 @@ namespace Velzon.Controllers
             if (user == null)
             {
                 TempData["ErrorMessage"] = "Invalid email or password";
+                return View(model);
+            }
+
+            if (user != null && user.Status == false)
+            {
+                TempData["ErrorMessage"] = "User is not validated yet";
                 return View(model);
             }
 
@@ -45,7 +51,7 @@ namespace Velzon.Controllers
             TempData["LoginSuccess"] = "Welcome! You have successfully logged in.";
             return RedirectToAction("Index", "Dashboard");
         }
-        
+
         [ActionName("SignInCover")]
         public IActionResult SignInCover()
         {

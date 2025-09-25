@@ -1,4 +1,8 @@
-﻿<!-- ========== App Menu ========== -->
+﻿
+@{
+    var usertype = Context.Session.GetString("UserType");
+}
+<!-- ========== App Menu ========== -->
 <div class="app-menu navbar-menu">
     <!-- LOGO -->
     <div class="navbar-brand-box">
@@ -233,24 +237,40 @@
                     </div>
                 </li> *@
 
+                @if (usertype == "Customer")
+                {
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="@Url.Action("KycForm", "Home")">
+                            <i class="mdi mdi-information-variant"></i> <span data-key="t-kyc">Kyc</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="@Url.Action("CustomerDetails", "Customers")">
+                            <i class="mdi mdi-details"></i> <span data-key="t-Details">Details</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="@Url.Action("Index", "Services")">
+                            <i class="mdi mdi-cloud"></i> <span data-key="t-Services">Services</span>
+                        </a>
+                    </li>
+                }
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="@Url.Action("KycForm", "Home")">
-                        <i class="mdi mdi-information-variant"></i> <span data-key="t-kyc">Kyc</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="@Url.Action("CustomerDetails", "Customers")">
-                        <i class="mdi mdi-details"></i> <span data-key="t-Details">Details</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="@Url.Action("Index", "Services")">
-                        <i class="mdi mdi-cloud"></i> <span data-key="t-Services">Services</span>
-                    </a>
-                </li>
+                @if (usertype == "Admin")
+                {
+                    <li class="nav-item">
+              <a class="nav-link menu-link" href="@Url.Action("CustomerList", "Customers")">
+                            <i class="mdi mdi-information-variant"></i> <span data-key="t-kyc">Custumer List</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="@Url.Action("Index", "Customers")">
+                            <i class="mdi mdi-information-variant"></i> <span data-key="t-kyc">SignUpRequests List</span>
+                        </a>
+                    </li>
+                   
+                }
 
-                
             </ul>
         </div>
         <!-- Sidebar -->
