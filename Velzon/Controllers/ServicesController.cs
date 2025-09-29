@@ -75,5 +75,28 @@ namespace Velzon.Controllers
         {
             return View();
         }
+        public PartialViewResult ResultPartialView()
+        {
+            return PartialView("_ResultPartialView");
+        }
+        public PartialViewResult ProgressPartialView()
+        {
+            return PartialView("_ProgressPartialView");
+        }
+        public PartialViewResult CheckoutPartialView()
+        {
+            return PartialView("_CheckoutPartialView");
+        }
+
+
+        public PartialViewResult PaymentMethodPartial()
+        {
+            return PartialView("_PaymentMethodPartial");
+        }
+
+        public PartialViewResult OptionsPartialView()
+        {
+            return PartialView("_OptionsPartialView");
+        }
     }
 }

@@ -1,5 +1,180 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!-- Payment Unsuccessful Partial View -->
+<div class="payment-result-container">
+    <!-- Logo Header -->
+    <div class="logo-header">
+        <div class="logo-placeholder">
+            <svg width="50" height="50" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <img src="@Url.Content("~/assets/images/logo-light.png")" alt="Logo" height="50" />
+            </svg>
+            <div class="logo-text">Logo</div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Result Content -->
+    <div class="result-content">
+        <!-- Error Icon -->
+        <div class="status-icon error">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="30" cy="30" r="28" stroke="#c62828" stroke-width="4" fill="none" />
+                <path d="M20 20L40 40M40 20L20 40" stroke="#c62828" stroke-width="4" stroke-linecap="round" />
+            </svg>
+        </div>
+
+        <!-- Status Message -->
+        <h1 class="status-title">Payment Unsuccessful</h1>
+        <div class="amount">£12.00</div>
+
+        <!-- Payment Details -->
+        <div class="payment-details">
+            <div class="detail-label">Payment method:</div>
+
+            <div class="transaction-reference">
+                <span class="reference-label">Transaction Reference:</span>
+                <span class="reference-value">Test123</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="margin-top:20px; display:flex; justify-content:flex-end;">
+    <button id="ProgresBtn"
+            style="padding:10px 20px; border-radius:8px; border:none; background:#fff; color:#007bff; font-weight:bold; box-shadow:0 2px 5px rgba(0,0,0,0.2); cursor:pointer;">
+        Next
+    </button>
+</div>
+<style>
+    .payment-result-container {
+        max-width: 520px;
+        margin: 0 auto;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+        background: white;
+        min-height: 100vh;
+    }
+
+    /* Logo Header */
+    .logo-header {
+        padding: 30px 20px;
+        text-align: center;
+        background: white;
+    }
+
+    .logo-placeholder {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .logo-text {
+        color: #666;
+        font-size: 13px;
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    /* Divider */
+    .divider {
+        height: 1px;
+        background: #e0e0e0;
+        margin: 0;
+    }
+
+    /* Result Content */
+    .result-content {
+        padding: 50px 30px;
+        text-align: center;
+    }
+
+    /* Status Icon */
+    .status-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 30px;
+        width: 80px;
+        height: 80px;
+    }
+
+        .status-icon.error svg {
+            filter: drop-shadow(0 2px 4px rgba(198, 40, 40, 0.2));
+        }
+
+    /* Status Title */
+    .status-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0 0 15px 0;
+        line-height: 1.3;
+    }
+
+    /* Amount */
+    .amount {
+        font-size: 32px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0 0 40px 0;
+    }
+
+    /* Payment Details */
+    .payment-details {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .detail-label {
+        font-size: 15px;
+        color: #333;
+        font-weight: 400;
+    }
+
+    /* Transaction Reference */
+    .transaction-reference {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        background: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+    }
+
+    .reference-label {
+        font-size: 14px;
+        color: #333;
+        font-weight: 400;
+    }
+
+    .reference-value {
+        font-size: 14px;
+        color: #1a1a1a;
+        font-weight: 600;
+    }
+
+    /* Responsive Design */
+   @@media (max-width: 600px) {
+        .result-content
+
+    {
+        padding: 40px 20px;
+    }
+
+    .status-title {
+        font-size: 24px;
+    }
+
+    .amount {
+        font-size: 28px;
+    }
+
+    .transaction-reference {
+        flex-direction: column;
+        gap: 4px;
+        text-align: center;
+    }
+
+    }
+</style>

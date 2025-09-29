@@ -1,5 +1,271 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@* Partial View: Payment Form *@
+<div class="payment-container">
+    <!-- Header Section -->
+    <div class="payment-header">
+        <span class="merchant-name">ACME</span>
+        <span class="payment-amount">£12.00</span>
+    </div>
+
+    <!-- Change Payment Method -->
+    <a href="#" class="change-payment-link">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2L4 8L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        CHANGE PAYMENT METHOD
+    </a>
+
+    <div class="required-notice">*Required Fields</div>
+
+    <!-- Payment Form -->
+    <form class="payment-form">
+        <!-- Card Details -->
+        <div class="form-section">
+            <div class="section-header">
+                <h3>Pay online securely</h3>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 7H5C3.89543 7 3 7.89543 3 9V16C3 17.1046 3.89543 18 5 18H15C16.1046 18 17 17.1046 17 16V9C17 7.89543 16.1046 7 15 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M7 7V5C7 3.93913 7.42143 2.92172 8.17157 2.17157C8.92172 1.42143 9.93913 1 11 1C12.0609 1 13.0783 1.42143 13.8284 2.17157C14.5786 2.92172 15 3.93913 15 5V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+
+            <div class="form-group">
+                <label for="cardNumber">Card Number*</label>
+                <div class="card-input-wrapper">
+                    <input type="text" id="cardNumber" name="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456">
+                    <img src="/assets/images/mastercard.png" alt="Card" class="card-icon" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cardName">Name on Card*</label>
+                <input type="text" id="cardName" name="cardName" placeholder="John Doe">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="expiryDate">Expiry Date*</label>
+                    <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="form-group">
+                    <label for="securityCode">Security Code*</label>
+                    <div class="security-code-wrapper">
+                        <input type="text" id="securityCode" name="securityCode" maxlength="4" placeholder="123">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2" />
+                            <text x="10" y="14" font-size="12" font-weight="bold" text-anchor="middle" fill="currentColor">?</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Billing Address -->
+        <div class="form-section">
+            <h3>Billing address</h3>
+            <div class="address-display">
+                <p>Address Line 1</p>
+                <p>Address Line 2</p>
+                <p>Town/City</p>
+                <p>County</p>
+                <p>Postcode</p>
+            </div>
+            <button type="button" class="btn-edit">EDIT</button>
+        </div>
+
+        <!-- Pay Button -->
+        <button type="submit" class="btn-pay">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5H4C2.89543 5 2 5.89543 2 7V12C2 13.1046 2.89543 14 4 14H12C13.1046 14 14 13.1046 14 12V7C14 5.89543 13.1046 5 12 5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M5 5V4C5 3.46957 5.21071 2.96086 5.58579 2.58579C5.96086 2.21071 6.46957 2 7 2H9C9.53043 2 10.0391 2.21071 10.4142 2.58579C10.7893 2.96086 11 3.46957 11 4V5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            PAY £12.00
+        </button>
+    </form>
+</div>
+<div style="margin-top:20px; display:flex; justify-content:flex-end;">
+    <button id="checkoutBtn"
+            style="padding:10px 20px; border-radius:8px; border:none; background:#fff; color:#007bff; font-weight:bold; box-shadow:0 2px 5px rgba(0,0,0,0.2); cursor:pointer;">
+        Next
+    </button>
+</div>
+<style>
+    .payment-container {
+        max-width: 400px;
+        margin: 0 auto;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+        color: #333;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .payment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e5e5e5;
+        margin-bottom: 15px;
+    }
+
+    .merchant-name, .payment-amount {
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .change-payment-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #0066cc;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+        .change-payment-link:hover {
+            text-decoration: underline;
+        }
+
+    .required-notice {
+        text-align: right;
+        color: #d32f2f;
+        font-size: 12px;
+        margin-bottom: 15px;
+    }
+
+    .payment-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .form-section {
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 20px;
+        background: #fafafa;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+        .section-header h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+            .form-group input:focus {
+                outline: none;
+                border-color: #0066cc;
+            }
+
+    .card-input-wrapper {
+        position: relative;
+        background: #eef7ff;
+    }
+
+        .card-input-wrapper input {
+            background: transparent;
+            padding-right: 50px;
+        }
+
+    .card-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: auto;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .security-code-wrapper {
+        position: relative;
+    }
+
+        .security-code-wrapper svg {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: help;
+        }
+
+    .address-display p {
+        margin: 6px 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .btn-edit {
+        background: #0066cc;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+        .btn-edit:hover {
+            background: #0052a3;
+        }
+
+    .btn-pay {
+        width: 100%;
+        background: #0066cc;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        .btn-pay:hover {
+            background: #0052a3;
+        }
+</style>

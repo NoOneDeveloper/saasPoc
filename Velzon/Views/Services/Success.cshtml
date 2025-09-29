@@ -1,4 +1,4 @@
-@using System.Text.Json
+﻿@* @using System.Text.Json
 @{
     ViewData["Title"] = "Success";
 }
@@ -178,3 +178,78 @@
         });
     </script>
 }
+ *@
+<!-- Step 1: Options Partial -->
+<div id="optionsPartial">
+    @Html.Partial("_OptionsPartialView")
+</div>
+
+<!-- Step 2: Fields Partial -->
+<div id="FieldsPartialView" style="display:none;">
+    @Html.Partial("_FieldsPartialView")
+</div>
+
+<!-- Step 3: Payment Method Partial -->
+<div id="paymentPartial" style="display:none;">
+    @Html.Partial("_PaymentMethodPartial")
+</div>
+
+<!-- Step 4: Checkout Partial -->
+<div id="checkoutPartial" style="display:none;">
+    @Html.Partial("_CheckoutPartialView")
+</div>
+<!-- Step 5: Result Partial -->
+<div id="resultPartial" style="display:none;">
+    @Html.Partial("_ResultPartialView")
+</div>
+<div id="ProgressPartial" style="display:none;">
+    @Html.Partial("_ProgressPartialView")
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Options → Fields
+        const optionsNextBtn = document.getElementById("nextBtn");
+        if (optionsNextBtn) {
+            optionsNextBtn.addEventListener("click", function () {
+                document.getElementById("optionsPartial").style.display = "none";
+                document.getElementById("FieldsPartialView").style.display = "block";
+            });
+        }
+
+        // Fields → Payment
+        const fieldsNextBtn = document.getElementById("fieldsNextBtn");
+        if (fieldsNextBtn) {
+            fieldsNextBtn.addEventListener("click", function () {
+                document.getElementById("FieldsPartialView").style.display = "none";
+                document.getElementById("paymentPartial").style.display = "block";
+            });
+        }
+
+        // Payment → Checkout
+        const paymentNextBtn = document.getElementById("paymentNextBtn"); // ya button in payment partial
+        if (paymentNextBtn) {
+            paymentNextBtn.addEventListener("click", function () {
+                document.getElementById("paymentPartial").style.display = "none";
+                document.getElementById("checkoutPartial").style.display = "block";
+            });
+        }
+            // Checkout → Result
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener("click", function () {
+            document.getElementById("checkoutPartial").style.display = "none"; // hide Checkout
+            document.getElementById("resultPartial").style.display = "block";   // show Result
+        });
+    }
+     const ProgresBtn = document.getElementById("ProgresBtn");
+    if (ProgresBtn) {
+        ProgresBtn.addEventListener("click", function () {
+            document.getElementById("resultPartial").style.display = "none"; // hide Checkout
+            document.getElementById("ProgressPartial").style.display = "block";   // show Result
+        });
+    }
+    });
+</script>
+
+
+
