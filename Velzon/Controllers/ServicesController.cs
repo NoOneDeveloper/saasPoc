@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Poc.Infrastructure.DTOs.Global;
 using Poc.Infrastructure.DTOs.Requirement;
 using Poc.Infrastructure.DTOs.Services;
@@ -60,6 +61,14 @@ namespace Velzon.Controllers
 
             return RedirectToAction("Success");
         }
+
+
+
+//        Platform:
+//production and staging
+
+
+//inteligent checkout!
 
         [HttpGet]
         public IActionResult Success()
