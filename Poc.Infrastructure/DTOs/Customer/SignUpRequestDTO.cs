@@ -37,9 +37,10 @@ namespace Poc.Infrastructure.DTOs.SinginUpDTO
 
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
-        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$",
-            ErrorMessage = "Password must be at least 8 characters long, contain uppercase, lowercase and a number")]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$",
+            ErrorMessage = "Password must be at least 8 characters long, contain uppercase, lowercase, number, and a special character")]
         public string? Password { get; set; }
+
 
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Passwords do not match")]

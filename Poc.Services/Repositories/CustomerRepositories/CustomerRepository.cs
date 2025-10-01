@@ -332,14 +332,19 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
              ProofOfBusinesses = (from p in _db.ProofOfBusinesses
                                   where p.CustomerId == c.Id
                                   select new ProofOfBusinessDTO
-                                  { Id = p.Id,
+                                  {
+                                      Id = p.Id,
                                       Type = p.Type,
                                       TypeName = ((FilesType)p.Type).ToString(),
                                       FileContent = p.FileContent,
                                       Status = p.Status,
                                       CeatedDate = p.CeatedDate,
+                                      Reason = (from a in _db.ProofOfBusinessActivities
+                                                where a.CustomerId == c.Id && a.Type == p.Type
+                                                select a.Reason).FirstOrDefault(),
                                       ModifiedBy = p.ModifiedBy,
                                   }).ToList(),
+
 
 
              ProofOfBusinessesActivity = (from a in _db.ProofOfBusinessActivities
