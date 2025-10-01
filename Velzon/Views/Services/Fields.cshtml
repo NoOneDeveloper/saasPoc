@@ -1,10 +1,6 @@
 ﻿﻿@using Poc.Infrastructure.DTOs.Services
 @model List<InputDataResponseDTO>
 
-@section Styles {
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-}
-
 <div class="row">
     <div class="col-xl-10 offset-xl-1" >
         <div class="card">
@@ -18,17 +14,22 @@
                         <table class="table table-striped  align-middle" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th class="text-center">Select</th>
                                     <th>Field</th>
                                     <th>Type</th>
                                     <th>Description</th>
                                     <th>IsRequired</th>
+                                    <th class="text-center">Select</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @for (int i = 0; i < Model.Count; i++)
                                 {
                                     <tr>
+                                        <td>@Model[i].FieldName</td>
+                                        <td>@Model[i].FieldType</td>
+                                        <td>@Model[i].Description</td>
+                                        <td>@Model[i].IsRequired</td>
+
                                         <td class="text-center">
                                             @* <input class="justify-content-center" type="checkbox" asp-for="@Model[i].IsSelected" class="form-check-input" /> *@
                                             @if (Model[i].IsRequired == true)
@@ -53,11 +54,8 @@
                                             <input type="hidden" asp-for="@Model[i].Description" />
                                             <input type="hidden" asp-for="@Model[i].IsRequired" />
                                             <input type="hidden" asp-for="@Model[i].OrderIndex" />
+                                            <input type="hidden" asp-for="@Model[i].GroupName" />
                                         </td>
-                                        <td>@Model[i].FieldName</td>
-                                        <td>@Model[i].FieldType</td>
-                                        <td>@Model[i].Description</td>
-                                        <td>@Model[i].IsRequired</td>
                                     </tr>
                                 }
                             </tbody>
@@ -72,9 +70,3 @@
         
     </div>
 </div>
-
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-}
-

@@ -28,6 +28,8 @@ public partial class ApplicationDBContext : DbContext
     public virtual DbSet<InputDatum> InputData { get; set; }
 
     public virtual DbSet<PaymentGateway> PaymentGateways { get; set; }
+    public virtual DbSet<CustomerFlow> CustomerFlows { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
@@ -109,6 +111,13 @@ public partial class ApplicationDBContext : DbContext
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
         });
         OnModelCreatingPartial(modelBuilder);
+
+        modelBuilder.Entity<CustomerFlow>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_FlowId");
+
+            entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+        });
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

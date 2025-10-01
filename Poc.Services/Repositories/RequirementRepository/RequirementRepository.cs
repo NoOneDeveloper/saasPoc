@@ -54,6 +54,7 @@ namespace Poc.Implementation.Repositories.RequirementRepository
                     IsRequired = a.IsRequired,
                     Description = a.Description,
                     OrderIndex = a.OrderIndex,
+                    GroupName = a.GroupName,
                 })
                 .ToListAsync();
 

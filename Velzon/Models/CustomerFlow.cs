@@ -6,35 +6,32 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Poc.EF.Entities;
+namespace Velzon.Models;
 
-public partial class InputDatum
+[Table("CustomerFlow")]
+public partial class CustomerFlow
 {
     [Key]
     public Guid Id { get; set; }
 
-    [StringLength(100)]
+    [Required]
+    [StringLength(200)]
     public string FieldName { get; set; }
 
-    [StringLength(50)]
+    [Required]
+    [StringLength(100)]
     public string FieldType { get; set; }
 
-    public bool? IsRequired { get; set; }
+    public bool IsRequired { get; set; }
 
-    [StringLength(255)]
     public string Description { get; set; }
 
     public int? OrderIndex { get; set; }
 
     public Guid PaymentGatewayId { get; set; }
 
+    public Guid CustomerId { get; set; }
 
-    [StringLength(100)]
+    [StringLength(200)]
     public string GroupName { get; set; }
-
-    [ForeignKey("PaymentGatewayId")]
-    [InverseProperty("InputData")]
-    public virtual PaymentGateway PaymentGateway { get; set; }
-
-
 }

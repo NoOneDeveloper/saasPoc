@@ -17,5 +17,8 @@
         public Guid PaymentGatewayId { get; set; }
 
         public bool IsSelected { get; set; }
+
+        public string GroupName { get; set; }
+
     }
 }

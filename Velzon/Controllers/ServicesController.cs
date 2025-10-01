@@ -32,7 +32,7 @@ namespace Velzon.Controllers
             Guid guidId = Guid.Parse(input.PaymentGateway);
 
             var request = await _service.GetInputData(guidId);
-
+            request.Data = request.Data.OrderByDescending(x => x.IsSelected).ToList();
             return View("Fields", request.Data);
         }
 
@@ -63,13 +63,6 @@ namespace Velzon.Controllers
         }
 
 
-
-//        Platform:
-//production and staging
-
-
-//inteligent checkout!
-
         [HttpGet]
         public IActionResult Success()
         {
@@ -87,7 +80,6 @@ namespace Velzon.Controllers
         {
             return PartialView("_CheckoutPartialView");
         }
-
 
         public PartialViewResult PaymentMethodPartial()
         {

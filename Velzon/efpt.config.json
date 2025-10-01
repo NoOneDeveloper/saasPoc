@@ -16,11 +16,7 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[InputData]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PaymentGateway]",
+         "Name": "[dbo].[CustomerFlow]",
          "ObjectType": 0
       }
    ],

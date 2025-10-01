@@ -1,86 +1,91 @@
-﻿@* Partial View: Payment Form *@
-<div class="payment-container">
-    <!-- Header Section -->
-    <div class="payment-header">
-        <span class="merchant-name">ACME</span>
-        <span class="payment-amount">£12.00</span>
-    </div>
-
-    <!-- Change Payment Method -->
-    <a href="#" class="change-payment-link">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 2L4 8L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        CHANGE PAYMENT METHOD
-    </a>
-
-    <div class="required-notice">*Required Fields</div>
-
-    <!-- Payment Form -->
-    <form class="payment-form">
-        <!-- Card Details -->
-        <div class="form-section">
-            <div class="section-header">
-                <h3>Pay online securely</h3>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 7H5C3.89543 7 3 7.89543 3 9V16C3 17.1046 3.89543 18 5 18H15C16.1046 18 17 17.1046 17 16V9C17 7.89543 16.1046 7 15 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M7 7V5C7 3.93913 7.42143 2.92172 8.17157 2.17157C8.92172 1.42143 9.93913 1 11 1C12.0609 1 13.0783 1.42143 13.8284 2.17157C14.5786 2.92172 15 3.93913 15 5V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </div>
-
-            <div class="form-group">
-                <label for="cardNumber">Card Number*</label>
-                <div class="card-input-wrapper">
-                    <input type="text" id="cardNumber" name="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456">
-                    <img src="/assets/images/mastercard.png" alt="Card" class="card-icon" />
+﻿<div class="container my-4">
+    <div class="row">
+        <div class="col-xxl-6 offset-xxl-3">
+            <div class="payment-container p-4 border rounded bg-white">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="merchant-name fw-bold">ACME</span>
+                    <span class="payment-amount fw-bold text-dark">£12.00</span>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="cardName">Name on Card*</label>
-                <input type="text" id="cardName" name="cardName" placeholder="John Doe">
-            </div>
+                <!-- Change Payment Method -->
+                <a href="#" class="d-inline-flex align-items-center mb-3 text-primary text-decoration-none">
+                    <i class="ri-arrow-left-s-line me-1"></i>
+                    CHANGE PAYMENT METHOD
+                </a>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="expiryDate">Expiry Date*</label>
-                    <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5">
-                </div>
-                <div class="form-group">
-                    <label for="securityCode">Security Code*</label>
-                    <div class="security-code-wrapper">
-                        <input type="text" id="securityCode" name="securityCode" maxlength="4" placeholder="123">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2" />
-                            <text x="10" y="14" font-size="12" font-weight="bold" text-anchor="middle" fill="currentColor">?</text>
-                        </svg>
+                <div class="text-danger mb-3 small">*Required Fields</div>
+
+                <!-- Payment Form -->
+                <form class="payment-form">
+                    <!-- Card Details -->
+                    <div class="form-section mb-4">
+                        <div class="section-header">
+                            <h3>Pay online securely</h3>
+                            <i class="ri-lock-fill"></i>
+                        </div>
+
+                        <!-- Card Number -->
+                        <div class="mb-3">
+                            <label for="cardNumber" class="form-label">Card Number*</label>
+                            <div class="form-icon">
+                                <input type="number" class="form-control form-control-icon" id="iconInput" placeholder="5555 5555 5555 4444">
+                                <i class="ri-bank-card-fill"></i>
+                            </div>
+                        </div>
+
+                        @* <div class="form-group"> 
+                            <label for="cardNumber" class="form-label">Card Number</label>
+                            <div class="form-icon"> 
+                                <input type="number" class="form-control form-control-icon" id="iconInput" placeholder="424242424242424242"> 
+                                <i class="ri-bank-card-fill"></i> 
+                            </div> 
+                        </div> *@
+
+                        <!-- Name on Card -->
+                        <div class="mb-3">
+                            <label for="cardName" class="form-label">Name on Card*</label>
+                            <input type="text" class="form-control" id="cardName" placeholder="John Doe">
+                        </div>
+
+                        <!-- Expiry + CVV -->
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label for="expiryDate" class="form-label">Expiry Date*</label>
+                                <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="col-6">
+                                <label for="securityCode" class="form-label">Security Code*</label>
+                                <div class="form-icon">
+                                    <input type="number" class="form-control form-control-icon" id="securityCode" placeholder="123" maxlength="4">
+                                    <i class="ri-question-line"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                    <!-- Billing Address -->
+                    <div class="form-section mb-4">
+                        <h3>Billing address</h3>
+                        <div class="address-display">
+                            <p class="mb-0">Address Line 1</p>
+                            <p class="mb-0">Address Line 2</p>
+                            <p class="mb-0">Town/City</p>
+                            <p class="mb-0">County</p>
+                            <p class="mb-0">Postcode</p>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm btn-edit">EDIT</button>
+                    </div>
+
+                    <!-- Pay Button -->
+                    <button type="submit" class="btn btn-primary btn-pay">
+                        <i class="ri-lock-fill me-1"></i>
+                        PAY £12.00
+                    </button>
+                </form>
             </div>
         </div>
-
-        <!-- Billing Address -->
-        <div class="form-section">
-            <h3>Billing address</h3>
-            <div class="address-display">
-                <p>Address Line 1</p>
-                <p>Address Line 2</p>
-                <p>Town/City</p>
-                <p>County</p>
-                <p>Postcode</p>
-            </div>
-            <button type="button" class="btn-edit">EDIT</button>
-        </div>
-
-        <!-- Pay Button -->
-        <button type="submit" class="btn-pay">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 5H4C2.89543 5 2 5.89543 2 7V12C2 13.1046 2.89543 14 4 14H12C13.1046 14 14 13.1046 14 12V7C14 5.89543 13.1046 5 12 5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M5 5V4C5 3.46957 5.21071 2.96086 5.58579 2.58579C5.96086 2.21071 6.46957 2 7 2H9C9.53043 2 10.0391 2.21071 10.4142 2.58579C10.7893 2.96086 11 3.46957 11 4V5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            PAY £12.00
-        </button>
-    </form>
+    </div>
 </div>
 <div style="margin-top:20px; display:flex; justify-content:flex-end;">
     <button id="checkoutBtn"
@@ -89,6 +94,68 @@
     </button>
 </div>
 <style>
+    /* Material-style input */
+    .form-control {
+        border: none;
+        border-bottom: 2px solid #ccc;
+        border-radius: 0;
+        box-shadow: none;
+        transition: all 0.3s ease-in-out;
+        background: transparent;
+    }
+
+        .form-control:focus {
+            border-bottom: 2px solid #0d6efd; /* Bootstrap primary color */
+            box-shadow: none;
+        }
+
+    /* Label styling */
+    .form-label {
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    /* Icon inside input */
+    .form-icon {
+        position: relative;
+    }
+
+        .form-icon i {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+    /* Section headers */
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+
+        .section-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+    /* Buttons */
+    .btn-pay {
+        width: 100%;
+        margin-top: 1.5rem;
+        padding: 0.75rem;
+        font-weight: bold;
+    }
+
+    .btn-edit {
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+    }
+</style>
+@* <style>
     .payment-container {
         max-width: 400px;
         margin: 0 auto;
@@ -268,4 +335,4 @@
         .btn-pay:hover {
             background: #0052a3;
         }
-</style>
+</style> *@
