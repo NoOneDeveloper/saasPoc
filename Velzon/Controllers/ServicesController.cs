@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Poc.Infrastructure.DTOs.Global;
+using Poc.Common.StaticClasses;
 using Poc.Infrastructure.DTOs.Requirement;
 using Poc.Infrastructure.DTOs.Services;
+using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.Interfaces.IServices.IRequirementServices;
 
 namespace Velzon.Controllers
@@ -45,29 +45,75 @@ namespace Velzon.Controllers
 
 
         [HttpPost]
-        public IActionResult Fields(List<InputDataResponseDTO> input)
+        public async Task<IActionResult> Fields(List<InputDataResponseDTO> input)
         {
             if (!ModelState.IsValid)
             {
                 return View(input);
             }
 
+            var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+
+            if (loggedInUser == null)
+            {
+                return Unauthorized(new { success = false, message = "Session expired, please login again" });
+            }
+            var SelectedInput = input.Where(x => x.IsSelected).ToList();
+
+            var request = await _service.AddCustomerFlow(loggedInUser.Id.Value, SelectedInput);
+
             // Filter selected inputs and order by OrderIndex
-            var selectedInputs = input.Where(x => x.IsSelected).OrderBy(x => x.OrderIndex).ToList();
+            //var selectedInputs = input.Where(x => x.IsSelected).OrderBy(x => x.OrderIndex).ToList();
 
-             var Json = System.Text.Json.JsonSerializer.Serialize(selectedInputs);
+            //var Json = System.Text.Json.JsonSerializer.Serialize(selectedInputs);
 
-            TempData["AlpacaJsonData"] = Json;
+            //TempData["AlpacaJsonData"] = Json;
 
-            return RedirectToAction("Success");
+            return RedirectToAction("Flow");
         }
-
 
         [HttpGet]
-        public IActionResult Success()
+        public async Task<IActionResult> Flow()
         {
-            return View();
+            var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+
+            if (loggedInUser == null)
+            {
+                return Unauthorized(new { success = false, message = "Session expired, please login again" });
+            }
+
+            var request = await _service.GetCustomerFlow(loggedInUser.Id.Value);
+
+            var selectedInputs = request.Data;
+
+            var Json = System.Text.Json.JsonSerializer.Serialize(selectedInputs);
+
+            ViewData["AlpacaJsonData"] = Json;
+
+            return View(Request);
         }
+
+        public PartialViewResult FieldsPartialView()
+        {
+            //var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+
+            //if (loggedInUser == null)
+            //{
+            //    return Unauthorized(new { success = false, message = "Session expired, please login again" });
+            //}
+
+            //var request = await _service.GetCustomerFlow(loggedInUser.Id.Value);
+
+            //var selectedInputs = request.Data;
+
+            //var Json = System.Text.Json.JsonSerializer.Serialize(selectedInputs);
+
+            //ViewData["AlpacaJsonData"] = Json;
+
+            return PartialView("_FieldsPartialView");
+        }
+
+
         public PartialViewResult ResultPartialView()
         {
             return PartialView("_ResultPartialView");

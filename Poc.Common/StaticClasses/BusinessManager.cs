@@ -8,6 +8,15 @@ namespace Poc.Common.StaticClasses
 {
     public static class BusinessManager
     {
+        public static long UnixOffSetTime()
+        {
+            return DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        }
+
+        public static string GenerateFlowId()
+        {
+            return $"FID-{UnixOffSetTime()}";
+        }
 
     }
 

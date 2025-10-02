@@ -1,6 +1,173 @@
-﻿<div style="margin-top:20px; display:flex; justify-content:flex-end;">
+﻿@* @using System.Text.Json
+@{
+    ViewData["Title"] = "Success";
+}
+
+@{
+    var alpacaJsonData = ViewData["AlpacaJsonData"] as string;
+    var safeJson = !string.IsNullOrEmpty(alpacaJsonData) ?
+        JsonSerializer.Serialize(alpacaJsonData) : "[]";
+} *@
+
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            Alpaca Form
+        </div>
+        <div class="card-body mx-3">
+            <div id="alpaca-form"></div>
+        </div>
+    </div>
+</div>
+
+
+    @* <script>
+
+        function initAlpacaForm() {
+            // Parse the JSON safely
+            var alpacaData = [];
+            try {
+                var jsonString = @Html.Raw(safeJson)
+                alpacaData = JSON.parse(jsonString);
+                console.log("Parsed Alpaca data:", alpacaData);
+            } catch (e) {
+                console.error("Failed to parse Alpaca data", e);
+                return;
+            }
+
+            function convertToAlpacaSchema(data) {
+
+                var sortedData = data.sort(function (a, b) {
+                    var aOrder = parseInt(a.OrderIndex ?? a.orderIndex ?? 0, 10);
+                    var bOrder = parseInt(b.OrderIndex ?? b.orderIndex ?? 0, 10);
+                    return aOrder - bOrder;
+                });
+
+
+                var properties = {};
+                var options = {
+                    fields: {},
+                    form: {
+                        attributes: {
+                            method: "POST",
+                            action: "/api/submit"
+                        },
+                        buttons: {
+                            submit: {
+                                title: "Submit Form",
+                                click: function() {
+                                    var value = this.getValue();
+                                    console.log("Form data:", value);
+                                    // Add your form submission logic here
+                                }
+                            }
+                        }
+                    }
+                };
+
+                sortedData.forEach(function (field, index) {
+                    var fieldName = field.FieldName || field.fieldName || "field_" + (field.Id || field.id || index);
+                    var fieldType = field.FieldType ? field.FieldType.toLowerCase() : "string";
+					console.log("Processing field:", fieldName, "of type:", fieldType);
+                    var isRequired = field.isRequired === true;
+                    var orderIndex = field.orderIndex || index;
+
+                    // Map field types properly
+                    var alpacaType = "text";
+                    var schemaType = "string";
+
+                    switch (fieldType) {
+                        case "number":
+                        case "int":
+                        case "integer":
+                            alpacaType = "number";
+                            schemaType = "number";
+                            break;
+                        case "boolean":
+                        case "bool":
+                            alpacaType = "checkbox";
+                            schemaType = "boolean";
+                            break;
+                        case "email":
+                        case "text":
+                            alpacaType = "email";
+                            schemaType = "string";
+                            break;
+                        case "date":
+                        case "datetime":
+                            alpacaType = "date";
+                            schemaType = "string"; // Date is string in JSON schema
+                            break;
+                        case "textarea":
+                        case "text":
+                        default:
+                            alpacaType = "text";
+                            schemaType = "string";
+                    }
+
+                    // Schema properties
+                    properties[fieldName] = {
+                        type: schemaType,
+                        title: field.FieldName || field.fieldName || fieldName
+                    };
+
+                    if (isRequired) {
+                        properties[fieldName].required = true;
+                    }
+
+                    // Options
+                    options.fields[fieldName] = {
+                        type: alpacaType,
+                        label: "",
+                        description: field.description || "",
+                        required: isRequired,
+                        fieldClass: "material-field",
+                        placeholder: field.FieldName || field.fieldName || fieldName,
+						order: orderIndex
+                    };
+
+                    // Additional options for specific field types
+                    if (alpacaType === "textarea") {
+                        options.fields[fieldName].rows = 4;
+                    }
+                });
+
+                return {
+                    schema: {
+                        type: "object",
+                        properties: properties
+                    },
+                    options: options
+                };
+            }
+
+            if (alpacaData && alpacaData.length > 0) {
+                try {
+                    var formConfig = convertToAlpacaSchema(alpacaData);
+                    console.log("Alpaca form config:", formConfig);
+
+                    $("#alpaca-form").alpaca(formConfig);
+                } catch (error) {
+                    console.error("Error creating Alpaca form:", error);
+                    $("#alpaca-form").html(
+                        '<div class="alert alert-danger">Error creating form: ' + error.message + '</div>'
+                    );
+                }
+            } else {
+                $("#alpaca-form").html(
+                    '<div class="alert alert-info">No fields selected for form generation.</div>'
+                );
+            }
+        });
+    </script> *@
+
+
+
+
+<div style="margin-top:20px; display:flex; justify-content:flex-end;">
     <button id="fieldsNextBtn"
             style="padding:10px 20px; border-radius:8px; border:none; background:#fff; color:#007bff; font-weight:bold; box-shadow:0 2px 5px rgba(0,0,0,0.2); cursor:pointer;">
         Next
     </button>
-</div>a
+</div>

@@ -34,4 +34,10 @@ public partial class CustomerFlow
 
     [StringLength(200)]
     public string GroupName { get; set; }
+
+    [Required]
+    [StringLength(15)]
+    public string FlowId { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
 }

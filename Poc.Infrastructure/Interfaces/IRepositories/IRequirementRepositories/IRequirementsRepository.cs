@@ -8,5 +8,9 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.IRequirementRepositories
         Task<Result<List<PaymentGatewayDTO>>> GetPaymentGatewaysAsync();
 
         Task<Result<List<InputDataResponseDTO>>> GetInputDataAsync(Guid paymentGatewayId);
+
+        Task<Result<string>> AddCustomerFlowAsync(Guid loggedUser, List<InputDataResponseDTO> input);
+
+        Task<Result<List<InputDataResponseDTO>>> GetCustomerFlowAsync(Guid loggedUser);
     }
 }

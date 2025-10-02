@@ -1,0 +1,281 @@
+﻿@using System.Text.Json
+@{
+    ViewData["Title"] = "Success";
+}
+
+@{
+    var alpacaJsonData = ViewData["AlpacaJsonData"] as string;
+    var safeJson = !string.IsNullOrEmpty(alpacaJsonData) ?
+        JsonSerializer.Serialize(alpacaJsonData) : "[]";
+}
+
+
+<div class="text-center">
+    <textarea class="form-control" row="2"> @alpacaJsonData</textarea>
+</div>
+
+<!-- Step 1: Options Partial -->
+<div id="optionsPartial">
+    @Html.Partial("_OptionsPartialView")
+</div>
+
+
+<div id="FieldsPartialView" style="display:none;"></div>
+
+<!-- Step 3: Payment Method Partial -->
+<div id="paymentPartial" style="display:none;">
+    @Html.Partial("_PaymentMethodPartial")
+</div>
+
+<!-- Step 4: Checkout Partial -->
+<div id="checkoutPartial" style="display:none;">
+    @Html.Partial("_CheckoutPartialView")
+</div>
+<!-- Step 5: Result Partial -->
+<div id="resultPartial" style="display:none;">
+    @Html.Partial("_ResultPartialView")
+</div>
+<div id="ProgressPartial" style="display:none;">
+    @Html.Partial("_ProgressPartialView")
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- Bootstrap (optional but usually required for Alpaca styling) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Alpaca -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/alpaca/1.5.27/bootstrap/alpaca.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alpaca/1.5.27/bootstrap/alpaca.min.js"></script>
+
+
+<script>
+//     document.addEventListener("DOMContentLoaded", function () {
+//         // Options → Fields
+//         // const optionsNextBtn = document.getElementById("nextBtn");
+//         // if (optionsNextBtn) {
+//         //     optionsNextBtn.addEventListener("click", function () {
+//         //         document.getElementById("optionsPartial").style.display = "none";
+//         //         document.getElementById("FieldsPartialView").style.display = "block";
+//         //     });
+//         // }
+//     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Options → Fields
+        const optionsNextBtn = document.getElementById("nextBtn");
+        if (optionsNextBtn) {
+            optionsNextBtn.addEventListener("click", async function () {
+                document.getElementById("optionsPartial").style.display = "none";
+
+                const container = document.getElementById("FieldsPartialView");
+
+                try {
+                    // Fetch partial view from controller
+                            const response = await fetch('/Services/FieldsPartialView');
+                    if (response.ok) {
+                        const html = await response.text();
+                        container.innerHTML = html;   // inject partial HTML
+                        container.style.display = "block";  // show Fields step
+                        if (typeof initAlpacaForm === "function") {
+                            initAlpacaForm();
+                        }
+
+                    } else if (response.status === 401) {
+                        alert("Session expired, please login again.");
+                    } else {
+                        console.error("Error loading FieldsPartialView:", response.status);
+                    }
+                } catch (err) {
+                    console.error("Request failed:", err);
+                }
+            });
+        }
+
+        // Fields → Payment
+        const fieldsNextBtn = document.getElementById("fieldsNextBtn");
+        if (fieldsNextBtn) {
+            fieldsNextBtn.addEventListener("click", function () {
+                document.getElementById("FieldsPartialView").style.display = "none";
+                document.getElementById("paymentPartial").style.display = "block";
+            });
+        }
+
+        // Payment → Checkout
+        const paymentNextBtn = document.getElementById("paymentNextBtn");
+        if (paymentNextBtn) {
+            paymentNextBtn.addEventListener("click", function () {
+                document.getElementById("paymentPartial").style.display = "none";
+                document.getElementById("checkoutPartial").style.display = "block";
+            });
+        }
+
+        // Checkout → Result
+        const checkoutBtn = document.getElementById("checkoutBtn");
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener("click", function () {
+                document.getElementById("checkoutPartial").style.display = "none";
+                document.getElementById("resultPartial").style.display = "block";
+            });
+        }
+
+        // Result → Progress
+        const ProgresBtn = document.getElementById("ProgresBtn");
+        if (ProgresBtn) {
+            ProgresBtn.addEventListener("click", function () {
+                document.getElementById("resultPartial").style.display = "none";
+                document.getElementById("ProgressPartial").style.display = "block";
+            });
+        }
+    });
+
+    
+ </script>
+
+
+
+ <script>
+
+
+       function initAlpacaForm() {
+           // Parse the JSON safely
+           var alpacaData = [];
+           try {
+               var jsonString = @Html.Raw(safeJson)
+               alpacaData = JSON.parse(jsonString);
+               console.log("Parsed Alpaca data:", alpacaData);
+           } catch (e) {
+               console.error("Failed to parse Alpaca data", e);
+               return;
+           }
+
+           function convertToAlpacaSchema(data) {
+
+               var sortedData = data.sort(function (a, b) {
+                   var aOrder = parseInt(a.OrderIndex ?? a.orderIndex ?? 0, 10);
+                   var bOrder = parseInt(b.OrderIndex ?? b.orderIndex ?? 0, 10);
+                   return aOrder - bOrder;
+               });
+
+
+               var properties = {};
+               var options = {
+                   fields: {},
+                   form: {
+                       attributes: {
+                           method: "POST",
+                           action: "/api/submit"
+                       },
+                       buttons: {
+                           submit: {
+                               title: "Submit Form",
+                               click: function() {
+                                   var value = this.getValue();
+                                   console.log("Form data:", value);
+                                   // Add your form submission logic here
+                               }
+                           }
+                       }
+                   }
+               };
+
+               sortedData.forEach(function (field, index) {
+                   var fieldName = field.FieldName || field.fieldName || "field_" + (field.Id || field.id || index);
+                   var fieldType = field.FieldType ? field.FieldType.toLowerCase() : "string";
+                   console.log("Processing field:", fieldName, "of type:", fieldType);
+                   var isRequired = field.isRequired === true;
+                   var orderIndex = field.orderIndex || index;
+
+                   // Map field types properly
+                   var alpacaType = "text";
+                   var schemaType = "string";
+
+                   switch (fieldType) {
+                       case "number":
+                       case "int":
+                       case "integer":
+                           alpacaType = "number";
+                           schemaType = "number";
+                           break;
+                       case "boolean":
+                       case "bool":
+                           alpacaType = "checkbox";
+                           schemaType = "boolean";
+                           break;
+                       case "email":
+                       case "text":
+                           alpacaType = "email";
+                           schemaType = "string";
+                           break;
+                       case "date":
+                       case "datetime":
+                           alpacaType = "date";
+                           schemaType = "string"; // Date is string in JSON schema
+                           break;
+                       case "textarea":
+                       case "text":
+                       default:
+                           alpacaType = "text";
+                           schemaType = "string";
+                   }
+
+                   // Schema properties
+                   properties[fieldName] = {
+                       type: schemaType,
+                       title: field.FieldName || field.fieldName || fieldName
+                   };
+
+                   if (isRequired) {
+                       properties[fieldName].required = true;
+                   }
+
+                   // Options
+                   options.fields[fieldName] = {
+                       type: alpacaType,
+                       label: "",
+                       description: field.description || "",
+                       required: isRequired,
+                       fieldClass: "material-field",
+                       placeholder: field.FieldName || field.fieldName || fieldName,
+                       order: orderIndex
+                   };
+
+                   // Additional options for specific field types
+                   if (alpacaType === "textarea") {
+                       options.fields[fieldName].rows = 4;
+                   }
+               });
+
+               return {
+                   schema: {
+                       type: "object",
+                       properties: properties
+                   },
+                   options: options
+               };
+           }
+
+           if (alpacaData && alpacaData.length > 0) {
+               try {
+                   var formConfig = convertToAlpacaSchema(alpacaData);
+                   console.log("Alpaca form config:", formConfig);
+
+                   $("#alpaca-form").alpaca(formConfig);
+               } catch (error) {
+                   console.error("Error creating Alpaca form:", error);
+                   $("#alpaca-form").html(
+                       '<div class="alert alert-danger">Error creating form: ' + error.message + '</div>'
+                   );
+               }
+           } else {
+               $("#alpaca-form").html(
+                   '<div class="alert alert-info">No fields selected for form generation.</div>'
+               );
+           };
+       };
+
+</script>
+
+
+
+

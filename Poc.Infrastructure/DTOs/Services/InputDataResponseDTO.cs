@@ -1,4 +1,6 @@
-﻿namespace Poc.Infrastructure.DTOs.Services
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Poc.Infrastructure.DTOs.Services
 {
     public class InputDataResponseDTO
     {
@@ -20,5 +22,8 @@
 
         public string GroupName { get; set; }
 
+        public string FlowId { get; set; }
+
+        public DateTime? CreatedDate { get; set; }
     }
 }

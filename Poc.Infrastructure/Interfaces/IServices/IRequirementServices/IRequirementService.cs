@@ -8,6 +8,9 @@ namespace Poc.Infrastructure.Interfaces.IServices.IRequirementServices
     {
         Task<Result<ServicesRequestDTO>> GetPaymentGateways();
         Task<Result<List<InputDataResponseDTO>>> GetInputData(Guid paymentGatewayId);
+        Task<Result<string>> AddCustomerFlow(Guid loggedUser, List<InputDataResponseDTO> input);
+
+        Task<Result<List<InputDataResponseDTO>>> GetCustomerFlow(Guid loggedUser);
 
 
     }
