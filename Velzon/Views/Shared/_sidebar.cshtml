@@ -258,18 +258,12 @@
                                 <i class="mdi mdi-cloud"></i> <span data-key="t-Services">Services</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="@Url.Action("Flow", "Services")">
+                                <i class="mdi mdi-book"></i> <span data-key="t-Flow">Flows</span>
+                            </a>
+                        </li>
                     }
-                }
-                    <li class="nav-item">
-                        <a class="nav-link menu-link" href="@Url.Action("Index", "Services")">
-                            <i class="mdi mdi-cloud"></i> <span data-key="t-Services">Services</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link menu-link" href="@Url.Action("Flow", "Services")">
-                            <i class="mdi mdi-book"></i> <span data-key="t-Flow">Flows</span>
-                        </a>
-                    </li>
                 }
 
                 @if (usertype == "Admin")
