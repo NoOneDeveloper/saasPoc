@@ -1,6 +1,7 @@
 ﻿
 @{
     var usertype = Context.Session.GetString("UserType");
+    var proofApproved = Context.Session.GetString("ProofApproved");
 }
 <!-- ========== App Menu ========== -->
 <div class="app-menu navbar-menu">
@@ -249,11 +250,15 @@
                             <i class="mdi mdi-details"></i> <span data-key="t-Details">Details</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link menu-link" href="@Url.Action("Index", "Services")">
-                            <i class="mdi mdi-cloud"></i> <span data-key="t-Services">Services</span>
-                        </a>
-                    </li>
+
+                    @if (proofApproved == "True")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="@Url.Action("Index", "Services")">
+                                <i class="mdi mdi-cloud"></i> <span data-key="t-Services">Services</span>
+                            </a>
+                        </li>
+                    }
                 }
 
                 @if (usertype == "Admin")

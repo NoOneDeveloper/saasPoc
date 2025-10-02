@@ -19,7 +19,7 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
         Task<SignUpRequestDTO?> ValidateCustomerAsync(SiginDTO input);
 
         Task<bool> IsEmailExistsAsync(string email);
-
+        Task<bool> EmailExists(string email);
         Task<Result<string>> UpdateCustomerStatus(Guid customerId, bool status, Guid modifiedBy);
         Task<Result<CustomerKycDTO>> GetCustomer(Guid Id); 
 
@@ -35,7 +35,7 @@ namespace Poc.Infrastructure.Interfaces.IServices.Customer
         Task<Result<string>> UpdateProofStatus(Guid proofId, bool status, Guid modifiedBy);
         Task AddProofActivity(ProofofBusinessActivityDTO dto);
         Task<ProofOfBusinessDTO> GetProofById(Guid proofId);
-
+        Task<bool> CheckProofApprovedAsync(Guid customerId);
 
         Task<Result<string>> changeFileAsync(Guid customerId, ChangeFileDTO request);
 

@@ -29,7 +29,7 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.Customer
         Task<bool> UpdateProofStatusAsync(Guid proofId, bool status, Guid modifiedBy);
 
 
-
+        Task<bool> IsProofApprovedAsync(Guid customerId);
 
         Task<ProofOfBusinessDTO> GetProofById(Guid proofId);
         Task AddProofActivity(ProofofBusinessActivityDTO dto);
@@ -41,8 +41,7 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.Customer
         Task<Result<CustomerDetailDTO>> GetCustomerDetailsById(Guid customerId);
 
         Task<Result<string>> ChangeDocuments(Guid customerId, ChangeFileDTO input);
-
-
+        Task<bool> EmailExists(string email);
     }
 }
 

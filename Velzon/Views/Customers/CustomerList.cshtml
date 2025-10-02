@@ -28,7 +28,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
-                     @*                <th>Status</th> *@
+                                    <th>Status</th>
                                     <th>Created At</th>
                                     <th>Detail</th>
                     @*                 <th class="text-center">Action</th> *@
@@ -41,12 +41,12 @@
                                         <td>@customer.FirstName @customer.LastName</td>
                                         <td>@customer.Email</td>
                                         <td>@customer.Phone</td>
-                           @*              <td>
+                                        <td>
                                             <span id="status-badge-@customer.Id"
-                                                  class="badge @(customer.Status ==true ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger") badge-border">
-                                                @(customer.Status ==true ? "Active" : "Inactive")
+                                                  class="badge @(customer.Status == true ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger") badge-border">
+                                                @(customer.Status == true ? "Active" : "Inactive")
                                             </span>
-                                        </td> *@
+                                        </td>
                                         <td>@customer.CreatedDate.ToString("dd-MMM-yyyy")</td>
                                         <td class="text-center">
                                             <a href="@Url.Action("Details", "Customers", new { id = customer.Id })"

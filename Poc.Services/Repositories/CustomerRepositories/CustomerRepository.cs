@@ -529,7 +529,9 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                         LastName = c.LastName,
                         Email = c.Email,
                         Phone = c.Phone,
-                        Status = c.Status,
+                        Status = _db.ProofOfBusinesses
+                                .Where(p => p.CustomerId == c.Id)
+                                .All(p => p.Status == true),
                         CreatedDate = c.CreatedDate,
                         Reason = c.Reason,
 
@@ -547,6 +549,21 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             return result;
         }
 
+        public  async Task<bool> EmailExists(string email)
+        {
+            return await _db.Customers.AnyAsync(c => c.Email == email);
+        }
+
+        public async Task<bool> IsProofApprovedAsync(Guid customerId)
+        {
+            return await _db.ProofOfBusinesses
+                        .Where(p => p.CustomerId == customerId)
+                        .AllAsync(p => p.Status == true);
+        }
+
         #endregion
+
+
+
     }
 }
