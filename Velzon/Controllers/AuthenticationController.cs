@@ -41,11 +41,12 @@ namespace Velzon.Controllers
                 TempData["ErrorMessage"] = "User is not validated yet";
                 return View(model);
             }
-
+            bool proofApproved = await _customerService.CheckProofApprovedAsync(user.Id);
 
 
             HttpContext.Session.SetObject("UserDto", user);
             HttpContext.Session.SetString("UserEmail", user.Email);
+            HttpContext.Session.SetString("ProofApproved", proofApproved.ToString());
             string userType = user.Email.EndsWith("@pcipal.com") ? "Admin" : "Customer";
             HttpContext.Session.SetString("UserType", userType);
             TempData["LoginSuccess"] = "Welcome! You have successfully logged in.";

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Poc.Common.StaticClasses;
+using Poc.Implementation.Services.CustomerServices;
 using Poc.Infrastructure.DTOs.Customer;
 using Poc.Infrastructure.DTOs.SigninDTO;
 using Poc.Infrastructure.Interfaces.IServices.Customer;
@@ -25,7 +26,9 @@ namespace Velzon.Controllers
 
 
             var response = await _customer.GetCustomer(user.Id.Value);
+            bool emailExists = await _customer.EmailExists(response.Data.Email);
 
+            ViewBag.EmailExists = emailExists;
             return View(response.Data);
 
         }
@@ -49,5 +52,9 @@ namespace Velzon.Controllers
         {
             return View();
         }
+
+
+
+   
     }
 }

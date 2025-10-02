@@ -287,6 +287,16 @@ namespace Poc.Implementation.Services.CustomerServices
             return customers;
         }
 
+        public Task<bool> EmailExists(string email)
+        {
+            return _repo.EmailExists(email);
+        }
+
+        public async  Task<bool> CheckProofApprovedAsync(Guid customerId)
+        {
+            return await _repo.IsProofApprovedAsync(customerId);
+        }
+
         #endregion
     }
 }

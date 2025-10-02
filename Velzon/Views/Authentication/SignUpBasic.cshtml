@@ -127,9 +127,14 @@
                                         </div>
 
                                         <!-- Submit -->
-                                        <div class="mt-4">
+                                      @*   <div class="mt-4">
                                             <button class="btn btn-gold w-100" type="submit">Sign Up</button>
                                         </div>
+                                         *@<button class="btn btn-gold w-100"
+                                                          type="submit"
+                                                          onclick="this.disabled=true; this.form.submit();">
+                                                    Sign Up
+                                                </button>
 
                                         <!-- Switch Link -->
                                         <div class="mt-4 text-center switch-link">

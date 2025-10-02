@@ -332,14 +332,19 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
              ProofOfBusinesses = (from p in _db.ProofOfBusinesses
                                   where p.CustomerId == c.Id
                                   select new ProofOfBusinessDTO
-                                  { Id = p.Id,
+                                  {
+                                      Id = p.Id,
                                       Type = p.Type,
                                       TypeName = ((FilesType)p.Type).ToString(),
                                       FileContent = p.FileContent,
                                       Status = p.Status,
                                       CeatedDate = p.CeatedDate,
+                                      Reason = (from a in _db.ProofOfBusinessActivities
+                                                where a.CustomerId == c.Id && a.Type == p.Type
+                                                select a.Reason).FirstOrDefault(),
                                       ModifiedBy = p.ModifiedBy,
                                   }).ToList(),
+
 
 
              ProofOfBusinessesActivity = (from a in _db.ProofOfBusinessActivities
@@ -524,7 +529,9 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
                         LastName = c.LastName,
                         Email = c.Email,
                         Phone = c.Phone,
-                        Status = c.Status,
+                        Status = _db.ProofOfBusinesses
+                                .Where(p => p.CustomerId == c.Id)
+                                .All(p => p.Status == true),
                         CreatedDate = c.CreatedDate,
                         Reason = c.Reason,
 
@@ -542,6 +549,21 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
             return result;
         }
 
+        public  async Task<bool> EmailExists(string email)
+        {
+            return await _db.Customers.AnyAsync(c => c.Email == email);
+        }
+
+        public async Task<bool> IsProofApprovedAsync(Guid customerId)
+        {
+            return await _db.ProofOfBusinesses
+                        .Where(p => p.CustomerId == customerId)
+                        .AllAsync(p => p.Status == true);
+        }
+
         #endregion
+
+
+
     }
 }
