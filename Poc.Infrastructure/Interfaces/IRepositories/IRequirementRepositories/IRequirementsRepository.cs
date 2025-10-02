@@ -5,7 +5,7 @@ namespace Poc.Infrastructure.Interfaces.IRepositories.IRequirementRepositories
 {
     public interface IRequirementsRepository
     {
-        Task<Result<List<PaymentGatewayDTO>>> GetPaymentGatewaysAsync();
+        Task<Result<List<PaymentGatewayDTO>>> GetPaymentGatewaysAsync(Guid Id);
 
         Task<Result<List<InputDataResponseDTO>>> GetInputDataAsync(Guid paymentGatewayId);
 

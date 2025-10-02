@@ -1,237 +1,63 @@
 ﻿<!-- Payment Link Partial View -->
-<div class="payment-link-container">
-    <!-- Header Section -->
-    <div class="header-section">
-        <div class="contact-info">
-            <!-- Phone Icon -->
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72..." />
-            </svg>
-            <!-- Grid Icon -->
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                <rect x="3" y="3" width="7" height="7" />
-                <rect x="14" y="3" width="7" height="7" />
-                <rect x="3" y="14" width="7" height="7" />
-                <rect x="14" y="14" width="7" height="7" />
-            </svg>
-        </div>
-        <div class="powered-by">
-            Protected by<br>
-            <strong>PCI-PAL</strong>
-        </div>
-    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
 
-    <!-- Logo Section -->
-    <div class="logo-section">
-        <img src="@Url.Content("~/assets/images/logo-light.png")" alt="Company Logo" />
-    </div>
-
-    <!-- Click to Pay -->
-    <button class="click-to-pay-btn">
-        <i class="fa fa-credit-card"></i> Click to Pay
-    </button>
-
-    <!-- Send Link Section -->
-    <div class="card-section">
-        <h2>Send Link</h2>
-        <div class="email-input-group">
-            <label for="email">Email</label>
-            <div class="input-wrapper">
-                <input type="email" id="email" placeholder="Enter email address">
-                <span class="required-indicator">*</span>
+            <div class="card p-4">
+                <div class="text-center">
+                    <img src="@Url.Content("~/assets/images/logo-sm.png")" alt="Company Logo" height="50" />
+                </div>
             </div>
-            <button class="send-btn">SEND</button>
-        </div>
+            <!-- Logo Section -->
 
-        <div class="link-input-group">
-            <label for="paymentLink">Payment Link</label>
-            <div class="link-wrapper">
-                <input type="text" id="paymentLink" value="https://euwest1.pcipalstaging.cloud/digital/xXtwFn" readonly>
-                <button class="copy-btn">COPY</button>
+            <!-- Click to Pay -->
+            <div class="text-center mb-4">
+                <button type="button" class="btn btn-primary w-100 ">
+                    <i class="fa fa-credit-card"></i> Click to Pay
+                </button>
             </div>
+
+            <!-- Send Link Section -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Send Link</h2>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input type="email" id="email" class="form-control ms-2" placeholder="Enter email address" />
+                            <button type="button" class="btn btn-success ms-2">SEND</button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="paymentLink" class="form-label">Payment Link</label>
+                        <div class="input-group gap-2">
+                            <input type="text" id="paymentLink" class="form-control" value="https://euwest1.pcipalstaging.cloud/digital/xXtwFn" readonly />
+                            <button type="button" class="btn btn-outline-secondary">COPY</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Progress -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Customer Progress</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item">1. Link Opened</li>
+                        <li class="list-group-item">2. Payment Method Chosen</li>
+                        <li class="list-group-item">3. Payment Started</li>
+                        <li class="list-group-item">4. Payment Result</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cancel Button -->
+            <div class="">
+                <button type="button" class="btn btn-danger">CANCEL PAYMENT</button>
+            </div>
+
         </div>
     </div>
-
-    <!-- Customer Progress -->
-    <div class="card-section">
-        <h2>Customer Progress</h2>
-        <div class="progress-list">
-            <div class="progress-item"><div class="step-number">1</div> Link Opened</div>
-            <div class="progress-item"><div class="step-number">2</div> Payment Method Chosen</div>
-            <div class="progress-item"><div class="step-number">3</div> Payment Started</div>
-            <div class="progress-item"><div class="step-number">4</div> Payment Result</div>
-        </div>
-    </div>
-
-    <!-- Cancel Button -->
-    <button class="cancel-btn">CANCEL PAYMENT</button>
 </div>
-
-<style>
-    .payment-link-container {
-        max-width: 600px;
-        margin: 20px auto;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        background: #f4f6f9;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    /* Header */
-    .header-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #2d3e50;
-        padding: 15px 20px;
-        border-radius: 8px 8px 0 0;
-        color: white;
-    }
-
-    .powered-by {
-        font-size: 12px;
-        text-align: right;
-    }
-
-        .powered-by strong {
-            font-size: 14px;
-        }
-
-    /* Logo */
-    .logo-section {
-        background: white;
-        padding: 20px;
-        text-align: center;
-        border-bottom: 1px solid #eee;
-    }
-
-        .logo-section img {
-            height: 60px;
-        }
-
-    /* Button */
-    .click-to-pay-btn {
-        width: 100%;
-        background: #2d7a3e;
-        color: white;
-        padding: 15px;
-        border-radius: 6px;
-        border: none;
-        font-size: 16px;
-        font-weight: bold;
-        margin: 20px 0;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-
-        .click-to-pay-btn:hover {
-            background: #246830;
-        }
-
-    /* Card Sections */
-    .card-section {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        border: 1px solid #eee;
-    }
-
-        .card-section h2 {
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-    /* Inputs */
-    input {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 14px;
-    }
-
-    .send-btn, .copy-btn {
-        background: #2196F3;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.3s;
-    }
-
-        .send-btn:hover, .copy-btn:hover {
-            background: #1976D2;
-        }
-
-    /* Progress */
-    .progress-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .progress-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px;
-        background: #fafafa;
-        border-radius: 6px;
-        border: 1px solid #ddd;
-    }
-
-    .step-number {
-        width: 28px;
-        height: 28px;
-        background: #2d3e50;
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        font-weight: bold;
-    }
-
-    /* Cancel */
-    .cancel-btn {
-        width: 100%;
-        background: transparent;
-        border: 2px solid #d32f2f;
-        color: #d32f2f;
-        padding: 12px;
-        border-radius: 6px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-
-        .cancel-btn:hover {
-            background: #d32f2f;
-            color: white;
-        }
-
-    /* Mobile */
-    @@media(max - width:600px) {
-        .payment-link-container
-
-    {
-        padding: 15px;
-    }
-
-    .click-to-pay-btn {
-        font-size: 14px;
-        padding: 12px;
-    }
-
-    .send-btn, .copy-btn, .cancel-btn {
-        width: 100%;
-    }
-
-    }
-</style>

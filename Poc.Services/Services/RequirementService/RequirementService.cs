@@ -11,19 +11,19 @@ namespace Poc.Implementation.Services.RequirementService
         private readonly IRequirementsRepository _repo = repo;
 
         #region get payment gateways
-        public async Task<Result<ServicesRequestDTO>> GetPaymentGateways()
+        public async Task<Result<ServicesRequestDTO>> GetPaymentGateways(Guid Id)
         {
             var result = new Result<ServicesRequestDTO>
             {
                 Data = new ServicesRequestDTO()
             };
 
-            var paymentGatewayRequest = await _repo.GetPaymentGatewaysAsync();
+            var paymentGatewayRequest = await _repo.GetPaymentGatewaysAsync(Id);
 
             if (!paymentGatewayRequest.Success)
             {
                 result.Success = false;
-                result.Message = "Failed to fetch payment gateways";
+                result.Message = "Customer flow already exists for this user.";
             }
             else
             {

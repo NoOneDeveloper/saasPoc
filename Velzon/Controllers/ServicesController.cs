@@ -15,8 +15,15 @@ namespace Velzon.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
 
-            var paymentGateways = await _service.GetPaymentGateways();
+            if (loggedInUser == null)
+            {
+                return Unauthorized(new { success = false, message = "Session expired, please login again" });
+            }
+
+            var paymentGateways = await _service.GetPaymentGateways(loggedInUser.Id.Value);
+
             return View(paymentGateways);
         }
 
@@ -25,7 +32,14 @@ namespace Velzon.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var paymentGateways = await _service.GetPaymentGateways();
+                var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
+
+                if (loggedInUser == null)
+                {
+                    return Unauthorized(new { success = false, message = "Session expired, please login again" });
+                }
+
+                var paymentGateways = await _service.GetPaymentGateways(loggedInUser.Id.Value);
                 return View(paymentGateways);
             }
 
@@ -47,10 +61,10 @@ namespace Velzon.Controllers
         [HttpPost]
         public async Task<IActionResult> Fields(List<InputDataResponseDTO> input)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(input);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(input);
+            //}
 
             var loggedInUser = HttpContext.Session.GetObject<SiginDTO>("UserDto");
 

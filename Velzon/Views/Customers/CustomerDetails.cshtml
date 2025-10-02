@@ -137,7 +137,7 @@
                         @if (item.Status == false)
                         {
                             <div class="row">
-                                <div class="col-lg-12 mt-3">
+                                <div class="col-lg-12 mt-2">
                                     <label for="exampleFormControlTextarea1" class="form-label">Rejection Reason</label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" readonly>@item.Reason</textarea>
                                 </div>
@@ -145,7 +145,7 @@
                             <form id="uploadForm" enctype="multipart/form-data">
                                 <input type="hidden" id="docType" value="@item.Type" />
 
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="fileInput" class="form-label">Select File</label>
                                     <input type="file" id="fileInput" class="form-control" />
                                 </div>

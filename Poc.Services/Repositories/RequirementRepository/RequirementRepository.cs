@@ -14,20 +14,31 @@ namespace Poc.Implementation.Repositories.RequirementRepository
 
         #region get all payment gateways
 
-        public async Task<Result<List<PaymentGatewayDTO>>> GetPaymentGatewaysAsync()
+        public async Task<Result<List<PaymentGatewayDTO>>> GetPaymentGatewaysAsync(Guid Id)
         {
             var result = new Result<List<PaymentGatewayDTO>>();
             try
             {
-                result.Data = await _db.PaymentGateways
-                    .Select(pg => new PaymentGatewayDTO
-                    {
-                        Id = pg.Id,
-                        Name = pg.GatewayName
-                    })
-                    .ToListAsync();
+                var customerFlows = await _db.CustomerFlows.AnyAsync(f => f.CustomerId == Id);
 
-                result.Data = result.Data ?? new List<PaymentGatewayDTO>();
+                if (customerFlows)
+                {
+                    result.Success = false;
+                    result.Message = "Customer flow already exists";
+                }
+                else
+                {
+                    result.Data = await _db.PaymentGateways
+                        .Select(pg => new PaymentGatewayDTO
+                        {
+                            Id = pg.Id,
+                            Name = pg.GatewayName
+                        })
+                        .ToListAsync();
+
+
+                    result.Data = result.Data ?? new List<PaymentGatewayDTO>();
+                }   
             }
             catch (Exception ex)
             {

@@ -12,11 +12,18 @@
                     <h5 class="card-title mb-0">Select Values</h5>
                 </div>
                 <div class="card-body">
-
-                    <!-- Solution + Integration -->
+                    @if(!@Model.Success){
+                        <div class="d-flex justify-content-end my-2">
+                            <button type="button" class="btn btn-info">  Add New</button>
+                        </div>
+                        <div class="bg-warning py-2 text-center">
+                            <h4>@Model.Message</h4>
+                        </div>
+                    }
+                    else{
                     <form method="post" asp-controller="Services" asp-action="Index">
                         <div class="row">
-                            <div class="col-xxl-6 mb-3">                             
+                            <div class="col-xxl-6 mb-3">
                                 <label class="form-label">Solution Types</label>
                                 <select asp-for="Data.SolutionType" class="form-control" id="solutionSelect" name="SolutionType">
                                     <option value="">-- Select --</option>
@@ -39,7 +46,7 @@
                             </div>
                         </div>
 
-                    <!-- Gateway + Transaction -->
+                        <!-- Gateway + Transaction -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Payment Gateways</label>
@@ -67,6 +74,9 @@
                             <button class="btn btn-success" type="submit">Next</button>
                         </div>
                     </form>
+                    }
+                    <!-- Solution + Integration -->
+                   
                 </div>
                
             </div>
