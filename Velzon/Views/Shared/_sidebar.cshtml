@@ -1,8 +1,19 @@
-﻿
+﻿@using Poc.Infrastructure.DTOs.Customer
+@using Poc.Infrastructure.DTOs.SigninDTO
+@using Poc.Infrastructure.Extensions
+@using Poc.Infrastructure.Interfaces.IServices.Customer
+@inject ICustomerService _customerService
 @{
     var usertype = Context.Session.GetString("UserType");
-    var proofApproved = Context.Session.GetString("ProofApproved");
+    var user = Context.Session.GetObject<SiginDTO>("UserDto"); // 👈 correct DTO
+    bool proofApproved = false;
+
+    if (user != null)
+    {
+        proofApproved = await _customerService.CheckProofApprovedAsync(user.Id.Value);
+    }
 }
+
 <!-- ========== App Menu ========== -->
 <div class="app-menu navbar-menu">
     <!-- LOGO -->
@@ -251,7 +262,7 @@
                         </a>
                     </li>
 
-                    @if (proofApproved == "True")
+                    @if (proofApproved)
                     {
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="@Url.Action("Index", "Services")">

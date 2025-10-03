@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velzon", "Velzon\Velzon.csproj", "{108C035C-B3EC-E956-E481-F41474A46B47}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E1574F14-3E6C-5DBE-7C7F-0976748EFAFE} = {E1574F14-3E6C-5DBE-7C7F-0976748EFAFE}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poc.Common", "Poc.Common\Poc.Common.csproj", "{DC595D6B-1358-08C1-B9CE-5B14FCDF83B2}"
 EndProject

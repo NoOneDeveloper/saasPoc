@@ -556,9 +556,8 @@ namespace Poc.Implementation.Repositories.CustomerRepositories
 
         public async Task<bool> IsProofApprovedAsync(Guid customerId)
         {
-            return await _db.ProofOfBusinesses
-                        .Where(p => p.CustomerId == customerId)
-                        .AllAsync(p => p.Status == true);
+            var proofs = _db.ProofOfBusinesses.Where(p => p.CustomerId == customerId);
+            return await proofs.AnyAsync() && await proofs.AllAsync(p => p.Status == true);
         }
 
         #endregion
